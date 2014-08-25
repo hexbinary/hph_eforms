@@ -1,0 +1,205 @@
+<html>
+<head>
+<title>SH Phoneline Documentation eForm Feb2014</title>
+<style type="text/css" media="print">
+ .DoNotPrint {
+	 display: none;
+ }
+ .noborder {
+	 border : 0px;
+	 background: transparent;
+	 scrollbar-3dlight-color: transparent;
+	 scrollbar-3dlight-color: transparent;
+	 scrollbar-arrow-color: transparent;
+	 scrollbar-base-color: transparent;
+	 scrollbar-darkshadow-color: transparent;
+	 scrollbar-face-color: transparent;
+	 scrollbar-highlight-color: transparent;
+	 scrollbar-shadow-color: transparent;
+	 scrollbar-track-color: transparent;
+	 background: transparent;
+	 overflow: hidden;
+ }
+ </style>
+
+<script type="text/javascript" language="javascript">
+function checkGender(){
+	 if (document.getElementById('PatientGender').value == 'M'){
+	 document.getElementById('Male').checked = true;
+	 }else if (document.getElementById('PatientGender').value == 'F'){
+	 document.getElementById('Female').checked = true;
+	}
+ }
+</script>
+
+<script language="javascript">
+function formPrint(){
+			window.print();
+} 
+</script>
+
+<!-- scripts to confirm closing of window if it hadn't been saved yet -->
+<script language="javascript">
+//keypress events trigger dirty flag
+var needToConfirm = false;
+document.onkeyup=setDirtyFlag;
+function setDirtyFlag(){
+		needToConfirm = true;
+}
+function releaseDirtyFlag(){
+		needToConfirm = false; //Call this function if doesn't requires an alert.
+//this could be called when save button is clicked
+}
+window.onbeforeunload = confirmExit;
+function confirmExit(){
+	 if (needToConfirm){
+		 return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+	 }
+}
+</script>
+
+</head>
+
+<body onload="checkGender();">
+<img id='BGImage' src="${oscar_image_path}Phoneline Documentation eform 14.01.29.png" style="position: absolute; left: 0px; top: 0px; width:750px">
+<form method="post" action="" name="FormName" id="FormName" >
+
+<input name="ReasonforcallHIVAIDS6" id="ReasonforcallHIVAIDS6" type="checkbox" style="position:absolute; left:105px; top:130px; ">
+
+
+<input name="ReasonforcallCTGC7" id="ReasonforcallCTGC7" type="checkbox" style="position:absolute; left:105px; top:150px; ">
+
+
+<input name="ReasonforcallSyphilis8" id="ReasonforcallSyphilis8" type="checkbox" style="position:absolute; left:105px; top:172px; ">
+
+
+<input name="ReasonforcallHSVHPV9" id="ReasonforcallHSVHPV9" type="checkbox" style="position:absolute; left:105px; top:192px; ">
+
+
+<input name="ReasonforcallViralHepatitis10" id="ReasonforcallViralHepatitis10" type="checkbox" style="position:absolute; left:105px; top:214px; ">
+
+
+<input name="ReasonforcallVaginitis11" id="ReasonforcallVaginitis11" type="checkbox" style="position:absolute; left:105px; top:234px; ">
+
+
+<input name="ReasonforcallCrabsScabies12" id="ReasonforcallCrabsScabies12" type="checkbox" style="position:absolute; left:105px; top:253px; ">
+
+
+<input name="ReasonforcallContraception13" id="ReasonforcallContraception13" type="checkbox" style="position:absolute; left:105px; top:275px; ">
+
+
+<input name="ReasonforcallECP14" id="ReasonforcallECP14" type="checkbox" style="position:absolute; left:105px; top:295px; ">
+
+
+<input name="ReasonforcallPregnancy15" id="ReasonforcallPregnancy15" type="checkbox" style="position:absolute; left:105px; top:316px; ">
+
+
+<input name="ReasonforcallHarmreduction16" id="ReasonforcallHarmreduction16" type="checkbox" style="position:absolute; left:105px; top:359px; ">
+
+
+<input name="ReasonforcallAddiction17" id="ReasonforcallAddiction17" type="checkbox" style="position:absolute; left:105px; top:399px; ">
+
+
+<input name="ReasonforcallGeneralsexualhealth18" id="ReasonforcallGeneralsexualhealth18" type="checkbox" style="position:absolute; left:416px; top:130px; ">
+
+
+<input name="ReasonforcallSTItesting19" id="ReasonforcallSTItesting19" type="checkbox" style="position:absolute; left:416px; top:173px; ">
+
+
+<input name="ReasonforcallPap20" id="ReasonforcallPap20" type="checkbox" style="position:absolute; left:416px; top:193px; ">
+
+
+<input name="ReasonforcallSexualassault21" id="ReasonforcallSexualassault21" type="checkbox" style="position:absolute; left:416px; top:214px; ">
+
+
+<input name="ReasonforcallCasemanagement22" id="ReasonforcallCasemanagement22" type="checkbox" style="position:absolute; left:416px; top:233px; ">
+
+
+<input name="ReasonforcallClinicinformation23" id="ReasonforcallClinicinformation23" type="checkbox" style="position:absolute; left:416px; top:295px; ">
+
+
+<input name="ReasonforcallResults24" id="ReasonforcallResults24" type="checkbox" style="position:absolute; left:416px; top:317px; ">
+
+
+<input name="ReasonforcallOtherprogramrelated25" id="ReasonforcallOtherprogramrelated25" type="checkbox" style="position:absolute; left:416px; top:335px; ">
+
+
+<input name="ReasonforcallOtherunrelatedtoprogram26" id="ReasonforcallOtherunrelatedtoprogram26" type="checkbox" style="position:absolute; left:416px; top:379px; ">
+
+
+<input name="ActionResultsgiven27" id="ActionResultsgiven27" type="checkbox" style="position:absolute; left:91px; top:460px; ">
+
+
+<input name="ActionCasemanaged28" id="ActionCasemanaged28" type="checkbox" style="position:absolute; left:91px; top:481px; ">
+
+
+<input name="ActionProvidedhealthteaching29" id="ActionProvidedhealthteaching29" type="checkbox" style="position:absolute; left:91px; top:501px; ">
+
+
+<input name="ActionServiceinfogiven30" id="ActionServiceinfogiven30" type="checkbox" style="position:absolute; left:91px; top:543px; ">
+
+
+<input name="ActionDirectedtoResources31" id="ActionDirectedtoResources31" type="checkbox" style="position:absolute; left:91px; top:565px; ">
+
+
+<input name="ActionReferred32" id="ActionReferred32" type="checkbox" style="position:absolute; left:91px; top:584px; ">
+
+
+<input name="ActionReferredtoHIVscreening33" id="ActionReferredtoHIVscreening33" type="checkbox" style="position:absolute; left:133px; top:605px; ">
+
+
+<input name="ActionReferredtoSexualhealthclinic34" id="ActionReferredtoSexualhealthclinic34" type="checkbox" style="position:absolute; left:133px; top:625px; ">
+
+
+<input name="ActionReferredtoOtherPublicHealthservice35" id="ActionReferredtoOtherPublicHealthservice35" type="checkbox" style="position:absolute; left:133px; top:648px; ">
+
+
+<input name="ActionReferredOutofjurisdiction36" id="ActionReferredOutofjurisdiction36" type="checkbox" style="position:absolute; left:133px; top:668px; ">
+
+
+<input name="ActionReferredtoPhysician37" id="ActionReferredtoPhysician37" type="checkbox" style="position:absolute; left:133px; top:688px; ">
+
+
+<input name="ActionReferredtoAnotheragency38" id="ActionReferredtoAnotheragency38" type="checkbox" style="position:absolute; left:133px; top:708px; ">
+
+
+<input name="ReasonforcallOtherprogramrelatednarrative39" id="ReasonforcallOtherprogramrelatednarrative39" type="text" class="noborder" style="position:absolute; left:443px; top:353px; width:276px; height:27px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="ReasonforcallOtherunrelatedtoprogramnarrative40" id="ReasonforcallOtherunrelatedtoprogramnarrative40" type="text" class="noborder" style="position:absolute; left:443px; top:396px; width:276px; height:36px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<textarea name="ActionProvidedhealthteachingnarrative41" id="ActionProvidedhealthteachingnarrative41" class="noborder" style="position:absolute; left:335px; top:500px; width:380px; height:61px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" ></textarea>
+
+
+<input name="ActionDirectedtoResourcesnarrative42" id="ActionDirectedtoResourcesnarrative42" type="text" class="noborder" style="position:absolute; left:246px; top:567px; width:465px; height:23px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="ActionReferredtoOtherPublicHealthservicenarrative45" id="ActionReferredtoOtherPublicHealthservicenarrative45" type="text" class="noborder" style="position:absolute; left:322px; top:647px; width:384px; height:21px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="ActionReferredtoAnotheragencynarrative46" id="ActionReferredtoAnotheragencynarrative46" type="text" class="noborder" style="position:absolute; left:253px; top:711px; width:453px; height:21px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="RefertoProgressNotes47" id="RefertoProgressNotes47" type="checkbox" style="position:absolute; left:66px; top:853px; ">
+
+
+<input name="PatientGender" id="PatientGender" type="hidden" oscarDB=sex>
+<input name="Male" id="Male" type="checkbox" class="noborder" style="position:absolute; left: 89px; top: 791px">
+<input name="Female" id="Female" type="checkbox" class="noborder" style="position:absolute; left: 89px; top: 771px">
+
+
+
+ <div class="DoNotPrint" style="position: absolute; top:971px; left:0px;" id="BottomButtons" >
+	 <table><tr><td>
+		 Subject: <input name="subject" size="40" type="text"> 
+			<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick=" releaseDirtyFlag();"> 
+			<input value="Reset" name="ResetButton" id="ResetButton" type="reset"> 
+			<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="formPrint();"> 
+			<input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="formPrint();releaseDirtyFlag();setTimeout('SubmitButton.click()',1000);"> 
+	 </td></tr></table>
+ </div>
+ </form>
+
+</body>
+</html>

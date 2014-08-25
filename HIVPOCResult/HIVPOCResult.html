@@ -1,0 +1,178 @@
+<html>
+<head>
+
+<title>HIV POC Test Result Form</title>
+
+<style type="text/css" media="print">
+	.DoNotPrint {
+		display: none;
+	}
+	.noborder {
+		border : 0px;
+		background: transparent;
+		scrollbar-3dlight-color: transparent;
+		scrollbar-3dlight-color: transparent;
+		scrollbar-arrow-color: transparent;
+		scrollbar-base-color: transparent;
+		scrollbar-darkshadow-color: transparent;
+		scrollbar-face-color: transparent;
+		scrollbar-highlight-color: transparent;
+		scrollbar-shadow-color: transparent;
+		scrollbar-track-color: transparent;
+		background: transparent;
+		overflow: hidden;
+	}
+</style>
+<style>
+	table {
+		margin: 0 auto;
+	}
+	.centered {
+		margin: 0 auto;
+		text-align: center;
+	}
+	.text_bold {
+		font-weight: bold;
+	}
+	.no_border {
+		border: 0;
+	}
+</style>
+
+<link rel="stylesheet" type="text/css" media="all" href="${oscar_javascript_path}../calendar/calendar.css" title="win2k-cold-1"/> 
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar.js"></script>
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar-setup.js"></script>
+
+<script language="javascript" src="${oscar_javascript_path}prototype.js"></script>
+<script language="javascript">
+function start() {
+	if ($("formDate").value=="") setDate();
+}
+
+function setDate() {
+	var now = new Date();
+	var nowMonth = pad0(now.getMonth()+1);
+	var nowDay = pad0(now.getDate());
+	
+	$("formDate").value = now.getFullYear() + "/" + nowMonth + "/" + nowDay;
+}
+
+function pad0(number) {
+	if (number<10) number = "0"+number;
+	return number;
+}
+
+function formPrint() {
+	window.print();
+} 
+</script>
+
+<!-- scripts to confirm closing of window if it hadn't been saved yet -->
+<script language="javascript">
+//keypress events trigger dirty flag
+var needToConfirm = false;
+document.onkeyup=setDirtyFlag;
+function setDirtyFlag(){
+	needToConfirm = true;
+}
+function releaseDirtyFlag(){
+	needToConfirm = false;
+}
+window.onbeforeunload = confirmExit;
+function confirmExit(){
+	if (needToConfirm){
+		return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to leave?";
+	}
+}
+</script>
+
+</head>
+
+<body onload="start();">
+<div class="centered">
+	<img src="${oscar_image_path}HIVPOCResultForm.png"/>
+	<h2>HIV Point of Care Test Result Form</h2>
+</div>
+
+<form onsubmit="setDate();">
+
+<table>
+<tr>
+	<td>Client Name or Anonymous code:</td>
+	<td><input type="text" name="clientNameOrCode" id="clientNameOrCode"/></td>
+</tr>
+<tr>
+	<td>Date of Birth:</td>
+	<td>
+		<input type="text" name="dob" id="dob" oscarDB="dobc2"/>
+	</td>
+</tr>
+<tr>
+	<td>Date of Point of Care test:</td>
+	<td><input type="text" name="datePOCTest" id="datePOCTest"/></td>
+</tr>
+<tr>
+	<td>Point of Care Result:</td>
+	<td>
+		<input type="checkbox" name="nonReactive" id="nonReactive"/>
+		<label for="nonReactive">Non-Reactive</label>
+		<br/>
+		<input type="checkbox" name="reactive" id="reactive"/>
+		<label for="reactive">Reactive</label>
+		<br/>
+		<input type="checkbox" name="indeterminate" id="indeterminate"/>
+		<label for="indeterminate">Indeterminate</label>
+	</td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+	<td class="centered">
+		<input type="text" name="formDate" id="formDate" class="no_border centered"/>
+	</td>
+</tr>
+<tr>
+	<td class="centered text_bold"><hr width="80%"/>PHN Signature</td>
+	<td class="centered text_bold"><hr width="80%"/>Date</td>
+</tr>
+</table>
+<br/>
+<table width="800">
+<tr>
+	<td colspan="2">
+		Please note:
+		<ul>
+			<li>Most people who become infected with HIV will test positive within 2-8 weeks after being exposed</li>
+			<li>Over 99% of those infected will test positive by 12 weeks</li>
+			<li>In a few rare cases (less than 1%), infected individuals take up to 6 months to test positive</li>
+		</ul>
+		<p class="centered text_bold">You will need to be tested again if you have any unprotected sexual contact or share needles after this test is done.</p>
+		<p>The City of Hamilton, Public Health Services does not accept responsibility for interpretation of this result by persons other than our own staff.  Due to the confidential nature of clinic, personal identification is not verified at the time of testing.</p>
+	</td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+</tr>
+<tr>
+	<td class="DoNotPrint">
+		Subject: <input name="subject" size="35" type="text"/> 
+		<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick=" releaseDirtyFlag();"/> 
+		<input value="Reset" name="ResetButton" id="ResetButton" type="reset"/> 
+		<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="formPrint();"/> 
+		<input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="formPrint();releaseDirtyFlag();setTimeout('SubmitButton.click()',1000);"/> 
+	</td>
+</tr>
+</table>
+
+</form>
+
+<script language='javascript'>
+	Calendar.setup({inputField:"dob",ifFormat:"%Y/%m/%d",showsTime:false,button:"dob",singleClick:true,step:1});
+	Calendar.setup({inputField:"datePOCTest",ifFormat:"%Y/%m/%d",showsTime:false,button:"datePOCTest",singleClick:true,step:1});
+</script>
+
+</body>
+</html>

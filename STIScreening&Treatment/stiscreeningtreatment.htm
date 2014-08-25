@@ -1,0 +1,1529 @@
+<html>
+<head>
+
+<title>STI screening & treatment</title>
+
+<!-- Style configuration -->
+<style type="text/css" media="print">
+	.DoNotPrint {
+		display: none;
+	}
+	.noborder {
+		border : 0px;
+		background: transparent;
+		scrollbar-3dlight-color: transparent;
+		scrollbar-3dlight-color: transparent;
+		scrollbar-arrow-color: transparent;
+		scrollbar-base-color: transparent;
+		scrollbar-darkshadow-color: transparent;
+		scrollbar-face-color: transparent;
+		scrollbar-highlight-color: transparent;
+		scrollbar-shadow-color: transparent;
+		scrollbar-track-color: transparent;
+		background: transparent;
+		overflow: hidden;
+	}
+</style>
+<style>
+	table {
+		width: 100%;
+	}
+	td {
+		vertical-align: top;
+	}
+	.centered {
+		text-align: center;
+	}
+	.text_bold {
+		font-weight: bold;
+	}
+	.text_underline {
+		text-decoration: underline;
+	}
+	.bordered {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+	.bold_bordered {
+		border: 2px solid black;
+		border-collapse: collapse;
+	}
+	.top_light_bordered {
+		border: 1px #ccc;
+		border-style: solid none none none;
+	}
+	.noborder {
+		border: none;
+	}
+	.indent {
+		padding-left: 30px;
+	}
+</style>
+
+<link rel="stylesheet" type="text/css" media="all" href="${oscar_javascript_path}../calendar/calendar.css" title="win2k-cold-1"/> 
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar.js"></script>
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar-setup.js"></script>
+
+<!-- Javascript -->
+<script language="javascript" src="${oscar_javascript_path}prototype.js"></script>
+<script language="javascript" src="${oscar_javascript_path}scriptaculous.js"></script>
+<script language="javascript">
+function start() {
+	setWindowSize();
+	initialChart();
+	
+	slideTime = 0;
+	initialHideDetails();
+	slideTime = 0.5;
+
+	if ($("dateTime").value=="") setDateTime();
+}
+
+var slideTime = null;
+
+function conclude() {
+	setDateTime();
+	writePreventions();
+}
+
+function initialHideDetails() {
+	var inputs = document.getElementsByTagName("input");
+	for (var i=0; i<inputs.length; i++) {
+		if ($(inputs[i].id+"Detail")!=undefined && inputs[i].type=="checkbox" && !inputs[i].checked)
+			showHideDetail(inputs[i].id);
+	}
+	checkReferToMDRN(true); //for female
+	checkReferToMDRN(false) //for male
+	hideScreening($("STITreatmentOnly").checked);
+}
+
+function setWindowSize() {
+	top.window.moveTo(0,0);
+	if (document.all) {
+		top.window.resizeTo(1240,screen.availHeight);
+	}
+	else if (document.layers||document.getElementById) {
+		if (top.window.outerHeight<screen.availHeight||top.window.outerWidth<screen.availWidth){
+			top.window.outerHeight = screen.availHeight;
+			top.window.outerWidth = 1240;
+		}
+	}
+}
+
+function setDateTime() {
+	var now = new Date();
+	var nowMonth = pad0(now.getMonth()+1);
+	var nowDay = pad0(now.getDate());
+	var nowHour = pad0(now.getHours());
+	var nowMin = pad0(now.getMinutes());
+	
+	var nowDate = now.getFullYear() + "/" + nowMonth + "/" + nowDay;
+	$("dateTime").value = nowDate + " " + nowHour + ":" + nowMin;
+}
+
+function pad0(number) {
+	if (number<10) number = "0"+number;
+	return number;
+}
+
+function hideScreening(yes) {
+	if (yes) {
+		Effect.SlideUp("screeningDetail0",{duration:slideTime});
+		Effect.SlideUp("screeningDetail1",{duration:slideTime});
+	} else {
+		Effect.SlideDown("screeningDetail0",{duration:slideTime});
+		Effect.SlideDown("screeningDetail1",{duration:slideTime});
+	}
+}
+
+function showHideRctvNnRctv() {
+	showHideDetail("reactive");
+	showHideDetail("nonReactive");
+}
+
+function showHideClientHighRiskYN() {
+	showHideDetail("clientHighRiskYes");
+	showHideDetail("clientHighRiskNo");
+}
+
+function showHideConfirmTestDnDclndNR() {
+	showHideDetail("confirmTestDoneNR");
+	showHideDetail("confirmTestDeclinedNR");
+}
+
+function showHideConfirmTestDnDclndR() {
+	showHideDetail("confirmTestDoneR");
+	showHideDetail("confirmTestDeclinedR");
+}
+
+function checkReferToMDRN(isFemale) {
+	if (isFemale) {
+		if ($("femalePelvicPain").checked && $("femaleFever").checked) {
+			$("referToMDRNFemale").show();
+		} else {
+			$("referToMDRNFemale").hide();
+		}
+	} else {
+		if ($("maleTesticularPain").checked && $("maleFever").checked) {
+			$("referToMDRNMale").show();
+		} else {
+			$("referToMDRNMale").hide();
+		}
+	}
+}
+
+function showHideDetail(part) {
+	if ($(part).checked) Effect.SlideDown(part+"Detail",{duration:slideTime});
+	else if ($(part+"Detail").visible()) Effect.SlideUp(part+"Detail",{duration:slideTime});
+}
+
+function writePreventions() {
+	$("GonorrheaUrine").value = "";
+	$("GonorrheaThroat").value = "";
+	$("GonorrheaAnal").value = "";
+	$("ChlamydiaUrine").value = "";
+	$("ChlamydiaThroat").value = "";
+	$("ChlamydiaAnal").value = "";
+	$("GCStatus").value = "";
+	
+	$("preventionSyphilisSerology").value = "";
+	$("preventionHepBScreen").value = "";
+	$("preventionHepCScreen").value = "";
+	$("hepBcomment").value = "";
+	$("preventionHIVSerology").value = "";
+	
+	$("preventionHIVPOCInvalid").value = "";
+	$("preventionHIVPOCRepeatInvalid").value = "";
+	$("preventionHIVSerologyBloodSample").value = "";
+	$("preventionNonReactiveNo").value = "";
+	$("preventionNonReactiveYes").value = "";
+	
+	$("preventionHIVReactive").value = "";
+	$("preventionHIVConfirmNominal").value = "";
+	
+	if ($("serologicalScreening").checked) {
+	
+		if($("syphilis").checked && $("screenSyphilis").checked){
+			$("preventionSyphilisSerology").value = "Syphilis Serology"; //add hidden
+		}
+		
+		if($("hepatitisB").checked) {
+			if ($("screenHepatitisB").checked && $("immunityHepatitisB").checked){
+				$("preventionHepBScreen").value = "Hep B Screen"; //add hidden
+				$("hepBcomment").value = "Screen and Immunity";
+			} else if ($("screenHepatitisB").checked ){
+				$("preventionHepBScreen").value = "Hep B Screen"; //add hidden
+				$("hepBcomment").value = "Screen";
+			} else if ($("immunityHepatitisB").checked ){
+				$("preventionHepBScreen").value = "Hep B Screen"; //add hidden
+				$("hepBcomment").value = "Immunity";
+			}
+		}
+		
+		if($("hepatitisC").checked && $("screenHepatitisC").checked){
+			$("preventionHepCScreen").value = "Hep C Screen"; //add hidden
+		}
+		
+		if($("tubeBHIV").checked && $("serology").checked){
+			$("preventionHIVSerology").value = "HIV Serology Nominal";
+		}else if ($("tubeBHIV").checked && $("HIVPoc").checked){
+			
+		if($("invalid").checked){
+			$("preventionHIVPOCInvalid").value = "HIV POC Nominal";
+			
+	
+			if($("newKit").checked)
+				if ($("repeatPOCTestInvalid").checked){
+					$("preventionHIVPOCRepeatInvalid").value = "HIV POC Nominal";
+				}
+			}
+			
+			if($("bloodSample").checked){
+				$("preventionHIVSerologyBloodSample").value = "HIV Serology Nominal";
+			}	
+		}
+			
+		if($("nonReactive").checked) {
+			$("preventionNonReactiveNo").value = "HIV POC Nominal"; //normal
+		
+
+			if($("nonReactive").checked && $("clientHighRiskYes").checked){
+				if($("confirmTestDoneNR").checked){
+					$("preventionNonReactiveYes").value = "HIV Serology Nominal"; //pending
+				}
+			}
+		}
+			
+		if($("reactive").checked){
+			$("preventionHIVReactive").value = "HIV POC Nominal"; //abnormal
+		}
+		
+		if($("reactive").checked && $("confirmTestDoneR").checked){
+			$("preventionHIVConfirmNominal").value = "HIV Confirm Nominal"; //pending
+		}
+			
+			
+			
+			
+			
+	}
+		
+	
+	if ($("chlamGonoScreening").checked && $("chlamGonoScrnByMedDir").checked) {
+		if ($("gonorrhea").checked) {
+			if ($("gonorrheaNAAT").checked) $("GonorrheaUrine").value = "GC NAAT Urine";
+			if ($("gonorrheaThroatCulture").checked) $("GonorrheaThroat").value = "GC Culture Throat";
+			if ($("gonorrheaAnalCulture").checked) $("GonorrheaAnal").value = "GC Culture Rectal";
+		}
+		if ($("chlamydia").checked) {
+			if ($("chlamydiaNAAT").checked) $("ChlamydiaUrine").value = "CT NAAT Urine";
+			if ($("chlamydiaThroatCulture").checked) $("ChlamydiaThroat").value = "CT Culture Throat";
+			if ($("chlamydiaAnalCulture").checked) $("ChlamydiaAnal").value = "CT Culture Rectal";
+		}
+		if ($("chlamGonoScrnOfferedDeclined").checked) {
+			$("GCStatus").value = "refused";
+		}
+	}
+}
+
+function pickOne(me, otherId) {
+	if (me.checked) $(otherId).checked = false;
+}
+
+function pickOne3(me, otherId1, otherId2) {
+	if (me.checked) {
+		$(otherId1).checked = false;
+		$(otherId2).checked = false;
+	}
+}
+
+function formPrint() {
+	window.print();
+} 
+
+
+//chart related codes
+var chartItems = new Array();
+var chartNexts = new Array();
+var chartTileZs = new Array();
+var chartSamePaths = new Array();
+var chartToggles = new Array();
+
+var chtGonorrheaSeq = 0;
+var chtChlamydiaSeq = 1;
+var chtCCPAllergicSeq = 2;
+var chtCCPAllergicXSeq = 3;
+var chtGonMlsAllergicSeq = 4;
+var chtGonMlsAllergicXSeq = 5;
+var chtCeftriaxoneSeq = 6;
+var chtCeftriaxoneXSeq = 7;
+var chtCefiximeSeq = 8;
+var chtChlMlsAllergicSeq = 9;
+var chtChlMlsAllergicXSeq = 10;
+var chtPregnantSeq = 11;
+var chtPregnantXSeq = 12;
+var chtTcnAllergicSeq = 13;
+var chtTcnAllergicXSeq = 14;
+var chtCTtxSeq = 15;
+var chtGCtxSeq = 16;
+var chtPcnAllergicSeq = 17;
+var chtPcnAllergicXSeq = 18;
+
+var chtGonConsPhysSeq = 19;
+var chtGonAzithromycinSeq = 20;
+var chtChlAzithromycinSeq = 21;
+var chtDoxycyclineSeq = 22;
+var chtAmoxicillinSeq = 23;
+var chtChlConsPhysSeq = 24;
+
+var chtZToAxAllergyMlsSeq = 25;
+var chtZAxAllergyMlsSeq = 26;
+var chtZAxAllergyPcnSeq = 27;
+var chtZConsPhysSeq = 28;
+
+//checkbox IDs in chart
+chartItems[chtGonorrheaSeq] = "chtGonorrhea";
+chartItems[chtChlamydiaSeq] = "chtChlamydia";
+chartItems[chtCCPAllergicSeq] = "chtCCPAllergic";
+chartItems[chtCCPAllergicXSeq] = "chtCCPAllergicX";
+chartItems[chtGonMlsAllergicSeq] = "chtGonMlsAllergic";
+chartItems[chtGonMlsAllergicXSeq] = "chtGonMlsAllergicX";
+chartItems[chtGonConsPhysSeq] = "chtGonConsPhys";
+chartItems[chtGonAzithromycinSeq] = "chtGonAzithromycin";
+chartItems[chtCeftriaxoneSeq] = "chtCeftriaxone";
+chartItems[chtCeftriaxoneXSeq] = "chtCeftriaxoneX";
+chartItems[chtCefiximeSeq] = "chtCefixime";
+chartItems[chtChlMlsAllergicSeq] = "chtChlMlsAllergic";
+chartItems[chtChlMlsAllergicXSeq] = "chtChlMlsAllergicX";
+chartItems[chtChlAzithromycinSeq] = "chtChlAzithromycin";
+chartItems[chtPregnantSeq] = "chtPregnant";
+chartItems[chtPregnantXSeq] = "chtPregnantX";
+chartItems[chtTcnAllergicSeq] = "chtTcnAllergic";
+chartItems[chtTcnAllergicXSeq] = "chtTcnAllergicX";
+chartItems[chtDoxycyclineSeq] = "chtDoxycycline";
+chartItems[chtCTtxSeq] = "chtCTtx";
+chartItems[chtGCtxSeq] = "chtGCtx";
+chartItems[chtPcnAllergicSeq] = "chtPcnAllergic";
+chartItems[chtPcnAllergicXSeq] = "chtPcnAllergicX";
+chartItems[chtAmoxicillinSeq] = "chtAmoxicillin";
+chartItems[chtChlConsPhysSeq] = "chtChlConsPhys";
+chartItems[chtZToAxAllergyMlsSeq] = "chtZToAxAllergyMls";
+chartItems[chtZAxAllergyMlsSeq] = "chtZAxAllergyMls";
+chartItems[chtZAxAllergyPcnSeq] = "chtZAxAllergyPcn";
+chartItems[chtZConsPhysSeq] = "chtZConsPhys";
+
+//propogate clear to "next" checkbox(s) when checked=false
+chartNexts[chtGonorrheaSeq] = [chtCCPAllergicSeq,chtCCPAllergicXSeq];
+chartNexts[chtChlamydiaSeq] = [chtChlMlsAllergicSeq,chtChlMlsAllergicXSeq];
+chartNexts[chtCCPAllergicSeq] = [chtGonMlsAllergicSeq,chtGonMlsAllergicXSeq];
+chartNexts[chtCCPAllergicXSeq] = [chtCeftriaxoneSeq,chtCeftriaxoneXSeq];
+chartNexts[chtGonMlsAllergicSeq] = [chtGonConsPhysSeq];
+chartNexts[chtGonMlsAllergicXSeq] = [chtGonAzithromycinSeq];
+chartNexts[chtCeftriaxoneSeq] = [chtChlMlsAllergicSeq,chtChlMlsAllergicXSeq];
+chartNexts[chtCeftriaxoneXSeq] = [chtCefiximeSeq];
+chartNexts[chtCefiximeSeq] = [chtChlMlsAllergicSeq,chtChlMlsAllergicXSeq];
+chartNexts[chtChlMlsAllergicSeq] = [chtPregnantSeq,chtPregnantXSeq];
+chartNexts[chtChlMlsAllergicXSeq] = [chtChlAzithromycinSeq];
+chartNexts[chtPregnantSeq] = [chtCTtxSeq,chtGCtxSeq];
+chartNexts[chtPregnantXSeq] = [chtTcnAllergicSeq,chtTcnAllergicXSeq];
+chartNexts[chtTcnAllergicSeq] = [chtPcnAllergicSeq,chtPcnAllergicXSeq];
+chartNexts[chtTcnAllergicXSeq] = [chtDoxycyclineSeq];
+chartNexts[chtCTtxSeq] = [chtPcnAllergicSeq,chtPcnAllergicXSeq];
+chartNexts[chtGCtxSeq] = [chtChlConsPhysSeq];
+chartNexts[chtPcnAllergicSeq] = [chtChlConsPhysSeq];
+chartNexts[chtPcnAllergicXSeq] = [chtAmoxicillinSeq];
+
+//special covering tiles, controlled by >1 checkboxes
+chartTileZs[chtCeftriaxoneSeq] = [chtZToAxAllergyMlsSeq,chtZAxAllergyMlsSeq];
+chartTileZs[chtCefiximeSeq] = [chtZToAxAllergyMlsSeq,chtZAxAllergyMlsSeq];
+chartTileZs[chtChlamydiaSeq] = [chtZAxAllergyMlsSeq];
+chartTileZs[chtTcnAllergicSeq] = [chtZAxAllergyPcnSeq];
+chartTileZs[chtCTtxSeq] = [chtZAxAllergyPcnSeq];
+chartTileZs[chtPcnAllergicSeq] = [chtZConsPhysSeq];
+chartTileZs[chtGCtxSeq] = [chtZConsPhysSeq];
+
+//checkboxes which control the same checkboxes
+chartSamePaths[chtChlamydiaSeq] = [chtCeftriaxoneSeq,chtCefiximeSeq];
+chartSamePaths[chtCeftriaxoneSeq] = [chtCefiximeSeq,chtChlamydiaSeq]; //chtChlamydiaSeq must stay last
+chartSamePaths[chtCefiximeSeq] = [chtCeftriaxoneSeq,chtChlamydiaSeq]; //chtChlamydiaSeq must stay last
+chartSamePaths[chtGCtxSeq] = [chtPcnAllergicSeq];
+chartSamePaths[chtPcnAllergicSeq] = [chtGCtxSeq];
+
+//checkboxes which turns off each other when checked=true
+chartToggles[chtCCPAllergicSeq] = chtCCPAllergicXSeq;
+chartToggles[chtCCPAllergicXSeq] = chtCCPAllergicSeq;
+chartToggles[chtGonMlsAllergicSeq] = chtGonMlsAllergicXSeq;
+chartToggles[chtGonMlsAllergicXSeq] = chtGonMlsAllergicSeq;
+chartToggles[chtCeftriaxoneSeq] = chtCeftriaxoneXSeq;
+chartToggles[chtCeftriaxoneXSeq] = chtCeftriaxoneSeq;
+chartToggles[chtChlMlsAllergicSeq] = chtChlMlsAllergicXSeq;
+chartToggles[chtChlMlsAllergicXSeq] = chtChlMlsAllergicSeq;
+chartToggles[chtPregnantSeq] = chtPregnantXSeq;
+chartToggles[chtPregnantXSeq] = chtPregnantSeq;
+chartToggles[chtTcnAllergicSeq] = chtTcnAllergicXSeq;
+chartToggles[chtTcnAllergicXSeq] = chtTcnAllergicSeq;
+chartToggles[chtPcnAllergicSeq] = chtPcnAllergicXSeq;
+chartToggles[chtPcnAllergicXSeq] = chtPcnAllergicSeq;
+
+function initialChart() {
+	for (var i=0; i<19; i++) {
+		openClose(i);
+	}
+}
+
+function resetChart() {
+	for (var i=0; i<25; i++) {
+		$(chartItems[i]).checked = false;
+	}
+	initialChart();
+}
+
+function openClose(seq) {
+	openCloseTileZ(seq);
+	
+	if (openCloseMyTile(seq)) {
+		if (chartToggles[seq]!=undefined) {
+			$(chartItems[chartToggles[seq]]).checked = false;
+			openClose(chartToggles[seq]);
+		}
+	} else {
+		var closeNext = true;
+		
+		if (chartSamePaths[seq]!=undefined) {
+			for (var i=0; i<chartSamePaths[seq].length; i++) {
+				if (openCloseMyTile(chartSamePaths[seq][i])) {
+					openCloseTileZ(chartSamePaths[seq][i]);
+					closeNext = false;
+					break;
+				}
+			}
+		}
+		if (chartNexts[seq]!=undefined && closeNext) {
+			for (var i=0; i<chartNexts[seq].length; i++) {
+				$(chartItems[chartNexts[seq][i]]).checked = false;
+				openClose(chartNexts[seq][i]);
+			}
+		}
+	}
+	return;
+}
+
+function openCloseMyTile(seq) {
+	return openCloseTile(seq,seq);
+}
+
+function openCloseTile(chkbSeq, tileSeq) {
+	var chkbox = chartItems[chkbSeq];
+	var tile = chartItems[tileSeq]+"Tile";
+	
+	for (var i=0; i<2; i++) {
+		if ($(tile+i)==null) break;
+		
+		if ($(chkbox).checked) $(tile+i).hide();
+		else $(tile+i).show();
+	}
+	return $(chkbox).checked;
+}
+
+function openCloseTileZ(seq) {
+	if (chartTileZs[seq]!=undefined) {
+		for (var i=0; i<chartTileZs[seq].length; i++) {
+			openCloseTile(seq, chartTileZs[seq][i]);
+		}
+	}
+}
+</script>
+
+<!-- scripts to confirm closing of window if it hadn't been saved yet -->
+<script language="javascript">
+//keypress events trigger dirty flag
+var needToConfirm = false;
+document.onkeyup=setDirtyFlag;
+function setDirtyFlag() {
+	needToConfirm = true;
+}
+function releaseDirtyFlag() {
+	needToConfirm = false;
+}
+window.onbeforeunload = confirmExit;
+function confirmExit() {
+	if (needToConfirm) {
+		return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to leave?";
+	}
+}
+</script>
+</head>
+
+
+<!-- Webpage content -->
+<body onload="start();">
+<form onsubmit="conclude();">
+
+<table style="width:900;"><tr><td>
+
+<table style="width:100%;">
+<tr>
+	<td>
+		<h1>STI screening & treatment</h1>
+	</td>
+	<td class="bordered" style="width:41%;">
+		<table>
+		<tr>
+			<td>Client Name:</td>
+			<td><input type="text" name="clientName" id="clientName" oscarDB="patient_name"/></td>
+		</tr>
+		<tr>
+			<td>DOB:</td>
+			<td><input type="text" name="dob" id="dob" oscarDB="dobc2"/></td>
+		</tr>
+		<tr>
+			<td>Date of visit:</td>
+			<td>
+				<input type="text" name="visitDate" id="visitDate" />
+			</td>
+		</tr>
+		<tr>
+			<td>Clinic Site:</td>
+			<td><input type="text" name="clinicSite" id="clinicSite" oscarDB="clinic_name"/></td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+
+<input type="checkbox" id="STITreatmentOnly" name="STITreatmentOnly" onclick="hideScreening(this.checked);"/>
+<label for="STITreatmentOnly">STI Treatment only</label>
+<br/>
+
+<div id="screeningDetail0">
+<br/>
+<table>
+<tr>
+	<td>
+		<h3 class="top_light_bordered">Screening Assessment</h3>
+		Eligibility for Screening:<br/>
+		<div class="indent">
+			<input type="checkbox" id="sexuallyActive" name="sexuallyActive" onclick="showHideDetail(this.id);"/>
+			<label for="sexuallyActive">Sexually Active:</label>
+			<div id="sexuallyActiveDetail" class="indent">
+				<input type="checkbox" id="vaginalSex" name="vaginalSex"/>
+				<label for="vaginalSex">Vaginal sex</label><br/>
+				<input type="checkbox" id="oralSex" name="oralSex"/>
+				<label for="oralSex">Oral sex</label>
+				<div class="indent">
+					<input type="checkbox" id="oralSexPerforming" name="oralSexPerforming" />
+					<label for="oralSexPerforming">performing</label><br/>
+					<input type="checkbox" id="oralSexReceiving" name="oralSexReceiving"/>
+					<label for="oralSexReceiving">receiving</label>
+				</div>
+				<input type="checkbox" id="analSex" name="analSex"/>
+				<label for="analSex">Anal sex</label>
+				<div class="indent">
+					<input type="checkbox" id="analSexInsertive" name="analSexInsertive"/>
+					<label for="analSexInsertive">insertive (top)</label><br/>
+					<input type="checkbox" id="analSexReceptive" name="analSexReceptive" />
+					<label for="analSexReceptive">receptive (bottom)</label>
+				</div>
+				<input type="checkbox" id="oralAnalContact" name="oralAnalContact"/>
+				<label for="oralAnalContact">Oral (performing) &rarr; Anal contact</label><br/>
+				<input type="checkbox" id="sexuallyActiveOther" name="sexuallyActiveOther"/>
+				<label for="sexuallyActiveOther">Other:</label>
+				<div class="indent">
+					<textarea id="sexuallyActiveOtherText" name="sexuallyActiveOtherText" class="indent" cols="80"></textarea>
+				</div>
+			</div>
+			<br/>
+			<input type="checkbox" id="bloodExposure" name="bloodExposure" onclick="showHideDetail(this.id);"/>
+			<label for="bloodExposure">Blood exposure:</label>
+			<div id="bloodExposureDetail" class="indent">
+				<input type="checkbox" id="sharedDrugEquipment" name="sharedDrugEquipment"/>
+				<label for="sharedDrugEquipment">Shared drug equipment</label><br/>
+				<input type="checkbox" id="needlestickInjury" name="needlestickInjury"/>
+				<label for="needlestickInjury">Needlestick injury</label><br/>
+				<input type="checkbox" id="occupationalExposure" name="occupationalExposure"/>
+				<label for="occupationalExposure">Occupational exposure</label><br/>
+				<input type="checkbox" id="bloodExposureOther" name="bloodExposureOther"/>
+				<label for="bloodExposureOther">Other:</label>
+				<div class="indent">
+					<textarea id="bloodExposureOtherText" name="bloodExposureOtherText" cols="80"></textarea>
+				</div>
+			</div>
+			<br/>
+			<input type="checkbox" id="testOfCure" name="testOfCure"/>
+			<label for="testOfCure">Test of cure:</label>
+			<input type="text" id="textOfCureText" name="textOfCureText" size="50"/>
+		</div>
+	</td>
+</tr>
+</table>
+</div>
+
+<br/>
+<div class="top_light_bordered">Client reporting Symptoms?</div>
+<div class="indent">
+	<input type="checkbox" id="clientReportingSymptomsNo" name="clientReportingSymptomsNo" onclick="pickOne(this,'clientReportingSymptomsYes');showHideDetail('clientReportingSymptomsYes');"/>
+	<label for="clientReportingSymptomsNo">No</label><br/>
+	<input type="checkbox" id="clientReportingSymptomsYes" name="clientReportingSymptomsYes" onclick="pickOne(this,'clientReportingSymptomsNo');showHideDetail(this.id);"/>
+	<label for="clientReportingSymptomsYes">Yes</label>
+	<div id="clientReportingSymptomsYesDetail" class="indent">
+		<table>
+		<tr id="femaleSymptoms">
+			<td>
+				<input type="checkbox" id="femaleClientReport" name="femaleClientReport" onclick="pickOne(this,'maleClientReport');showHideDetail(this.id);showHideDetail('maleClientReport');"/>
+				<label for="femaleClientReport">Female client reporting current:</label>
+			</td>
+			<td>
+				<div id="femaleClientReportDetail">
+					<input type="checkbox" id="femalePelvicPain" name="femalePelvicPain" onclick="checkReferToMDRN(true);"/>
+					<label for="femalePelvicPain">Pelvic pain:</label>
+					<input type="text" id="femalePelvicPainText" name="femalePelvicPainText"/><br/>
+					<input type="checkbox" id="femaleFever" name="femaleFever" onclick="checkReferToMDRN(true);"/>
+					<label for="femaleFever">Fever</label>
+					<span id="referToMDRNFemale" class="text_bold">
+						&nbsp; &nbsp; &rarr; refer to MD/RN(EC) for CT/GC assessment
+					</span>
+					<br/>
+					<input type="checkbox" id="femaleAbnormalDischarge" name="femaleAbnormalDischarge"/>
+					<label for="femaleAbnormalDischarge">Abnormal discharge</label><br/>
+					<input type="checkbox" id="femaleDysuria" name="femaleDysuria"/>
+					<label for="femaleDysuria">Dysuria</label><br/>
+					<input type="checkbox" id="femaleAnalSymptoms" name="femaleAnalSymptoms"/>
+					<label for="femaleAnalSymptoms">Anal symptoms - d/c, bleeding, pain, swollen nodes, pressure</label><br/>
+					<input type="checkbox" id="femaleNoSymptom" name="femaleNoSymptom"/>
+					<label for="femaleNoSymptom">Other:</label>
+					<input type="text" id="femaleSymptomsOther" name="femaleSymptomsOther" size="50"/>
+					<br/>&nbsp;
+				</div>
+			</td>
+		</tr>
+		<tr id="maleSymptoms">
+			<td>
+				<input type="checkbox" id="maleClientReport" name="maleClientReport" onclick="pickOne(this,'femaleClientReport');showHideDetail(this.id);showHideDetail('femaleClientReport');"/>
+				<label for="maleClientReport">Male client reporting current:</label>
+			</td>
+			<td>
+				<div id="maleClientReportDetail">
+					<input type="checkbox" id="maleTesticularPain" name="maleTesticularPain" onclick="checkReferToMDRN(false);"/>
+					<label for="maleTesticularPain">Testicular pain/swelling:</label>
+					<input type="text" id="maleTesticularPainText" name="maleTesticularPainText"/><br/>
+					<input type="checkbox" id="maleFever" name="maleFever" onclick="checkReferToMDRN(false);"/>
+					<label for="maleFever">Fever</label>
+					<span id="referToMDRNMale" class="text_bold">
+						&nbsp; &nbsp; &rarr; refer to MD/RN(EC) for CT/GC assessment
+					</span>
+					<br/>
+					<input type="checkbox" id="maleUrethralDischarge" name="maleUrethralDischarge"/>
+					<label for="maleUrethralDischarge">Urethral discharge</label><br/>
+					<input type="checkbox" id="maleDysuria" name="maleDysuria"/>
+					<label for="maleDysuria">Dysuria</label><br/>
+					<input type="checkbox" id="maleAnalSymptoms" name="maleAnalSymptoms"/>
+					<label for="maleAnalSymptoms">Anal symptoms - d/c, bleeding, pain, swollen nodes, pressure</label><br/>
+					<input type="checkbox" id="maleNoSymptom" name="maleNoSymptom"/>
+					<label for="maleNoSymptom">Other:</label>
+					<input type="text" id="femaleSymptomsOther" name="femaleSymptomsOther" size="50"/>
+				</div>
+			</td>
+		</tr>
+		</table>
+	</div> 
+</div>
+
+<br/>
+<div id="screeningDetail1">
+<table>
+<tr>
+	<td>
+		<h3 class="top_light_bordered">Nursing Action</h3>
+		Counseling for all screening:<br/>
+		<input type="checkbox" id="contraceptiveOptionsDiscussed" name="contraceptiveOptionsDiscussed"/>
+		<label for="contraceptiveOptionsDiscussed">Contraceptive options discussed</label><br/>
+		<input type="checkbox" id="saferSexCounseling" name="saferSexCounseling"/>
+		<label for="saferSexCounseling">Safer sex counseling and resources offered</label><br/>
+		<input type="checkbox" id="informedOfTestsVerbalConsent" name="informedOfTestsVerbalConsent"/>
+		<label for="informedOfTestsVerbalConsent">Informed of tests to be done and verbal consent to collect specimens obtained</label><br/>
+		<input type="checkbox" id="reliabilityOfTests" name="reliabilityOfTests"/>
+		<label for="reliabilityOfTests">Reliability of tests</label><br/>
+		<br/>
+		
+		<input type="checkbox" id="chlamGonoScreening" name="chlamGonoScreening" onclick="showHideDetail('chlamGonoScreening');"/>
+		<label for="chlamGonoScreening">Chlamydia and Gonorrhea screening</label><br/>
+		<div id="chlamGonoScreeningDetail" class="indent">
+			<input type="checkbox" id="chlamGonoScrnByPhysician" name="chlamGonoScrnByPhysician"/>
+			<label for="chlamGonoScrnByPhysician">To be done by physician</label>
+			<br/>
+			<input type="checkbox" id="chlamGonoScrnByMedDir" name="chlamGonoScrnByMedDir" onclick="showHideDetail(this.id);"/>
+			<label for="chlamGonoScrnByMedDir">To be done by medical directive</label>
+			<br/>
+		</div>
+
+		<div id="chlamGonoScrnByMedDirDetail">
+		<table class="bordered">
+		<tr class="bordered">
+			<td>
+				<input type="checkbox" id="gonorrhea" name="gonorrhea" />
+				<label for="gonorrhea">Gonorrhea</label>
+			</td>
+			<td>
+				<input type="checkbox" id="gonorrheaNAAT" name="gonorrheaNAAT"/>
+				<label for="gonorrheaNAAT">Urine (NAAT)</label>
+			</td>
+			<td>
+				<input type="checkbox" id="gonorrheaThroatCulture" name="gonorrheaThroatCulture"/>
+				<label for="gonorrheaThroatCulture">Throat (Culture)</label>
+			</td>
+			<td>
+				<input type="checkbox" id="gonorrheaAnalCulture" name="gonorrheaAnalCulture"/>
+				<label for="gonorrheaAnalCulture">Anal (self-swab culture)</label>
+			</td>
+			<td rowspan="2" class="bordered">
+				<input type="checkbox" id="chlamGonoScrnOfferedDeclined" name="chlamGonoScrnOfferedDeclined" />
+				<label for="chlamGonoScrnOfferedDeclined">offered, declined:</label>
+				<textarea type="text" id="chlamGonoScrenOfferedDeclinedReason" name="chlamGonoScrenOfferedDeclinedReason"></textarea>
+			</td>
+		</tr>
+		<tr class="bordered">
+			<td>
+				<input type="checkbox" id="chlamydia" name="chlamydia" onclick="pickOne(this,'chlamGonoScrnOfferedDeclined');"/>
+				<label for="chlamydia">Chlamydia</label>
+			</td>
+			<td>
+				<input type="checkbox" id="chlamydiaNAAT" name="chlamydiaNAAT"/>
+				<label for="chlamydiaNAAT">Urine (NAAT)</label>
+			</td>
+			<td>
+				<input type="checkbox" id="chlamydiaThroatCulture" name="chlamydiaThroatCulture"/>
+				<label for="chlamydiaThroatCulture">Throat (Culture)</label>
+			</td>
+			<td>
+				<input type="checkbox" id="chlamydiaAnalCulture" name="chlamydiaAnalCulture"/>
+				<label for="chlamydiaAnalCulture">Anal (self-swab culture)</label>
+			</td>
+		</tr>
+		</table> 		
+		</div>
+		<br/>
+		<input type="checkbox" id="serologicalScreening" name="serologicalScreening" onclick="showHideDetail(this.id);"/>
+		<label for="serologicalScreening">Serological screening:</label>
+		<div id="serologicalScreeningDetail">
+			<table style="width:75%">
+			<tr>
+				<td rowspan="3" width="5%">&nbsp;</td>
+				<td><input type="checkbox" id="srlgclScrnWindowPeriod" name="srlgclScrnWindowPeriod"/></td>
+				<td><label for="srlgclScrnWindowPeriod">Window period - </label></td>
+				<td align="right">
+					Date of last risk exposure:
+					<input type="text" id="srlgclScrnWinPeriodDateStart" name="srlgclScrnWinPeriodDateStart"/>
+					<br/>
+					End of window:
+					<input type="text" id="srlgclScrnWinPeriodDateEnd" name="srlgclScrnWinPeriodDateEnd"/>
+					<br/>
+					<input type="checkbox" id="srlgclScrnWindowPeriodOngoing" name="srlgclScrnWindowPeriodOngoing"/>
+					<label for="srlgclScrnWindowPeriodOngoing">Ongoing window period, regular screening advised</label>
+				</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" id="HIVPretestCounseling" name="HIVPretestCounseling"/></td>
+				<td colspan="2">
+					<label for="HIVPretestCounseling">HIV pre-test counseling provided - benefits, interpretation of results, risk assessment, HIV transmission, assess that client is safe to test</label>
+				</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" id="HIVDisclosure" name="HIVDisclosure"/></td>
+				<td colspan="2">
+					<label for="HIVDisclosure">HIV disclosure and harm reduction requirements for positive/suspect results</label>
+				</td>
+			</tr>
+			</table>
+			<br/>
+			<table class="bordered">
+			<tr class="bordered">
+				<td class="bordered" rowspan="3">Tube A</td>
+				<td>
+					<input type="checkbox" id="syphilis" name="syphilis"/>
+					<label for="syphilis">Syphilis</label>
+				</td>
+				<td>
+					<input type="checkbox" id="screenSyphilis" name="screenSyphilis"/>
+					<label for="screenSyphilis">Screen</label>
+				</td>
+				<td>&nbsp;</td>
+				<td>
+					<input type="checkbox" id="offeredDeclinedSyphilis" name="offeredDeclinedSyphilis" onclick="showHideDetail(this.id)"/>
+					<label for="offeredDeclinedSyphilis">offered, client declined</label>
+					<span id="offeredDeclinedSyphilisDetail">
+						<input type="text" id="offeredDeclinedSyphilisText" name="offeredDeclinedSyphilisText"/>
+					</span>
+				</td>
+			</tr>
+			<tr class="bordered">
+				<td>
+					<input type="checkbox" id="hepatitisB" name="hepatitisB"/>
+					<label for="hepatitisB">Hepatitis B</label>
+				</td>
+				<td>
+					<input type="checkbox" id="screenHepatitisB" name="screenHepatitisB"/>
+					<label for="screenHepatitisB">Screen</label>
+				</td>
+				<td>
+					<input type="checkbox" id="immunityHepatitisB" name="immunityHepatitisB"/>
+					<label for="immunityHepatitisB">Immunity</label>
+				</td>
+				<td>
+					<input type="checkbox" id="offeredDeclinedHepatitisB" name="offeredDeclinedHepatitisB" onclick="showHideDetail(this.id)"/>
+					<label for="offeredDeclinedHepatitisB">offered, client declined</label>
+					<span id="offeredDeclinedHepatitisBDetail">
+						<input type="text" id="offeredDeclinedHepatitisBText" name="offeredDeclinedHepatitisBText"/>
+					</span>
+				</td>
+			</tr>
+			<tr class="bordered">
+				<td>
+					<input type="checkbox" id="hepatitisC" name="hepatitisC"/>
+					<label for="hepatitisC">Hepatitis C</label>
+				</td>
+				<td>
+					<input type="checkbox" id="screenHepatitisC" name="screenHepatitisC"/>
+					<label for="screenHepatitisC">Screen</label>
+				</td>
+				<td>&nbsp;</td>
+				<td>
+					<input type="checkbox" id="offeredDeclinedHepatitisC" name="offeredDeclinedHepatitisC" onclick="showHideDetail(this.id)"/>
+					<label for="offeredDeclinedHepatitisC">offered, client declined</label>
+					<span id="offeredDeclinedHepatitisCDetail">
+						<input type="text" id="offeredDeclinedHepatitisCText" name="offeredDeclinedHepatitisCText"/>
+					</span>
+				</td>
+			</tr>
+			<tr class="bold_bordered">
+				<td class="bordered">B</td>
+				<td>
+					<input type="checkbox" id="tubeBHIV" name="tubeBHIV"/>
+					<label for="tubeBHIV">HIV</label>
+				</td>
+				<td>
+					<input type="checkbox" id="serology" name="serology"/>
+					<label for="serology">Serology</label>
+				</td>
+				<td>
+					<input type="checkbox" id="HIVPoc" name="HIVPoc" onclick="showHideDetail(this.id);"/>
+					<label for="HIVPoc">POC</label>
+				</td>
+				<td>
+					<input type="checkbox" id="offeredDeclinedHIV" name="offeredDeclinedHIV" onclick="showHideDetail(this.id)"/>
+					<label for="offeredDeclinedHIV">offered, client declined</label>
+					<span id="offeredDeclinedHIVDetail">
+						<input type="text" id="offeredDeclinedHIVText" name="offeredDeclinedHIVText"/>
+					</span>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</td>
+</tr>
+</table>
+
+<div id="HIVPocDetail">
+<br/>
+<table>
+<tr>
+	<td>
+		<h3 class="top_light_bordered">POC Screening</h3>
+		<input type="checkbox" name="explainPOC" id="explainPOC"/>
+		<label for="explainPOC">
+			Explain POC is a screening test, venipuncture required in order to confirm reactive or invalid results
+		</label>
+		<br/>
+		<input type="checkbox" name="kitLotExpiryDate" id="kitLotExpiryDate"/>
+		<label for="kitLotExpiryDate">Kit</label>
+		lot # <input type="text" name="kitLot" id="kitLot"/>
+		&nbsp; &nbsp; &nbsp;
+		expiry date: <input type="text" name="expiryDate" id="expiryDate"/>
+		<br/>
+		<input type="checkbox" name="POCTestCompleted" id="POCTestCompleted"/>
+		<label for="POCTestCompleted">
+			POC test completed according to P&P 04 05 327                                             
+		</label>
+		<br/>
+	</td>
+</tr>
+
+<tr>
+	<td>
+		<table width="100%">
+		<tr>
+			<td>Result:</td>
+		</tr>
+		<tr>
+			<td class="bordered">
+				<input type="checkbox" name="invalid" id="invalid" onclick="showHideDetail(this.id);"/>
+				<label for="invalid" class="text_bold">Invalid</label>
+				<div id="invalidDetail" class="indent">
+					<input type="checkbox" name="recommendRepeatTest" id="recommendRepeatTest"/>
+					<label for="recommendRepeatTest">Recommend repeat test:</label>
+					<div class="indent">
+						<input type="checkbox" name="newKit" id="newKit" onclick="showHideDetail(this.id);"/>
+						<label for="newKit">new Kit</label>
+						&rarr; lot # <input type="text" name="newKitLot" id="newKitLot"/>
+						&nbsp; &nbsp;
+						expiry date: <input type="text" name="newExpiryDate" id="newExpiryDate"/>
+						<br/>
+						<div id="newKitDetail" class="indent">
+							<input type="checkbox" name="repeatPOCTestInvalid" id="repeatPOCTestInvalid" onclick="pickOne(this,'repeatPOCTestValid');"/>
+							<label for="repeatPOCTestInvalid">Repeat POC test invalid, recommend standard HIV venipuncture test</label>
+							<br/>
+							<input type="checkbox" name="repeatPOCTestValid" id="repeatPOCTestValid" onclick="pickOne(this,'repeatPOCTestInvalid');"/>
+							<label for="repeatPOCTestValid">Repeat POC test valid (see below for result)</label>
+						</div>
+						<input type="checkbox" name="bloodSample" id="bloodSample"/>
+						<label for="bloodSample">blood sample</label>
+						<br/>
+						<input type="checkbox" name="declinedRepeatTest" id="declinedRepeatTest"/>
+						<label for="declinedRepeatTest">
+							declined repeat test:
+							<input type="text" name="declinedRepeatTestTxt" id="declinedRepeatTestTxt"/>
+						</label>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="bordered">
+				<input type="checkbox" name="nonReactive" id="nonReactive" onclick="pickOne(this,'reactive');showHideRctvNnRctv();"/>
+				<label for="nonReactive" class="text_bold">Non-Reactive</label>
+				
+				<div id="nonReactiveDetail">
+					<table>
+					<tr>
+						<td colspan="2">
+							Client in the window period with a high risk exposure?
+						</td>
+					</tr>
+					<tr>
+						<td class="indent">
+							<input type="checkbox" name="clientHighRiskNo" id="clientHighRiskNo" onclick="pickOne(this,'clientHighRiskYes');showHideClientHighRiskYN();"/>
+							<label for="clientHighRiskNo" class="text_bold">No</label>
+						</td>
+						<td>
+						<div id="clientHighRiskNoDetail">
+							<input type="checkbox" name="postTestCounselingCompleted" id="postTestCounselingCompleted"/>
+							<label for="postTestCounsellingCompleted">Post-test counseling completed - risk reduction, window period</label>
+							<br/>
+							<input type="checkbox" name="applyEpiInfoOnlySticker" id="applyEpiInfoOnlySticker"/>
+							<label for="applyEpiInfoOnlySticker">Apply ""Epi info only"" sticker & forward req. to PHL</label>
+							<br/><br/>
+							<div class="text_bold">End of POC screen</div>
+						</div>
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="indent">
+							<input type="checkbox" name="clientHighRiskYes" id="clientHighRiskYes" onclick="pickOne(this,'clientHighRiskNo');showHideClientHighRiskYN();"/>
+							<label for="clientHighRiskYes" class="text_bold">Yes</label>
+						</td>
+						<td>
+						<div id="clientHighRiskYesDetail">
+							<input type="checkbox" name="adviseConfirmTest" id="adviseConfirmTest"/>
+							<label for="adviseConfirmTest">advise confirmatory HIV test & P24:</label>
+							<div class="indent">
+								<input type="checkbox" name="confirmTestDeclinedNR" id="confirmTestDeclinedNR" onclick="pickOne3(this,'confirmTestDoneNR','confirmTestNotDoneNR');showHideConfirmTestDnDclndNR();"/>
+								<label for="confirmTestDeclinedNR" class="text_bold">Serology Test Declined</label>
+								<div id="confirmTestDeclinedNRDetail" class="indent">
+									<input type="checkbox" name="completeLabReqDeclinedNR" id="completeLabReqDeclinedNR"/>
+									<label for="completeLabReqDeclinedNR">Complete lab requisition</label>
+									<ul>
+										<li>Apply "Window Period" sticker</li>
+										<li>Indicate "declined blood draw"</li>
+									</ul>
+								</div>
+							</div>
+							<div class="indent">
+								<input type="checkbox" name="confirmTestDoneNR" id="confirmTestDoneNR" onclick="pickOne3(this,'confirmTestDeclinedNR','confirmTestNotDoneNR');showHideConfirmTestDnDclndNR();"/>
+								<label for="confirmTestDoneNR" class="text_bold">Serology Test Done</label>
+								<div id="confirmTestDoneNRDetail" class="indent">
+									<input type="checkbox" name="completeLabReqDoneNR" id="completeLabReqDoneNR"/>
+									<label for="completeLabReqDoneNR">Complete lab requisition</label>
+									<ul>
+										<li>Apply "Window Period" sticker</li>
+										<li>If STAT result is required:
+											<ul>
+												<li>Indicate "STAT" on lab req.</li>
+												<li>Provide # for verbal result (905-528-5894)</li>
+												<li>Place in paper bag label "HIV STAT"</li>
+												<li>Call PH lab (905-385-5379) to notify "STAT" HIV test to be done</li>
+											</ul>
+										</li>
+									</ul>
+									<input type="checkbox" name="negotiateContactNR" id="negotiateContactNR"/>
+									<label for="negotiateContactNR">Negotiate contact with client for results</label>
+									<br/>
+									<input type="checkbox" name="assessImmediateRiskNR" id="assessImmediateRiskNR"/>
+									<label for="assessImmediateRiskNR">Assess for immediate risk to self and ensure appropriate support plan in place</label>
+									<br/>
+									<input type="checkbox" name="provideSupportiveCounsellingNR" id="provideSupportiveCounsellingNR"/>
+									<label for="provideSupportiveCounsellingNR">Provide supportive counselling and community resources while waiting for results</label>
+								</div>
+							</div>
+							<div class="indent">
+								<input type="checkbox" name="confirmTestNotDoneNR" id="confirmTestNotDoneNR" onclick="pickOne3(this,'confirmTestDoneNR','confirmTestDeclinedNR');showHideConfirmTestDnDclndNR();"/>
+								<label for="confirmTestNotDoneNR" class="text_bold">Serology Test Not Done:</label>
+								<input type="text" name="confirmTestNotDoneNRText" id="confirmTestNotDoneNRText" size="60"/>
+							</div>
+						</div>
+						</td>
+					</tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="bordered">
+				<input type="checkbox" name="reactive" id="reactive" onclick="pickOne(this,'nonReactive');showHideRctvNnRctv();"/>
+				<label for="reactive" class="text_bold">Reactive</label>
+				
+				<div id="reactiveDetail">
+					<div class="indent">
+						<input type="checkbox" name="phnGivesResult" id="phnGivesResult"/>
+						<label for="phnGivesResult">PHN gives result to client</label>
+						<br/>
+						<input type="checkbox" name="reemphasizePocScreening" id="reemphasizePocScreening"/>
+						<label for="reemphasizePocScreening">Reemphasize that POC is a screening test and discuss need for a confirmatory blood test</label>
+						<br/><br/>
+						<input type="checkbox" name="confirmTestDoneR" id="confirmTestDoneR" onclick="pickOne3(this,'confirmTestDeclinedR','confirmTestNotDoneR');showHideConfirmTestDnDclndR();"/>
+						<label for="confirmTestDoneR" class="text_bold">Confirmatory Test Done</label>
+						<br/>
+						<div id="confirmTestDoneRDetail" class="indent">
+							<input type="checkbox" name="completeLabReqDoneR" id="completeLabReqDoneR"/>
+							<label for="completeLabReqDoneR">Requisition completed:</label>
+							<br/>
+							<ul>
+								<li>Apply "Confirmatory" sticker</li>
+								<li>Label as "STAT"</li>
+								<li>Provide # for verbal results (905-528-5894)</li>
+								<li>Place in paper bag labelled "HIV STAT"</li>
+								<li>Call PH lab (905-385-5379) to notify STAT HIV test to be done</li>
+							</ul>
+							<input type="checkbox" name="negotiateContactR" id="negotiateContactR"/>
+							<label for="negotiateContactR">Negotiate contact with client for results</label>
+							<br/>
+							<input type="checkbox" name="arrangeFollowupPhoneCall" id="arrangeFollowupPhoneCall"/>
+							<label for="arrangeFollowupPhoneCall">Arrange a follow-up phone call to assess coping & supports while waiting for results</label>
+						</div>
+						<input type="checkbox" name="confirmTestDeclinedR" id="confirmTestDeclinedR" onclick="pickOne3(this,'confirmTestDoneR','confirmTestNotDoneR');showHideConfirmTestDnDclndR();"/>
+						<label for="confirmTestDeclinedR" class="text_bold">Confirmatory Test Declined</label>
+						<div id="confirmTestDeclinedRDetail" class="indent">
+							<input type="checkbox" name="completeLabReqDeclinedR" id="completeLabReqDeclinedR"/>
+							<label for="completeLabReqDeclinedR">Requisition completed:</label>
+							<ul>
+								<li>Apply "Confirmatory" sticker</li>
+								<li>Indicate "declined blood draw"</li>
+							</ul> 
+							<input type="checkbox" name="consultProgramManager" id="consultProgramManager"/>
+							<label for="consultProgramManager">Consult with Program Manager re: plan of care</label>
+						</div>
+						<br/>
+						<input type="checkbox" name="confirmTestNotDoneR" id="confirmTestNotDoneR" onclick="pickOne3(this,'confirmTestDoneR','confirmTestDeclinedR');showHideConfirmTestDnDclndR();"/>
+						<label for="confirmTestNotDoneR" class="text_bold">Confirmatory Test Not Done:</label>
+						<input type="text" name="confirmTestNotDoneRText" id="confirmTestNotDoneRText" size="60"/>
+						<br/>
+					</div>
+					<br/>	
+		
+		         	<div class="text_bold">Post Test Counselling (for all reactive results)</div>
+		         	<div class="indent">
+						<input type="checkbox" name="assessImmediateRiskR" id="assessImmediateRiskR"/>
+						<label for="assessImmediateRiskR">Assess for any immediate risk to self and ensure appropriate plan is in place</label>
+						<br/>
+						<input type="checkbox" name="provideSupportiveCounsellingR" id="provideSupportiveCounsellingR"/>
+						<label for="provideSupportiveCounsellingR">Provide supportive counselling and community resources while waiting for results</label>
+						<br/>
+						<input type="checkbox" name="healthTeaching" id="healthTeaching"/>
+						<label for="healthTeaching">Health teaching re: harm reduction i.e. Public health expectation regarding disclosure of status and use of condoms for all sexual partners</label>		
+		         	</div>
+				</div>
+				
+
+				<input type="hidden" name="preventionSyphilisSerology" id="preventionSyphilisSerology"/>
+				<input type="hidden" name="preventionHepBScreen" id="preventionHepBScreen"/>
+				<input type="hidden" name="preventionHepCScreen" id="preventionHepCScreen"/>
+				<input type="hidden" name="hepBcomment" id="hepBcomment"/>
+				<input type="hidden" name="preventionHIVSerology" id="preventionHIVSerology"/>
+				
+				<input type="hidden" name="GonorrheaUrine" id="GonorrheaUrine"/>
+				<input type="hidden" name="GonorrheaThroat" id="GonorrheaThroat"/>
+				<input type="hidden" name="GonorrheaAnal" id="GonorrheaAnal"/>
+				<input type="hidden" name="ChlamydiaUrine" id="ChlamydiaUrine"/>
+				<input type="hidden" name="ChlamydiaThroat" id="ChlamydiaThroat"/>
+				<input type="hidden" name="ChlamydiaAnal" id="ChlamydiaAnal"/>
+				<input type="hidden" name="GCStatus" id="GCStatus"/>
+				
+				<input type="hidden" name="preventionHIVPOCInvalid" id="preventionHIVPOCInvalid"/>
+				<input type="hidden" name="preventionHIVPOCRepeatInvalid" id="preventionHIVPOCRepeatInvalid"/>
+				<input type="hidden" name="preventionHIVSerologyBloodSample" id="preventionHIVSerologyBloodSample"/>
+				<input type="hidden" name="preventionNonReactiveNo" id="preventionNonReactiveNo"/>
+				<input type="hidden" name="preventionNonReactiveYes" id="preventionNonReactiveYes"/>
+
+				<input type="hidden" name="preventionHIVReactive" id="preventionHIVReactive"/>
+				<input type="hidden" name="preventionHIVConfirmNominal" id="preventionHIVConfirmNominal"/>
+	
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</div>
+</div>
+
+<br/>
+<table>
+<tr>
+	<td class="top_light_bordered">
+		Client requires treatment by medical directive?
+		<br/>
+		<input type="checkbox" name="medicalDirectiveTreatmentNo" id="medicalDirectiveTreatmentNo" onclick="pickOne(this,'medicalDirectiveTreatmentYes');showHideDetail('medicalDirectiveTreatmentYes');"/>
+		<label for="medicalDirectiveTreatmentNo">No</label>
+		<br/>
+		<input type="checkbox" name="medicalDirectiveTreatmentYes" id="medicalDirectiveTreatmentYes" onclick="pickOne(this,'medicalDirectiveTreatmentNo');showHideDetail('medicalDirectiveTreatmentYes');"/>
+		<label for="medicalDirectiveTreatmentYes">Yes</label>
+	</td>
+</tr>
+<tr>
+	<td>
+	<div id="medicalDirectiveTreatmentYesDetail">
+		<br/>
+		<h3 class="top_light_bordered">Treatment Assessment</h3>
+		Eligibility for Treatment:
+		<br/>
+		<input type="checkbox" name="treatChlamydia" id="treatChlamydia" onclick="pickOne(this,'treatGonorrhea');showHideDetail(this.id);showHideDetail('treatGonorrhea');"/>
+		<label for="treatChlamydia">Chlamydia</label>
+		<br/>
+		<div id="treatChlamydiaDetail" class="indent">
+			<input type="checkbox" name="treatChlamydiaIndexCase" id="treatChlamydiaIndexCase"/>
+			<label for="treatChlamydiaIndexCase">Index case</label>
+			<br/>
+			<input type="checkbox" name="treatChlamydiaContact" id="treatChlamydiaContact"/>
+			<label for="treatChlamydiaContact">Contact of Chlamydia or "unsure"</label>
+			<br/>
+			<input type="checkbox" name="treatChlamydiaAssault" id="treatChlamydiaAssault"/>
+			<label for="treatChlamydiaAssault">Sexual Assault</label>
+			<br/>
+			<input type="checkbox" name="treatChlamydiaSymptomatic" id="treatChlamydiaSymptomatic"/>
+			<label for="treatChlamydiaSymptomatic">Symptomatic (current dysuria/unusual discharge)</label>
+		</div>
+		<input type="checkbox" name="treatGonorrhea" id="treatGonorrhea" onclick="pickOne(this,'treatChlamydia');showHideDetail(this.id);showHideDetail('treatChlamydia');"/>
+		<label for="treatGonorrhea">Gonorrhea</label>
+		<br/>
+		<div id="treatGonorrheaDetail" class="indent">
+			<input type="checkbox" name="treatGonorrheaIndexCase" id="treatGonorrheaIndexCase"/>
+			<label for="treatGonorrheaIndexCase">Index case</label>
+			<br/>
+			<input type="checkbox" name="treatGonorrheaContact" id="treatGonorrheaContact"/>
+			<label for="treatGonorrheaContact">Contact of Gonorrhea</label>
+			<br/>
+			<input type="checkbox" name="treatGonorrheaSymptomatic" id="treatGonorrheaSymptomatic"/>
+			<label for="treatGonorrheaSymptomatic">Symptomatic (current dysuria/unusual discharge) AND MSM or sextrade worker</label>
+		</div>
+		<br/>
+		Drug allergies?
+		<br/>
+		<input type="checkbox" name="drugAllergiesNo" id="drugAllergiesNo" onclick="pickOne(this, 'drugAllergiesYes');showHideDetail('drugAllergiesYes');"/>
+		<label for="drugAllergiesNo">No</label>
+		<br/>
+		<input type="checkbox" name="drugAllergiesYes" id="drugAllergiesYes" onclick="pickOne(this, 'drugAllergiesNo');showHideDetail(this.id);"/>
+		<label for="drugAllergiesYes">Yes:</label>
+		<input type="text" id="drugAllergiesYesText" name="drugAllergiesYesText" size="80" oscarDB="allergies_des"/>
+		<br/>
+		<div id="drugAllergiesYesDetail">
+			<br/>
+			Reference Chart for drug allergies:
+			<table class="bordered">
+			<tr>
+				<td class="bordered text_underline">Cephalosporins:</td>
+				<td class="bordered">
+					cefadroxil, cefazolin, cephalexin, cephalothin, cefaclor, cefotetan, cefoxitin, cefprozil, cefuroxime, <span class="text_bold">cefixime</span>, cefotaxime, ceftazidime, ceftazidime, ceftizoxime, ceftriaxone, cefepime
+				</td>
+			</tr>
+			<tr>
+				<td class="bordered text_underline">Penicillins:</td>
+				<td class="bordered">
+					<span class="text_bold">amoxicillin</span>, ampicillin, bacampicillin, pivampicillin, pivmecillinam, ticarcillin
+				</td>
+			</tr>
+			<tr>
+				<td class="bordered text_underline">Carbapenems:</td>
+				<td class="bordered">
+					imipenem , cilastatin sodium, meropenem
+				</td>
+			</tr>
+			<tr>
+				<td class="bordered text_underline">Macrolides:</td>
+				<td class="bordered">
+					<span class="text_bold">azithromycin</span>, clarithromycin (Biaxin), erythromycin (base, estolate, ethylsuccinate, lactobionate,), spiramycin
+				</td>
+			</tr>
+			<tr>
+				<td class="bordered text_underline">Fluoroquinolones:</td>
+				<td class="bordered">
+					ofloxacin, ciprofloxin, norfloxacin, levofloxacin, gatifloxacin (tequin)
+				</td>
+			</tr>
+			<tr>
+				<td class="bordered text_underline">Tetracyclines:</td>
+				<td class="bordered">
+					<span class="text_bold">doxycycline</span>, tetracycline, minocycline, demeclocycline
+				</td>
+			</tr>
+			<tr>
+				<td class="bordered text_underline">Xylocaine:</td>
+				<td class="bordered">
+					<span class="text_bold">Xylocaine 1% solution for injection</span>, lidocaine HCL, lignocaine
+					<br/>
+					If client reports an allergy to Xylocaine, Ceftriaxone should be reconstituted with 0.9 ml of sterile water
+				</td>
+			</tr>
+			</table>
+		</div>
+
+		<br/>
+		<h3 class="top_light_bordered">Nursing Action</h3>
+		Treatment counselling:
+		<table>
+		<tr>
+			<td>
+				<input type="checkbox" name="discussedContraceptiveOptions" id="discussedContraceptiveOptions"/>
+			</td>
+			<td>
+				<label for="discussedContraceptiveOptions">Contraceptive options discussed</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="checkbox" name="saferSexCounsel" id="saferSexCounsel"/>
+			</td>
+			<td>
+				<label for="saferSexCounsel">Safer sex counseling and resources offered</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="checkbox" name="clientInformedOfAllergicToMed" id="clientInformedOfAllergicToMed"/>
+			</td>
+			<td>
+				<label for="clientInformedOfAllergicToMed">Client informed of possible allergic reaction to medication</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="checkbox" name="clientInformedOfSideEffects" id="clientInformedOfSideEffects"/>
+			</td>
+			<td>
+				<label for="clientInformedOfSideEffects">Client informed of possible minor side effects including nausea & vomiting. Client informed of the need for re-treatment if vomiting occurs within one hour after single dose therapy</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="checkbox" name="clientInformedOfNoSex" id="clientInformedOfNoSex"/>
+			</td>
+			<td>
+				<label for="clientInformedOfNoSex">Client informed to abstain from sexual contact for 7 days post-treatment and risk of re-infection discussed</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="checkbox" name="TocDiscussed" id="TocDiscussed"/>
+			</td>
+			<td>
+				<label for="TocDiscussed">TOC and 6 month re-screening recommendations discussed</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="checkbox" name="symptomaticClientSeekMedical" id="symptomaticClientSeekMedical"/>
+			</td>
+			<td>
+				<label for="symptomaticClientSeekMedical">Symptomatic clients are informed to seek medical assessment if symptoms persist</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="checkbox" name="clientGivenMedFactsheet" id="clientGivenMedFactsheet"/>
+			</td>
+			<td>
+				<label for="clientGivenMedFactsheet">Client is given medication factsheet for treatment received</label>
+			</td>
+		</tr>
+		</table>
+	</div>
+	</td>
+</tr>
+</table>
+</td></tr></table>
+
+<table>
+<tr>
+	<td>
+		<br/>
+		<h3 class="top_light_bordered">Treatment Provided</h3>
+		<div style="position:relative;top:0;left:0;z-index:0">
+			<input type="checkbox" id="chtGonorrhea" name="chtGonorrhea" onclick="openClose(chtGonorrheaSeq);" style="position:absolute;top:29;left:210;z-index:1"/>
+			<input type="checkbox" id="chtChlamydia" name="chtChlamydia" onclick="openClose(chtChlamydiaSeq);" style="position:absolute;top:60;left:762;z-index:1"/>
+
+			<input type="checkbox" id="chtCCPAllergic" name="chtCCPAllergic" onclick="openClose(chtCCPAllergicSeq);" style="position:absolute;top:266;left:101;z-index:1"/>
+			<input type="checkbox" id="chtCCPAllergicX" name="chtCCPAllergicX" onclick="openClose(chtCCPAllergicXSeq);" style="position:absolute;top:249;left:345;z-index:1"/>
+			<input type="checkbox" id="chtGonMlsAllergic" name="chtGonMlsAllergic" onclick="openClose(chtGonMlsAllergicSeq);" style="position:absolute;top:572;left:52;z-index:1"/>
+			<input type="checkbox" id="chtGonMlsAllergicX" name="chtGonMlsAllergicX" onclick="openClose(chtGonMlsAllergicXSeq);" style="position:absolute;top:572;left:184;z-index:1"/>
+			<input type="checkbox" id="chtGonConsPhys" name="chtGonConsPhys" style="position:absolute;top:661;left:58;z-index:1"/>
+
+			<input type="checkbox" id="chtGonAzithromycin" name="chtGonAzithromycin" style="position:absolute;top:754;left:295;z-index:1"/>
+			<input type="checkbox" id="chtCeftriaxone" name="chtCeftriaxone" onclick="openClose(chtCeftriaxoneSeq);" style="position:absolute;top:358;left:366;z-index:1"/>
+			<input type="checkbox" id="chtCeftriaxoneX" name="chtCeftriaxoneX" onclick="openClose(chtCeftriaxoneXSeq);" style="position:absolute;top:356;left:264;z-index:1"/>
+			<input type="checkbox" id="chtCefixime" name="chtCefixime" onclick="openClose(chtCefiximeSeq);" style="position:absolute;top:574;left:390;z-index:1"/>
+
+			<input type="checkbox" id="chtChlMlsAllergic" name="chtChlMlsAllergic" onclick="openClose(chtChlMlsAllergicSeq);" style="position:absolute;top:232;left:970;z-index:1"/>
+			<input type="checkbox" id="chtChlMlsAllergicX" name="chtChlMlsAllergicX" onclick="openClose(chtChlMlsAllergicXSeq);" style="position:absolute;top:232;left:640;z-index:1"/>
+			<input type="checkbox" id="chtChlAzithromycin" name="chtChlAzithromycin" style="position:absolute;top:306;left:617;z-index:1"/>
+
+			<input type="checkbox" id="chtPregnant" name="chtPregnant" onclick="openClose(chtPregnantSeq);" style="position:absolute;top:408;left:1010;z-index:1"/>
+			<input type="checkbox" id="chtPregnantX" name="chtPregnantX" onclick="openClose(chtPregnantXSeq);" style="position:absolute;top:408;left:830;z-index:1"/>
+			<input type="checkbox" id="chtTcnAllergic" name="chtTcnAllergic" onclick="openClose(chtTcnAllergicSeq);" style="position:absolute;top:574;left:848;z-index:1"/>
+			<input type="checkbox" id="chtTcnAllergicX" name="chtTcnAllergicX" onclick="openClose(chtTcnAllergicXSeq);" style="position:absolute;top:574;left:666;z-index:1"/>
+			<input type="checkbox" id="chtDoxycycline" name="chtDoxycycline" style="position:absolute;top:630;left:643;z-index:1"/>
+
+			<input type="checkbox" id="chtCTtx" name="chtCTtx" onclick="openClose(chtCTtxSeq);" style="position:absolute;top:500;left:961;z-index:1"/>
+			<input type="checkbox" id="chtGCtx" name="chtGCtx" onclick="openClose(chtGCtxSeq);" style="position:absolute;top:500;left:1082;z-index:1"/>
+			<input type="checkbox" id="chtPcnAllergic" name="chtPcnAllergic" onclick="openClose(chtPcnAllergicSeq);" style="position:absolute;top:726;left:1049;z-index:1"/>
+			<input type="checkbox" id="chtPcnAllergicX" name="chtPcnAllergicX" onclick="openClose(chtPcnAllergicXSeq);" style="position:absolute;top:726;left:897;z-index:1"/>
+			<input type="checkbox" id="chtAmoxicillin" name="chtAmoxicillin" style="position:absolute;top:882;left:748;z-index:1"/>
+			<input type="checkbox" id="chtChlConsPhys" name="chtChlConsPhys" style="position:absolute;top:833;left:1046;z-index:1"/>
+			
+			<button type="button" onclick="resetChart();" style="position:absolute;top:880;left:25;z-index:1">Reset Chart</button>
+
+			<img src="${oscar_image_path}treatment_provided_chart.png"/>
+ 			<img id="chtGonorrheaTile0" src="${oscar_image_path}cover_tile.png" width="420" height="200" style="position:absolute;top:114;left:70;z-index:2"/>
+ 			<img id="chtChlamydiaTile0" src="${oscar_image_path}cover_tile.png" width="40" height="39" style="position:absolute;top:99;left:820;z-index:2"/>
+
+			<img id="chtCCPAllergicTile0" src="${oscar_image_path}cover_tile.png" width="200" height="306" style="position:absolute;top:303;left:30;z-index:2"/>
+ 			<img id="chtCCPAllergicTile1" src="${oscar_image_path}cover_tile.png" width="280" height="100" style="position:absolute;top:509;left:30;z-index:2"/>
+ 			<img id="chtCCPAllergicXTile0" src="${oscar_image_path}cover_tile.png" width="310" height="163" style="position:absolute;top:286;left:245;z-index:2"/>
+  			<img id="chtGonMlsAllergicTile0" src="${oscar_image_path}cover_tile.png" width="160" height="160" style="position:absolute;top:609;left:25;z-index:2"/>
+ 			<img id="chtGonMlsAllergicXTile0" src="${oscar_image_path}cover_tile.png" width="40" height="220" style="position:absolute;top:609;left:180;z-index:2"/>
+ 			<img id="chtGonMlsAllergicXTile1" src="${oscar_image_path}cover_tile.png" width="410" height="90" style="position:absolute;top:740;left:180;z-index:2"/>
+
+ 			<img id="chtCeftriaxoneTile0" src="${oscar_image_path}cover_tile.png" width="26" height="20" style="position:absolute;top:385;left:555;z-index:2"/>
+ 			<img id="chtCeftriaxoneXTile0" src="${oscar_image_path}cover_tile.png" width="20" height="143" style="position:absolute;top:422;left:325;z-index:2"/>
+ 			<img id="chtCeftriaxoneXTile1" src="${oscar_image_path}cover_tile.png" width="244" height="100" style="position:absolute;top:564;left:325;z-index:2"/>
+ 			<img id="chtCefiximeTile0" src="${oscar_image_path}cover_tile.png" width="25" height="210" style="position:absolute;top:396;left:569;z-index:2"/>
+
+ 			<img id="chtChlMlsAllergicTile0" src="${oscar_image_path}cover_tile.png" width="330" height="191" style="position:absolute;top:269;left:816;z-index:2"/>
+ 			<img id="chtChlMlsAllergicXTile0" src="${oscar_image_path}cover_tile.png" width="220" height="100" style="position:absolute;top:269;left:595;z-index:2"/>
+
+ 			<img id="chtPregnantTile0" src="${oscar_image_path}cover_tile.png" width="240" height="78" style="position:absolute;top:460;left:940;z-index:2"/>
+ 			<img id="chtPregnantXTile0" src="${oscar_image_path}cover_tile.png" width="343" height="145" style="position:absolute;top:460;left:603;z-index:2"/>
+ 			<img id="chtTcnAllergicTile0" src="${oscar_image_path}cover_tile.png" width="34" height="30" style="position:absolute;top:567;left:946;z-index:2"/>
+ 			<img id="chtTcnAllergicXTile0" src="${oscar_image_path}cover_tile.png" width="260" height="110" style="position:absolute;top:604;left:600;z-index:2"/>
+
+ 			<img id="chtCTtxTile0" src="${oscar_image_path}cover_tile.png" width="30" height="29" style="position:absolute;top:537;left:1000;z-index:2"/>
+ 			<img id="chtGCtxTile0" src="${oscar_image_path}cover_tile.png" width="20" height="288" style="position:absolute;top:537;left:1150;z-index:2"/>
+ 			<img id="chtPcnAllergicTile0" src="${oscar_image_path}cover_tile.png" width="40" height="62" style="position:absolute;top:763;left:1070;z-index:2"/>
+ 			<img id="chtPcnAllergicXTile0" src="${oscar_image_path}cover_tile.png" width="240" height="170" style="position:absolute;top:756;left:708;z-index:2"/>
+
+ 			<img id="chtZToAxAllergyMlsTile0" src="${oscar_image_path}cover_tile.png" width="10" height="236" style="position:absolute;top:159;left:580;z-index:2"/>
+ 			<img id="chtZToAxAllergyMlsTile1" src="${oscar_image_path}cover_tile.png" width="102" height="30" style="position:absolute;top:159;left:569;z-index:2"/>
+ 			<img id="chtZAxAllergyMlsTile0" src="${oscar_image_path}cover_tile.png" width="332" height="60" style="position:absolute;top:138;left:671;z-index:2"/>
+ 			<img id="chtZAxAllergyMlsTile1" src="${oscar_image_path}cover_tile.png" width="450" height="72" style="position:absolute;top:198;left:625;z-index:2"/>
+ 			<img id="chtZAxAllergyPcnTile0" src="${oscar_image_path}cover_tile.png" width="170" height="200" style="position:absolute;top:566;left:980;z-index:2"/>
+ 			<img id="chtZAxAllergyPcnTile1" src="${oscar_image_path}cover_tile.png" width="270" height="73" style="position:absolute;top:690;left:870;z-index:2"/>
+ 			<img id="chtZConsPhysTile0" src="${oscar_image_path}cover_tile.png" width="170" height="135" style="position:absolute;top:821;left:1000;z-index:2"/>
+ 		</div>
+	</td>
+</tr>
+
+<table style="width:900;" class="top_light_bordered">
+<tr>
+	<td><input type="checkbox" id="completed0505300" name="completed0505300"/></td>
+	<td>
+		<label for="completed0505300">
+			Completed as per Medical Directive 05 05 300 - The Authority to Administer Neisseria Gonorrhea and Chlamydia Trachomatis Antibiotic Therapy
+		</label>
+	</td>
+</tr>
+<tr>
+	<td><input type="checkbox" id="completed0505400" name="completed0505400"/></td>
+	<td>
+		<label for="completed0505400">
+			Completed as per Medical Directive 05 05 400 - The Authority to Perform Sexually Transmitted Infection Screening
+		</label>
+		<br/><br/>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		Electronic Signature:
+		<input type="text" name="signature" id="signature"/>
+		<br/>
+		Date and Time:
+		<input type="text" name="dateTime" id="dateTime" class="noborder"/>
+		<br/><br/>
+	</td>
+</tr>
+<tr>
+	<td colspan="2" class="DoNotPrint">
+		Subject: <input name="subject" size="35" type="text"/> 
+		<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick="releaseDirtyFlag();"/>
+		<input value="Reset" name="ResetButton" id="ResetButton" type="reset" onclick="releaseDirtyFlag();location.reload();"/> 
+		<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="formPrint();"/>
+		<input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="formPrint();releaseDirtyFlag();setTimeout('SubmitButton.click()',1000);"/> 
+	</td>
+</tr>
+</table>
+</form>
+
+<script language='javascript'>
+	Calendar.setup({inputField:"dob",ifFormat:"%Y/%m/%d",showsTime:false,button:"dob",singleClick:true,step:1});
+	Calendar.setup({inputField:"visitDate",ifFormat:"%Y/%m/%d",showsTime:false,button:"visitDate",singleClick:true,step:1});
+	Calendar.setup({inputField:"expiryDate",ifFormat:"%Y/%m/%d",showsTime:false,button:"expiryDate",singleClick:true,step:1});
+	Calendar.setup({inputField:"newExpiryDate",ifFormat:"%Y/%m/%d",showsTime:false,button:"newExpiryDate",singleClick:true,step:1});
+	Calendar.setup({inputField:"srlgclScrnWinPeriodDateStart",ifFormat:"%Y/%m/%d",showsTime:false,button:"srlgclScrnWinPeriodDateStart",singleClick:true,step:1});
+	Calendar.setup({inputField:"srlgclScrnWinPeriodDateEnd",ifFormat:"%Y/%m/%d",showsTime:false,button:"srlgclScrnWinPeriodDateEnd",singleClick:true,step:1});
+</script>
+
+</body>
+</html>
+
+<!--
+<template>
+	<prevention>
+		<type>$t{preventionHIVSerologyBloodSample}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{preventionHIVPOCRepeatInvalid}</type>
+		<result>other</result>
+		<reason>invalid</reason>
+	</prevention>
+	<prevention>
+		<type>$t{preventionHIVPOCInvalid}</type>
+		<result>other</result>
+		<reason>invalid</reason>
+	</prevention>
+	<prevention>
+		<type>$t{preventionHIVReactive}</type>
+		<result>abnormal</result>
+	</prevention>
+	<prevention>
+		<type>$t{preventionHIVConfirmNominal}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{preventionNonReactiveNo}</type>
+		<result>normal</result>
+	</prevention>		
+	<prevention>
+		<type>$t{preventionNonReactiveYes}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{preventionHepBScreen}</type>
+		<comments>$t{hepBcomment}</comments>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{preventionHepCScreen}</type>
+		<result>pending</result>
+	</prevention>
+		<prevention>
+		<type>$t{preventionSyphilisSerology}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{preventionHIVSerology}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{GonorrheaUrine}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{GonorrheaThroat}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{GonorrheaAnal}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{ChlamydiaUrine}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{ChlamydiaThroat}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{ChlamydiaAnal}</type>
+		<result>pending</result>
+	</prevention>
+</template>
+-->

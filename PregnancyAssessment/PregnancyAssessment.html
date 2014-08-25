@@ -1,0 +1,1643 @@
+<html>
+<head>
+<title>Pregnancy Assessment</title>
+<style type="text/css" >
+ .DoNotPrint {
+	 display: none;
+ }
+ .noborder {
+	 border : 0px;
+	 background: transparent;
+	 scrollbar-3dlight-color: transparent;
+	 scrollbar-3dlight-color: transparent;
+	 scrollbar-arrow-color: transparent;
+	 scrollbar-base-color: transparent;
+	 scrollbar-darkshadow-color: transparent;
+	 scrollbar-face-color: transparent;
+	 scrollbar-highlight-color: transparent;
+	 scrollbar-shadow-color: transparent;
+	 scrollbar-track-color: transparent;
+	 background: transparent;
+	 overflow: hidden;
+ }
+ 
+ .bordered {
+		border: 1px solid black;
+	}
+ 
+ fieldset {
+	width: 1000px;
+    margin-top:10px;
+}
+
+label.longlabel {
+	text-align: right;
+	width: 350px;
+	float: left;
+    margin-right:5px;	
+}
+
+label.smalllabel {
+	text-align: right;
+	width: 80px;
+	float: left;
+    margin-right:5px;	
+}
+    
+div.long {
+     margin-left:447px;   
+     margin-top:0px;
+}
+
+div.mid {
+     margin-left:115px;   
+     margin-top:0px;
+}
+    
+p label {
+	text-align: right;
+	width: 170px;
+	float: left;
+    margin-bottom:0px;
+    margin-right:5px;
+	
+}
+
+input.textbox-300{
+	width: 300px;
+	float: left;
+}
+
+fieldset p {
+	clear: both;
+	padding: 5px;
+    margin-bottom:0px;
+}
+ 
+ </style>
+<link rel="stylesheet" type="text/css" media="all" href="${oscar_javascript_path}../calendar/calendar.css" title="win2k-cold-1"/> 
+ 
+  <script src="${oscar_image_path}jquery-1.11.0.min.js"></script>
+
+<!--script type="text/javascript" src="${oscar_javascript_path}jquery/jquery-1.4.2.js"></script-->
+
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar.js"></script>
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar-setup.js"></script>
+
+
+<script type="text/javascript" src="${oscar_javascript_path}eforms/printControl.js"></script>
+<script language="javascript">
+    
+$(document).ready(function() {
+
+
+	
+	if($("#action").val() != "POST"){
+	
+		$("#FSPregnancyTest").hide();
+		$("#FSEmergencyContraceptivePill").hide();
+		$("#FSCombinedHormonalContraception").hide();
+		$("#FSSignature").hide();
+
+		$("#LMPNormalPeriodNoReason").hide();
+		$("#PregnancyRisk").hide();
+		$("#TogglePRSLMPYes").hide();
+		$("#PregResult").hide();
+		$("#PregnancyTestCompletedNo").hide();
+		
+		$("#PregNegative").hide();
+		$("#PregPositive").hide();
+		ToggleEligibleECP(0)
+		
+		
+		
+		$("#TrueHCmisuse").hide();
+		$("#OCPTrueMissedAbove3").hide();
+		$("#EvraTrueWeek3Above72").hide();
+		$("#NevaRingTrueWeek3Above72").hide();
+		
+		
+		
+		$("#ShowECP").hide();
+		
+		$("#ShowHC").hide();
+		$("#HCOffDeclineReason").hide();
+		
+		$("#20-34").hide();
+		$("#MedHistory").hide();
+		$("#post-partum-info").hide();
+		$("#ShowRefer").hide();
+		$("#CannotPayFullReason").hide();
+		
+		$("#YesHistoryPhysicianCare").hide();
+		$("#post-partum-info").hide();
+		$("#BPMeasurement").hide();
+		$("#BPReadingToggle").hide();
+		$("#HistoryHCToggle").hide();
+		$("#ClientRequestingToggle").hide();
+		$("#HCAction").hide();	
+		$("#OtherMedIssues").hide();
+		
+		$("#YesHistoryHC").hide();
+		
+		$("#YesNuvaRing").hide();
+		$("#YesEvra").hide();		
+	}else{
+		$("#FSCombinedHormonalContraception").hide();	
+		$("#FSEmergencyContraceptivePill").hide();
+		$("#FSPregnancyTest").hide();
+		
+		$("#FSSignature").show();
+		
+		
+		if($("#PregnancyRiskSinceLMP").val() == "no" || $("#EligibleForECP").val() == "NoHCAgree" || $("#NoHCAgree").is(':checked') || $("#HCOffAgree").is(':checked')){
+			$("#FSCombinedHormonalContraception").show();
+		}
+		
+		if($("#PregnancyRiskSinceLMPYes").val() == "120" || $("#YesECPAgree").is(':checked')){
+			$("#FSEmergencyContraceptivePill").show();
+		}
+		
+		if($("#PregnancyRiskSinceLMPYes").val() == "above120" || $("#PregnancyRiskSinceLMPYes").val() == "below120"){
+			$("#FSPregnancyTest").show();
+		}
+		
+	}
+	
+	
+	function ToggleECPImproperContraceptive(x){
+		if(x>0){
+			$("#ECPImproperContraceptiveYes").show();
+		}else{
+			$("#ECPImproperContraceptiveYes").hide();
+			$("#ImproperBarrierMethod").prop("checked",false);
+			$("#ImproperFertility").prop("checked",false);
+			$("#ImproperIUD").prop("checked",false);
+			$("#ImproperUnprotectSex").prop("checked",false);
+			$("#ImproperHCMisuse").prop("checked",false);			
+		}
+	}
+
+	function ToggleECP(x){
+		
+		if(x>0){
+			$("#FSEmergencyContraceptivePill").show();
+			ToggleSig(1);
+		}else{
+			$("#FSEmergencyContraceptivePill").hide();
+			ToggleSig(0);
+		}
+		$("#ECPVaginalIntercourse").prop("checked",false);
+		
+		
+		
+		ToggleECPImproperContraceptive(0);
+		
+
+		$("#ECPNoContraceptive").prop("checked",false);
+		
+		ToggleECPAction(0);
+		ToggleHCmisuse(0);
+		$("#GenitalBleeding").val("");
+		ToggleShowECP(0);
+
+		
+		ToggleCRHC(0);
+	}
+	
+	function ToggleCRHC(x){
+		if(x>0){
+			$("#ShowHC").show();
+		}else{
+			$("#ShowHC").hide();
+			$("#CRHC").prop("checked",false);
+			$("#HCOffAgree").prop("checked",false);
+			$("#HCOffDecline").prop("checked",false);
+			$("#HCOffDeclineReason").hide();
+			$("#HCOffDeclineReason").val("");					
+		}
+		
+	}
+	
+	function ToggleShowECP(x){
+		if(x>0){
+			$("#ShowECP").show();			
+		}else{
+			$("#ECProvided").prop("checked",false);
+			$("#ShowECP").hide();
+			
+			$("#LotNumber").val("");
+			$("#ExpiryDate").val("");		
+		}
+	}
+	
+
+	
+	function ToggleECPAction(x){
+		if(x>0){
+			$("#ECPaction").show();
+		}else{
+			$("#ECPaction").hide();
+			
+			ToggleShowECP(0);
+			
+			
+
+			
+			$("#CRFactSheetPlanB").prop("checked",false);
+			$("#CRAnticonvulsants").prop("checked",false);
+			$("#CRCondomsOffered").prop("checked",false);
+			$("#CRAdviseECP").prop("checked",false);
+			$("#CRSTIScreening").prop("checked",false);
+			
+			ToggleCRHC(0);
+
+		}
+	}
+
+	
+	function ToggleHCmisuse(x){
+		if(x>0){
+			$("#TrueHCmisuse").show();	
+		}else{
+			$("#TrueHCmisuse").hide();	
+		}
+		$("#ECP_OCP").val("");
+		
+		ToggleOCPTrue(0);
+
+		$("#ECP_Evra").val("");
+		ToggleECPTrue(0);
+
+		$("#ECP_NevaRing").val("");
+		ToggleNevraTrue(0);
+		
+		$("#MisUseProgestin").prop("checked",false);
+		$("#MisUseDepoProvera").prop("checked",false);	
+	}
+	
+	function ToggleOCPTrue(x){
+		if(x>0){
+			$("#OCPTrueMissedAbove3").show();
+		}else{
+			$("#OCPTrueMissedAbove3").hide();	
+			$("#OCPECPNotGiven").prop("checked",false);		
+		}
+	}
+	
+	function ToggleECPTrue(x){
+		if(x>0){
+			$("#EvraTrueWeek3Above72").show();
+		}else{
+			$("#EvraTrueWeek3Above72").hide();
+			$("#EvraECPNotGiven").prop("checked",false);
+		}
+	}
+	
+	function ToggleNevraTrue(x){
+		if(x>0){
+			$("#NevaRingTrueWeek3Above72").show();
+		}else{
+			$("#NevaRingTrueWeek3Above72").hide();
+			$("#NevaRingTrueWeek3Above72").val("");
+			$("#NevaECPNotGiven").prop("checked",false);
+		}
+	}
+	
+	function ToggleBetween20and34(x){
+		if(x>0){
+			$("#20-34").show();
+		}else{
+			$("#20-34").hide();
+			$("#NoDrugBenefit").prop("checked",false);
+			$("#NotEmployed").prop("checked",false);			
+			$("#ClientEligible").val("");		
+			ToggleCannotPayFull(0);			
+		}
+	}
+	
+	function ToggleCannotPayFull(x){
+			
+		if(x>0){
+			$("#CannotPayFullReason").show();
+		}else{
+			$("#CannotPayFullReason").hide();
+			$("#CannotPayFullReason").val("");			
+		}
+	}	
+	
+	function ToggleMedHistory(x){
+		if(x>0){
+			$("#MedHistory").show();
+		}else{
+			$("#MedHistory").hide();
+			$("#HistoryPhysician").val("");		
+			$("#HistoryPhysicianOther").val("");		
+			$("#OtherMedIssues").hide();
+			$("#OtherMedIssuesReason").val("");
+			$("#YesHistoryPhysicianCare").hide();
+			$("#Diabetes").prop("checked",false);
+			$("#Embolism").prop("checked",false);
+			$("#HeartDisease").prop("checked",false);
+			$("#HistoryOfStroke").prop("checked",false);
+			$("#Migraine").prop("checked",false);
+			$("#CancerBreast").prop("checked",false);
+			$("#LiverDisease").prop("checked",false);
+			$("#GallbladderDisease").prop("checked",false);
+			$("#ProlongedBedRest").prop("checked",false);
+			$("#ViralHepatitis").prop("checked",false);
+			$("#LiverEnzymes").prop("checked",false);
+			$("#VaginalBleeding").prop("checked",false);
+			$("#CancerUterus").prop("checked",false);
+		}
+	}
+	
+	function ToggleShowRefer(x){
+		if(x>0){
+			$("#ShowRefer").show();
+		}else{
+			$("#ShowRefer").hide();
+		}
+	}
+	
+	function TogglePostPartum(x){
+		if(x>0){
+			$("#post-partum-info").show();
+		}else{
+			$("#post-partum-info").hide();
+		}
+		$("#post-partum").val("");
+		$("#BPMeasurement").hide();
+		$("#BP1").val("");
+		$("#BP2").val("");
+		$("#BPReadingToggle").hide();
+		$("#BPReading").val("");
+		$("#HistoryHCToggle").hide();
+		$("#HistoryHC").val("");
+		$("#YesHistoryHC").hide();
+		$("#HCBrand").val("");
+		$("#HCDuration").val("");
+		$("#ClientRequestingToggle").hide();
+		$("#ClientRequesting").val("");
+		$("#YesNuvaRing").hide();
+		$("#vagprolapse").prop("checked",false);
+		$("#vaginalstenosis").prop("checked",false);
+		$("#SkinCondition").prop("checked",false);
+		$("#ClientWeightCheck").prop("checked",false);			
+		$("#YesEvra").hide();
+		
+
+		
+	}
+	
+	function ToggleHCAction(x){
+		if(x>0){
+			$("#HCAction").show();
+		}else{
+			$("#HCAction").hide();
+			$("#GT_ACHES").prop("checked",false);
+			$("#GT_MinorSideEffects").prop("checked",false);
+			$("#GT_DrugInteraction").prop("checked",false);
+			$("#GT_Condoms").prop("checked",false);
+			$("#GT_ECP").prop("checked",false);
+			$("#GT_ClientSmokes").prop("checked",false);
+			$("#GT_PAPTest").prop("checked",false);
+			$("#GT_CondomAgainstSTI").prop("checked",false);
+			$("#GT_STITesting").prop("checked",false);
+			$("#GT_Resource").prop("checked",false);
+			$("#NuvaRingProvided").prop("checked",false);
+			$("#EvraProvided").prop("checked",false);
+			$("#OralHCProvided").prop("checked",false);
+			$("#ReferToPrescription").prop("checked",false);
+		}
+	}
+	
+	function ToggleCHC(x){
+	
+		if(x>0){
+			$("#FSCombinedHormonalContraception").show();
+			ToggleSig(1);
+		}else{
+			$("#FSCombinedHormonalContraception").hide();
+			ToggleSig(0);
+			ToggleHCAction(0);
+			TogglePostPartum(0);
+		}
+		
+		
+		
+		if($("#ClientAge").val() >= 20 && $("#ClientAge").val() <=34){
+			ToggleBetween20and34(1);
+			ToggleMedHistory(0);
+			ToggleShowRefer(0);
+			ToggleShowRefer(0);		
+		}else if($("#ClientAge").val() <= 19 && $("#ClientAge").val() > 0){
+			ToggleMedHistory(1);
+			ToggleShowRefer(0);
+			ToggleBetween20and34(0);
+		}else if($("#ClientAge").val() > 34) {
+			ToggleMedHistory(0);
+			ToggleShowRefer(1);
+			ToggleBetween20and34(0);
+		}else {	
+			ToggleMedHistory(0);			
+			ToggleBetween20and34(0);
+			ToggleShowRefer(0);		
+		
+		}	
+
+	}
+
+	function ToggleSig(x){
+		if(x>0){
+			$("#FSSignature").show();	
+		}else{
+			$("#FSSignature").hide();	
+		}
+	}
+	
+	function TogglePregnancyTest(x){
+		if(x>0){
+			$("#FSPregnancyTest").show();
+		}else{
+			$("#FSPregnancyTest").hide();
+			$("#PregnancyTestCompleted").val("");
+			TogglePregResult(0);
+		}
+		TogglePregnancyNegative(0);
+		TogglePregnancyPositive(0);		
+		
+	}
+
+	function TogglePregResult(x){
+		if(x>0){
+			$("#PregResult").show();
+		}else{
+			$("#PregResult").hide();
+		}
+		$("#PregnancyTestCompletedNo").hide();
+		$("#PregnancyTestCompletedNo").val("");				
+		$("#ResultPregnancyTest").val("");			
+	}
+	
+	function TogglePregnancyPositive(x){
+		if(x>0){
+			$("#PregPositive").show();
+		}else{
+			$("#PregPositive").hide();
+		}
+		$("#ReportPain").prop("checked",false);
+		
+		$("#CouselPos_EncourageFolic").prop("checked",false);
+		$("#CounselPos_AvoidTobacco").prop("checked",false);
+		$("#CounselPos_Coping").prop("checked",false);
+		$("#CounselPos_PregnancyOptions").prop("checked",false);
+	}
+	
+	function TogglePregnancyNegative(x){
+		if(x>0){
+			$("#PregNegative").show();
+		}else{
+			$("#PregNegative").hide();	
+		}
+
+		$("#CounselNeg_FalseNegative").prop("checked",false);		
+		$("#CounselNeg_AvoidTobacco").prop("checked",false);
+		$("#CounselNeg_FolicAcid").prop("checked",false);
+		$("#CounselNeg_BirthControl").prop("checked",false);
+		$("#CounselNeg_Condom").prop("checked",false);
+		$("#CounselNeg_RepeatTest").prop("checked",false);
+		$("#CounselNeg_ReferMD").prop("checked",false);
+		$("#CounselNeg_STIScreen").prop("checked",false);
+		$("#PregnancyDesired").val("");
+		$("#ecp").hide();
+		$("#EligibleForECP").val("");
+		$("#YesECPDeclineReason").val("");
+		$("#YesECPDeclineReason").hide();
+		$("#NoHCDeclineReason").val("");
+		$("#NoHCDeclineReason").hide();			
+	}
+	
+	
+					
+	
+	function ToggleEligibleECP(x){
+		if(x>0){
+			$("#ecp").show();
+		}else{
+			$("#ecp").hide();
+
+			ToggleNoEligibleECP(0);
+			ToggleYesEligibleECP(0);	
+		}
+	
+	}
+	
+	function ToggleNoEligibleECP(x){
+		ToggleSig(0);
+		ToggleCHC(0);
+		ToggleECP(0);
+		if(x>0){
+			$("#TogNoECPEligible").show();
+		}else{
+			$("#NoEligibleForECP").prop("checked",false);	
+			$("#TogNoECPEligible").hide();
+			$("#NoHCAgree").prop("checked",false);
+			$("#NoHCDecline").prop("checked",false);
+			$("#NoHCDeclineReason").hide();
+			$("#NoHCDeclineReason").val("");			
+		}
+	}
+	
+	function ToggleYesEligibleECP(x){
+		ToggleSig(0);
+		ToggleCHC(0);
+		ToggleECP(0);
+		if(x>0){
+			$("#TogYesECPEligible").show();
+		}else{
+			$("#YesEligibleForECP").prop("checked",false);
+			$("#TogYesECPEligible").hide();
+			$("#YesECPAgree").prop("checked",false);
+			$("#YesECPDecline").prop("checked",false);
+			$("#YesECPDeclineReason").hide();	
+			$("#YesECPDeclineReason").val("");			
+		}
+	}
+	
+	function ToggleBPMeasurement(x){
+		if(x>0){
+			$("#BPMeasurement").show();
+		}else{
+			$("#BPMeasurement").hide();
+		}
+		$("#BP1").val("");
+		$("#BP2").val("");
+		
+	
+	}
+	
+	function ToggleBPReading(x){
+		if(x>0){
+			$("#BPReadingToggle").show();
+		}else{
+			$("#BPReadingToggle").hide();
+			
+		}
+		$("#BPReading").val("");
+		
+	}
+	
+	function ToggleHistoryHC(x){
+		if(x>0){
+			$("#HistoryHCToggle").show();
+			
+		}else{
+			$("#HistoryHCToggle").hide();
+		}
+	}
+	
+	function ToggleYesEvra(x){
+		if(x>0){
+			$("#YesEvra").show();
+		}else{
+			$("#YesEvra").hide();
+		}
+		$("#SkinCondition").prop("checked",false);
+		$("#ClientWeightCheck").prop("checked",false);			
+	}
+	
+	function ToggleYesNuvaRing(x){
+		if(x>0){
+			$("#YesNuvaRing").show();
+		}else{
+			$("#YesNuvaRing").hide();
+		}
+		$("#vagprolapse").prop("checked",false);
+		$("#vaginalstenosis").prop("checked",false);		
+	}
+	
+	function ToggleClientRequesting(x){
+		if(x>0){
+			$("#ClientRequestingToggle").show();
+		}else{
+			$("#ClientRequestingToggle").hide();
+		}
+		$("#ClientRequesting").val("");
+		ToggleYesEvra(0);
+		ToggleYesNuvaRing(0);
+	}	
+	
+	$("#LMPNormalPeriod").change(function(){
+		if($(this).val() == "no"){
+			$("#LMPNormalPeriodNoReason").show();
+		}
+		else{			
+			$("#LMPNormalPeriodNoReason").hide();
+			$("#LMPNormalPeriodNoReason").val("");
+		}
+	});			
+	
+	$("#PregnancyRiskSinceLMP").change(function(){
+		TogglePregnancyTest(0);
+		if($(this).val() == "yes"){
+			$("#PregnancyRisk").show();
+			$("#TogglePRSLMPYes").show();
+			ToggleCHC(0);
+			ToggleECP(0);
+			ToggleSig(0);	
+		}
+		else if($(this).val() == "no") {
+			
+			
+			$("#PregnancyRisk").hide();
+			$("#PregnancyRiskSinceLMPYes").val("");
+			$("#TogglePRSLMPYes").hide();
+			$("#PregnancyRiskSinceLMPYesReason").val("");
+			ToggleCHC(1);
+			
+			ToggleECP(0);
+			ToggleSig(0);
+		}
+		else{		
+			$("#PregnancyRisk").hide();
+			$("#PregnancyRiskSinceLMPYes").val("");
+			$("#TogglePRSLMPYes").hide();
+			$("#PregnancyRiskSinceLMPYesReason").val("");			
+			ToggleCHC(0);
+			ToggleECP(0);
+			ToggleSig(0);
+		}
+	});		
+	
+	$("#PregnancyRiskSinceLMPYes").change(function(){
+		if($(this).val() == "120"){
+			TogglePregnancyTest(0);
+			ToggleECP(1);
+		}
+		else if($(this).val() == "above120") {
+			TogglePregnancyTest(1);
+			ToggleECP(0);
+		}
+		else if($(this).val() == "below120") {
+			TogglePregnancyTest(1);
+			ToggleECP(0);
+		}		
+		else{			
+			TogglePregnancyTest(0);
+			ToggleECP(0);
+		}
+	});			
+	
+
+	
+	$("#PregnancyTestCompleted").change(function(){
+		
+		if($(this).val() == "no"){
+			
+			TogglePregnancyTest(1);
+			TogglePregResult(0);
+			ToggleSig(1);
+			$("#PregnancyTestCompletedNo").show();
+		}
+		else if($(this).val() == "yes"){
+			
+			TogglePregResult(1);
+			ToggleSig(1);
+		}
+		else{			
+			TogglePregResult(0);
+			TogglePregnancyTest(1);
+			ToggleSig(0);
+		}
+	});		
+
+	
+	$("#ResultPregnancyTest").change(function(){
+		
+	
+		if($(this).val() == "negative"){
+			TogglePregnancyNegative(1);
+			TogglePregnancyPositive(0);
+			ToggleSig(0);		
+		}
+		else if($(this).val() == "positive"){
+			TogglePregnancyPositive(1);
+			TogglePregnancyNegative(0);
+			ToggleSig(1);			
+		}
+		else{			
+			TogglePregnancyNegative(0);
+			TogglePregnancyPositive(0);
+			ToggleSig(0);
+		}
+	});		
+	
+	$("#PregnancyDesired").change(function(){
+		if($(this).val() == "no"){
+			ToggleEligibleECP(1);
+			ToggleSig(0);
+		}
+		else if($(this).val() == "yes"){
+			ToggleEligibleECP(0);		
+			ToggleSig(1);
+		}
+		else{		
+			ToggleEligibleECP(0);
+			ToggleSig(0);
+		}
+	});			
+	
+	$("#EligibleForECP").change(function(){
+		ToggleEligibleECP(1);
+		if($(this).val() == "YesECPDecline"){
+			ToggleCHC(0);
+			ToggleSig(1);
+			$("#YesECPDeclineReason").show();
+			$("#NoHCDeclineReason").hide();
+			$("#NoHCDeclineReason").val("");
+		}
+		else if($(this).val() == "NoHCDecline") {
+			ToggleCHC(0);
+			ToggleEligibleECP(1);
+			ToggleSig(1);
+			$("#YesECPDeclineReason").hide();
+			$("#YesECPDeclineReason").val("");
+			$("#NoHCDeclineReason").show();	
+		}
+		else if($(this).val() == "YesECPAgree") {
+			ToggleCHC(0);
+			ToggleSig(1);			
+			$("#YesECPDeclineReason").hide();
+			$("#NoHCDeclineReason").hide();	
+			$("#YesECPDeclineReason").val("");
+			$("#NoHCDeclineReason").val("");	
+		}
+		else if($(this).val() == "NoHCAgree") {
+			ToggleCHC(1);
+			ToggleSig(0);
+			$("#YesECPDeclineReason").hide();
+			$("#NoHCDeclineReason").hide();	
+			$("#YesECPDeclineReason").val("");
+			$("#NoHCDeclineReason").val("");				
+		}	
+		else{			
+			ToggleSig(0);			
+			ToggleCHC(0);
+			$("#YesECPDeclineReason").hide();
+			$("#NoHCDeclineReason").hide();	
+			$("#YesECPDeclineReason").val("");
+			$("#NoHCDeclineReason").val("");	
+		}
+	});	
+	
+	
+	
+	$("#ImproperHCMisuse").on('change', function(){
+		if($(this).is(':checked')){
+			ToggleHCmisuse(1);
+		}else{
+			ToggleHCmisuse(0);
+		}
+	});		
+	
+	$("#ECPImproperContraceptive").on('change',function(){
+		if($(this).is(':checked')){
+			ToggleECPImproperContraceptive(1);			
+		}else{
+			ToggleECPImproperContraceptive(0);		
+		}
+	});
+
+	
+	
+	$("#ECP_OCP").change(function(){
+		if($(this).val() == "MissedAbove3"){
+			ToggleOCPTrue(1);
+		}else{
+			ToggleOCPTrue(0);
+		}
+	});
+	
+	$("#ECP_Evra").change(function(){
+		if($(this).val() == "Week3Above72")
+			ToggleECPTrue(1);
+		else{
+			ToggleECPTrue(0);
+		}
+	});	
+	
+	$("#ECP_NevaRing").change(function(){
+		if($(this).val() == "Week3Above72")
+			ToggleNevraTrue(1);
+		else{
+			ToggleNevraTrue(0);
+		}
+	});	
+	$("#ClientEligible").change(function(){
+		if($(this).val()=="no"){
+			ToggleSig(1);
+		}
+	});
+	
+	$("#GenitalBleeding").change(function(){
+		if($(this).val() == "no"){
+		
+			ToggleECPAction(1);
+		}else{
+			ToggleECPAction(0);
+			
+			
+		}
+	});		
+	
+	$("#ECProvided").on('change', function(){
+		if($(this).is(':checked')){
+			ToggleShowECP(1);
+		}else{
+			ToggleShowECP(0);
+		}
+	});			
+	
+	$("#YesEligibleForECP").on('change', function(){
+		if($(this).is(':checked')){
+			ToggleYesEligibleECP(1);
+			ToggleNoEligibleECP(0);
+			
+		}else{
+			ToggleYesEligibleECP(0);						
+		}
+		
+	});
+	
+	$("#NoEligibleForECP").on('change', function(){
+		if($(this).is(':checked')){
+			ToggleNoEligibleECP(1);
+			ToggleYesEligibleECP(0);						
+		}else{
+			ToggleNoEligibleECP(0);
+		}
+	
+	});
+	
+	$("#YesECPDecline").on('change', function(){
+		if($(this).is(':checked')){
+			$("#YesECPDeclineReason").show();
+			$("#YesECPAgree").prop("checked",false);
+			ToggleNoEligibleECP(1);
+			
+			ToggleECP(0);
+			ToggleSig(1);
+		}else{
+			$("#YesECPDeclineReason").hide();
+			$("#YesECPDeclineReason").val("");
+			ToggleNoEligibleECP(0);
+			ToggleSig(0);
+		}
+	});
+	
+	$("#NoHCDecline").on('change', function(){
+		if($(this).is(':checked')){
+			$("#NoHCAgree").prop("checked",false);
+			$("#NoHCDeclineReason").show();
+			
+			ToggleCHC(0);
+			ToggleSig(1);
+		}else{
+			$("#NoHCDeclineReason").val("");
+			$("#NoHCDeclineReason").hide();
+			if($("#YesECPDecline").is(':checked')){
+				ToggleSig(1);
+			}else{
+				ToggleSig(0);
+			}
+		}
+	});	
+	
+	$("#YesECPAgree").on('change', function(){
+		if($(this).is(':checked')){
+			
+			ToggleNoEligibleECP(0);
+			ToggleECP(1);
+			$("#YesECPDecline").prop("checked",false);
+		}else{
+			ToggleECP(0);
+		}
+	});
+	
+	$("#NoHCAgree").on('change',function(){
+		if($(this).is(':checked')){
+			$("#NoHCDecline").prop("checked",false);
+			ToggleCHC(1);
+		}else{
+			ToggleCHC(0);
+		}
+	});
+	
+	
+	
+	$("#CRHC").on('change', function(){
+		if($(this).is(':checked')){
+			ToggleCRHC(1);
+
+		}else{
+			ToggleCRHC(0);
+		}
+	});		
+
+	$("#HCOffAgree").on('change', function(){
+		if($(this).is(':checked')){
+			ToggleCHC(1);
+			$("#HCOffDecline").prop("checked",false);
+			$("#HCOffDeclineReason").hide();
+			$("#HCOffDeclineReason").val("");
+			ToggleSig(0);
+			
+		}else{
+			ToggleSig(1);
+		}
+	});			
+	
+	$("#HCOffDecline").on('change', function(){
+		if($(this).is(':checked')){
+			$("#HCOffDeclineReason").show();
+			$("#HCOffAgree").prop("checked",false);
+			ToggleCHC(0);
+			ToggleSig(1);
+			
+		}else{
+			ToggleSig(0);
+		}
+	});			
+	
+	$("#HCOffDeclineReason").blur(function(){
+		if($(this).val().length > 0){
+			ToggleSig(1);
+		}else {
+			ToggleSig(0);
+		}
+	});	
+	
+	$("#ClientAge").on('input', function() {
+		ToggleCHC(1);
+	});
+		
+	$("#CannotPayFull").on('change', function(){
+		if($(this).is(':checked')){
+			ToggleCannotPayFull(1);
+		}else{
+			$("#CannotPayFull").prop("checked",false);
+			ToggleCannotPayFull(0);
+		}
+	});		
+	
+	$("#HistoryPhysicianOther").change(function(){
+		if($(this).val() == "yes"){
+			$("#OtherMedIssues").show();
+			if($("#ClientAge").val() <= 34 && ($("#HistoryPhysician").val() != "yes")){
+				TogglePostPartum(1);
+				ToggleMedHistory(1);
+			}
+			$("#post-partum-info").hide();
+		}else{
+			$("#OtherMedIssues").hide();
+			$("#OtherMedIssuesReason").val("");
+		}
+	
+	});
+	
+	$("#HistoryPhysician").change(function(){
+		if($(this).val() == "yes"){
+			$("#YesHistoryPhysicianCare").show();
+			TogglePostPartum(0);
+			ToggleHCAction(0);
+			ToggleSig(1);
+		}
+		else{
+			
+			$("#YesHistoryPhysicianCare").hide();
+			$("#Diabetes").prop("checked",false);
+			$("#Embolism").prop("checked",false);
+			$("#HeartDisease").prop("checked",false);
+			$("#HistoryOfStroke").prop("checked",false);
+			$("#Migraine").prop("checked",false);
+			$("#CancerBreast").prop("checked",false);
+			$("#LiverDisease").prop("checked",false);
+			$("#GallbladderDisease").prop("checked",false);
+			$("#ProlongedBedRest").prop("checked",false);
+			$("#ViralHepatitis").prop("checked",false);
+			$("#LiverEnzymes").prop("checked",false);
+			$("#VaginalBleeding").prop("checked",false);
+			$("#CancerUterus").prop("checked",false);
+			if($("#ClientAge").val() <= 34){
+				TogglePostPartum(1);
+				ToggleMedHistory(1);				
+			}
+		}
+	});		
+		
+	$("#post-partum").change(function(){
+		if($(this).val() == "yes"){
+			ToggleBPMeasurement(0);
+			ToggleBPReading(0);
+			ToggleHistoryHC(0);
+			ToggleClientRequesting(0);
+			ToggleHCAction(0);			
+		}
+		else{
+			ToggleBPMeasurement(1);
+			ToggleBPReading(1);
+			ToggleHistoryHC(1);
+			ToggleClientRequesting(1);
+			ToggleHCAction(1);
+		}
+	});		
+
+	$("#BPReading").change(function(){
+		if($(this).val() == "yes"){
+			//$("#BPMeasurement").hide();
+			$("#HistoryHCToggle").hide();
+			$("#ClientRequestingToggle").hide();
+			ToggleHCAction(0);
+		}
+		else{
+			//$("#BPMeasurement").show();
+			$("#HistoryHCToggle").show();
+			$("#ClientRequestingToggle").show();
+			ToggleHCAction(1);
+		}
+	});		
+	
+	$("#ClientEligible").change(function(){
+		
+		if($(this).val() == "yes"){
+			
+			if($("#ClientAge").val() <= 34){
+				ToggleMedHistory(1);		
+			}	
+		}else{
+			TogglePostPartum(0);
+			ToggleMedHistory(0);	
+		}
+	});			
+	
+	$("#HistoryHC").change(function(){
+		
+		if($(this).val() == "yes")
+			$("#YesHistoryHC").show();
+		else{			
+			$("#YesHistoryHC").hide();
+			$("#HCBrand").val("");
+			$("#HCDuration").val("");
+		}
+	});	
+	
+	$("#ClientRequesting").change(function(){
+		if($(this).val() == "NuvaRing"){
+			ToggleYesNuvaRing(1);
+			ToggleYesEvra(0);
+			
+		}else if($(this).val() == "Evra"){
+			ToggleYesEvra(1);
+			ToggleYesNuvaRing(0);
+		
+		}else{			
+			ToggleYesEvra(0);
+			ToggleYesNuvaRing(0);
+		}
+	});		
+	
+	$("#FormName").submit(function(){
+		$("#action").val("POST");
+	});	
+
+
+});
+
+	function formPrint(){
+		window.print();
+	} 
+    
+	
+	function writePreventions(){
+		
+		$("#PregnancyPrevention").val("");
+		$("#PregnancyResult").val("");
+		
+		if($("#PregnancyTestCompleted").val() == "yes"){
+			$("#PregnancyPrevention").val("Pregnancy Test");
+	
+			if($("#ResultPregnancyTest").val() == "negative"){
+				$("#PregnancyResult").val("negative");
+			}else if($("#ResultPregnancyTest").val() == "positive"){
+				$("#PregnancyResult").val("positive");
+			}
+		}
+		
+		
+	}
+</script>
+
+
+
+</head>
+
+<body onload="Init()">
+<h1>Pregnancy Assessment and Prevention</h1>
+
+<form method="post" action="" name="FormName" id="FormName" onsubmit="writePreventions()" >
+
+<table width="100%">
+<tr>
+	<td>&nbsp;</td>
+	<td width="41%" class="bordered">
+		<table>
+		<tr>
+			<td>Client Name:</td>
+			<td><input type="text" name="ClientName" id="ClientName" oscarDB="patient_name"/></td>
+		</tr>
+		<tr>
+			<td>DOB:</td>
+			<td><input type="text" name="DOB" id="DOB" oscarDB="dobc2"/></td>
+		</tr>
+		<tr>
+			<td>Date of visit:</td>
+			<td>
+				<input type="text" name="DateOfVisit" id="DateOfVisit" />
+			</td>
+		</tr>
+		<tr>
+			<td>Clinic Site:</td>
+			<td><input type="text" name="ClinicSite" id="ClinicSite" oscarDB="clinic_name"/></td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+
+<!--fieldset id="FSClientInformation">
+    <legend><a name="ClientInformation">Client Information</a></legend>
+	<p><label for="ClientName">Client Name:</label> <input type="text" id="ClientName" name="ClientName" oscarDB="patient_name"/></p>
+	<p><label for="DOB">DOB:</label> <input type="text" id="DOB" name="DOB" oscardb="dob"/></p>
+	<p><label for="DateOfVisit">Date of visit:</label> <input type="text" id="DateOfVisit" name="DateOfVisit" oscarDB="today"/></p>
+	<p><label for="ClinicSite">Clinic Site:</label> <input type="text" id="ClinicSite" name="ClinicSite"/></p>
+</fieldset-->
+
+<fieldset id="FSPregnancyAssessment">
+	<legend><a name="PregnancyAssessment">Pregnancy Assessment</a></legend>
+	<p><label for="LMPDATE">LMP - Date:</label> <input type="text" id="LMPDATE" name="LMPDATE"/></p>
+	
+		<p><label for="LMPNormalPeriod">Normal Period?</label>
+		<select name="LMPNormalPeriod" id="LMPNormalPeriod" >
+			<option value=""></option>
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</select>
+		
+		<input type="text" name="LMPNormalPeriodNoReason" id="LMPNormalPeriodNoReason"/>
+		</p>
+	
+	
+	<p>
+		<label for="PregnancyRiskSinceLMP">Pregnancy risk since LMP:</label>
+		<select name="PregnancyRiskSinceLMP" id="PregnancyRiskSinceLMP" >
+			<option value=""></option>
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</select>
+		
+		<span id="TogglePRSLMPYes">When? <input type="text" name="PregnancyRiskSinceLMPYesReason" id="PregnancyRiskSinceLMPYesReason"/></span>
+    </p>
+    <div id="PregnancyRisk">
+        <p>
+		<label>&nbsp;</label>
+		<select name="PregnancyRiskSinceLMPYes" id="PregnancyRiskSinceLMPYes">
+	        <option value=""></option>
+	        <option value="120">within 120 hours (5 days) only</option>
+            <option value="above120">within 120 hours (5 days) and other times since LMP</option>
+			<option value="below120">not within 120 hours (5 days) but other times since LMP</option>
+        </select>
+        </p>
+	</div>
+</fieldset>
+
+<fieldset id="FSPregnancyTest">
+	<legend><a name="PregnancyTest">Pregnancy Test</a></legend>
+	<p>
+		<label for="PregnancyTestCompleted">Pregnancy test completed?</label>
+		<select name="PregnancyTestCompleted" id="PregnancyTestCompleted"  >
+			<option value=""></option>
+			<option value="yes">Yes</option>
+			<option value="no">No</option>
+		</select>
+		<input type="text" id="PregnancyTestCompletedNo" name="PregnancyTestCompletedNo"/>
+	</p>
+	
+	
+	<div id="PregResult">
+	<p>
+		<label for="ResultPregnancyTest">Result of pregnancy test:</label>
+		<select name="ResultPregnancyTest" id="ResultPregnancyTest" >
+			<option value=""></option>
+			<option value="negative">Negative</option>
+			<option value="positive">Positive</option>
+		</select>
+	</p>
+	</div>
+	
+	<div id="PregNegative">
+		<p><strong>Negative</strong></p>
+		<p>
+			Counseling regarding: 
+			<p style="margin-left:10px;margin-top:0px;margin-bottom:0px;">
+			<input type="checkbox" name="CounselNeg_FalseNegative" id="CounselNeg_FalseNegative" value="true"/> Possibility of False Negative <br/>
+			<input type="checkbox" name="CounselNeg_AvoidTobacco" id="CounselNeg_AvoidTobacco" value="true"/> Advise avoidance of tobacco, drugs and alcohol <br/>
+			<input type="checkbox" name="CounselNeg_FolicAcid" id="CounselNeg_FolicAcid" value="true"/> Recommend Folic Acid <br/>
+			<input type="checkbox" name="CounselNeg_BirthControl" id="CounselNeg_BirthControl" value="true"/> Birth Control Options <br/>
+			<input type="checkbox" name="CounselNeg_Condom" id="CounselNeg_Condom" value="true"/> Condoms Offered <br/>
+			<input type="checkbox" name="CounselNeg_RepeatTest" id="CounselNeg_RepeatTest" value="true"/> Repeat pregnancy test advised if no period in 2 weeks <br/>
+			<input type="checkbox" name="CounselNeg_ReferMD" id="CounselNeg_ReferMD" value="true"/> Refer to MD if repeat test is negative <br/>
+			<input type="checkbox" name="CounselNeg_STIScreen" id="CounselNeg_STIScreen" value="true"/> STI Screening <br/>
+			</p>
+		</p>
+		
+		<p>
+			<label for="PregnancyDesired">Pregnancy Desired?</label>
+			<select name="PregnancyDesired" id="PregnancyDesired">
+				<option value=""></option>
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</select>
+		</p>
+		<div id="ecp">
+			<p>
+				Eligible for ECP?<br>
+				<input type="checkbox" name="YesEligibleForECP" id="YesEligibleForECP" value="true"> Yes <br>
+
+				<span id="TogYesECPEligible" >
+					<input type="checkbox" name="YesECPAgree" id="YesECPAgree" value="true" style="margin-left:10px;"/>ECP offered and client agreed<br>
+					<input type="checkbox" name="YesECPDecline" id="YesECPDecline" value="true" style="margin-left:10px;">ECP offered and client declined. <input type="text" name="YesECPDeclineReason" id="YesECPDeclineReason" style="margin-left:5px;"/><br>
+				</span>
+				
+				<input type="checkbox" name="NoEligibleForECP" id="NoEligibleForECP" value="true"> No <br>
+				
+
+				
+				<span id="TogNoECPEligible" >
+					<input type="checkbox" name="NoHCAgree" id="NoHCAgree" value="true" style="margin-left:15px;"/>HC offered and client agreed.<br>
+					<input type="checkbox" name="NoHCDecline" id="NoHCDecline" value="true" style="margin-left:15px;"/>HC offered and client declined. <input type="text" name="NoHCDeclineReason" id="NoHCDeclineReason" style="margin-left:5px;"/> 
+				</span>
+				
+			</p>
+		</div>
+	</div>
+	
+	
+	<div id="PregPositive">
+		<p><strong>Positive</strong></p>
+		<p><input type="checkbox" name="ReportPain" id="ReportPain" value="true"> Client reports lower abdominal pain (esp. unilateral), &/or spotting. - refer to clinician to assess for ectopic pregnancy</p>
+		<p>
+			Counseling regarding:<br/>
+			<p style="margin-left:10px;margin-top:0px;margin-bottom:0px;">
+			<input type="checkbox" name="CouselPos_EncourageFolic" id="CouselPos_EncourageFolic" value="true"/> Encourage Folic Acid/maternity vitamin supplements <br/>
+			<input type="checkbox" name="CounselPos_AvoidTobacco" id="CounselPos_AvoidTobacco" value="true"/> Advise avoidance of tobacco drugs and alcohol <br/>
+			<input type="checkbox" name="CounselPos_Coping" id="CounselPos_Coping" value="true"/> Coping &amp; Support <br/>
+			<input type="checkbox" name="CounselPos_PregnancyOptions" id="CounselPos_PregnancyOptions" value="true"/> Pregnancy Options <br/>
+			</p>			
+
+
+			
+			
+		</p>
+	</div>	
+</fieldset>
+
+<fieldset id="FSEmergencyContraceptivePill">
+	<legend><a name="EmergencyContraceptivePill">Emergency Contraceptive Pill</a></legend>
+	
+	
+	<input type="checkbox" name="ECPVaginalIntercourse" id="ECPVaginalIntercourse" value="true" /> Client reports vaginal intercourse within the last 120 hours: 
+	<p><strong>AND</strong></p>    
+	<input type="checkbox" name="ECPNoContraceptive" id="ECPNoContraceptive" value="true"/> No contraceptive used<br>
+	<input type="checkbox" name="ECPImproperContraceptive" id="ECPImproperContraceptive" value="true"/> Improper use/failure of a contraceptive method 
+	<p id="ECPImproperContraceptiveYes" style="margin-left:10px;margin-top:0px;">
+		<input type="checkbox" name="ImproperBarrierMethod" id="ImproperBarrierMethod" value="true"/> Barrier method failure and no other method of contraception used <br/>
+		<input type="checkbox" name="ImproperFertility" id="ImproperFertility" value="true"/> Mistimed fertility awareness <br/>
+		<input type="checkbox" name="ImproperIUD" id="ImproperIUD" value="true"/>IUD expulsion <br/>
+		<input type="checkbox" name="ImproperUnprotectSex" id="ImproperUnprotectSex" value="true"/>Unprotected sex in first 7 days of first month of HC use for Sunday starts or quick starts <br/>
+		<input type="checkbox" name="ImproperHCMisuse" id="ImproperHCMisuse" value="true"/> HC misuse with no back-up contraception 
+	</p>
+	
+	
+	
+    <div id="TrueHCmisuse">
+        <p>
+            <label class="smalllabel" for="ECP_OCP">OCP:</label>
+            <select name="ECP_OCP" id="ECP_OCP">
+                <option value=""></option>
+				<!-- Ronnie: -->
+                A<option value="MissedBelow1">Missed 1 or more pill(s) while taking pills 1-7 or delayed starting new pack</option>
+                B<option value="MissedBelow3">Missed 3 or more pills while taking pills 8-21 (missed/late pills do not have to be in a row)</option>
+                B<option value="MissedAbove3">Missed less than 3 pills during pills 8-21 (ECP does not need to be given)</option>
+            </select>
+        </p>
+    
+        <!--div id="OCPTrueMissedAbove3" class="mid">
+            <p>
+                <input type="checkbox" name="OCPECPNotGiven" id="OCPECPNotGiven" value="true"> ECP not given, continue to missed pills counselling
+            </p>
+        </div-->
+        
+        <p>
+            <label class="smalllabel" for="ECP_Evra">Evra:</label>
+            <select name="ECP_Evra" id="ECP_Evra">
+                <option value=""></option>
+                C<option value="Week1Under24">During week 1 - delayed application/detachment for 24 hours or more (or unsure how long detached)</option>
+                D<option value="Week3Under72">During week 2 or 3 - delayed application/detachment for 72 hours or more</option>
+                D<option value="Week3Above72">During week 2 or 3 - delayed application/detachment less than 72 hours (ECP does not need to be given, continue to missed contraceptive patch counseling)</option>
+            </select>
+        </p>
+        
+        <!--div id="EvraTrueWeek3Above72" class="mid">
+            <p>
+                <input type="checkbox" name="EvraECPNotGiven" id="EvraECPNotGiven" value="true"> ECP not given, continue to missed contraceptive patch counselling
+            </p>
+        </div-->
+        
+        <p>
+            <label class="smalllabel" for="ECP_NevaRing">NuvaRing:</label>
+            <select name="ECP_NevaRing" id="ECP_NevaRing">
+                <option value=""></option>
+                E<option value="Week1Under24">During week 1 - delayed insertion for 24 or more hours</option>
+                E<option value="Week1Under3">During week 1 - ring removed more than 3 hours (or unsure how long)</option>
+                F<option value="Week3Under72">During week 2 or 3 - ring removed for 72 hours or more</option>
+                F<option value="Week3Above72">During week 2 or 3 - ring removed for less than 72 hours (ECP does not need to be given, continue to missed contraceptive ring counseling)</option>
+            </select>   
+        </p>
+        
+        <!--div id="NevaRingTrueWeek3Above72" class="mid">
+            <p>
+                <input type="checkbox" name="NevaECPNotGiven" id="NevaECPNotGiven" value="true"> ECP not given, continue to missed contraceptive ring counseling
+            </p>
+        </div-->
+        
+		<p style="margin-left:50px;">
+			<input type="checkbox" name="MisUseProgestin" id="MisUseProgestin" value="true"/> Progestin only pill - more than 3 hours late in taking pill <br/>
+			<!--G--><input type="checkbox" name="MisUseDepoProvera" id="MisUseDepoProvera" value="true"/> Depo Provera - last injection given 14 or more weeks ago
+		</p>
+        
+    </div>
+    
+    <p>
+        Undiagnosed genital bleeding?
+        <select name="GenitalBleeding" id="GenitalBleeding">
+            <option value=""></option>
+            <option value="yes">Yes - Not Eligible (refer to MD for assessment)</option>
+            <option value="no">No</option>
+        </select>
+		
+    </p>
+    
+	<div id="ECPaction">
+		<p><strong>Action:</strong></p>
+		<p style="margin-top:0px;">
+			<input type="checkbox" name="ECProvided" id="ECProvided" value="true"> Emergency Contraception provided, see prescription section.
+			<span id="ShowECP" style="margin-left:50px;">
+				<input type="hidden" name="LotNumber" id="LotNumber" /> 
+				<input type="hidden" name="ExpiryDate" id="ExpiryDate"/>
+			</span>
+		</p>
+		
+		<p>Counselling and resources</p>
+		<input type="checkbox" name="CRFactSheetPlanB" id="CRFactSheetPlanB" value="true"/> Fact sheet for plan B provided - Plan B Medication Factsheet <br/>
+		<input type="checkbox" name="CRAnticonvulsants" id="CRAnticonvulsants" value="true"/> Clients taking anticonvulsants and/or rifampicin should continue medications and be counseled that the efficacy of Plan B could be reducded <br/>
+		<input type="checkbox" name="CRCondomsOffered" id="CRCondomsOffered" value="true"/> Condoms offered <br/>
+		<input type="checkbox" name="CRAdviseECP" id="CRAdviseECP" value="true"/> Advise client ECP is not effective method of ongoing contraception <br/>
+		<input type="checkbox" name="CRSTIScreening" id="CRSTIScreening" value="true"/> STI Screening offered as per Medical Directive The Authority to Perform STI Screening <br/>
+		<input type="checkbox" name="CRHC" id="CRHC" value="true"/> Hormonal Contraception (HC) options discussed 
+		<div id="ShowHC" style="margin-left:10px;">
+			<input type="checkbox" name="HCOffAgree" id="HCOffAgree" value="true"/> HC offered and client agreed <br/>
+			<input type="checkbox" name="HCOffDecline" id="HCOffDecline" value="true"/> HC offered and client declined 
+			<input type="text" name="HCOffDeclineReason" id="HCOffDeclineReason" />
+		</div>
+	</div>
+</fieldset>
+	
+<fieldset id="FSCombinedHormonalContraception">
+    <legend><a name="CombinedHormonalContraception">Combined Hormonal Contraception</a></legend>    
+    <p><strong>Assessment:</strong></p>
+    Client's Age: <input type="text" name="ClientAge" id="ClientAge" oscarDB="age" /> <span id="ShowRefer" style="margin-left:10px;">Refer to clinic MD/RN(EC)</span>
+    <div id="20-34"  style="padding-bottom:10px;">
+        <input type="checkbox" name="NoDrugBenefit" id="NoDrugBenefit" value="true"/> Client does not have access to any drug benefits that will cover birth control (i.e. work benefits, student health plan, parent's drug plan, OW)<br/>
+        <input type="checkbox" name="NotEmployed" id="NotEmployed" value="true"/> Client is not employed on a regular basis and/or is paid below or equal to minimum wage<br/>
+        <input type="checkbox" name="CannotPayFull" id="CannotPayFull" value="true"/> Client has other extenuating circumstances and cannot pay full price for contraception. Please describe: <br/>
+        <textarea name="CannotPayFullReason" id="CannotPayFullReason" rows="5" cols="100"></textarea>
+		<p>
+			Is the client eligible?
+			<select name="ClientEligible" id="ClientEligible">
+				<option value=""></option>
+				<option value="yes">Yes</option>
+				<option value="no">No - Recommend client follow-up with family physician or walk-in clinic</option>
+			</select>
+		</p>
+    </div>
+
+    
+
+	<div id="MedHistory" style="margin-top:10px;">
+		<p>
+			<label for="HistoryPhysician" class="longlabel">Client has a medical condition which does not allow Combined Hormonal Contraception to be given by medical directive</label>
+			<select name="HistoryPhysician" id="HistoryPhysician">
+				<option value=""></option>
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</select>
+			<div id="YesHistoryPhysicianCare" style="clear:both;margin-top:5px;margin-bottom:5px;">        
+				<input type="checkbox" name="Diabetes" id="Diabetes" value="true"/> Diabetes with retinopathy, nephropathy, and/or neuropathy<br/>
+				<input type="checkbox" name="Embolism" id="Embolism" value="true"/> Embolism e.g. DVT/PE (current or past history)<br/>
+				<input type="checkbox" name="HeartDisease" id="HeartDisease" value="true"/> Heart Disease e.g. ischemic, complicated valvular heart disease, pulmonary hypertension, atrial fibrillation, history of sub-acute bacterial endocarditis<br/>
+				<input type="checkbox" name="HistoryOfStroke" id="HistoryOfStroke" value="true"/> History of stroke<br/>
+				<input type="checkbox" name="Migraine" id="Migraine" value="true"/> Migraine headaches with aura - migraine aura often causes visual disturbances, such as flashing lights, zigzagging lines or partial loss of vision. Other symptoms may include numbness, tingling, speech difficulities and muscle weakness on one side of the body<br/>
+				<input type="checkbox" name="CancerBreast" id="CancerBreast" value="true"/> Cancer of the breast (history in last 5 years or current)<br/>
+				<input type="checkbox" name="LiverDisease" id="LiverDisease" value="true"/> Liver disease e.g. tumor, severe cirrhosis, cholestasis (intra/extra obstruction within liver)<br/>
+				<input type="checkbox" name="GallbladderDisease" id="GallbladderDisease" value="true"/> Current gallbladder disease<br/>
+				<input type="checkbox" name="ProlongedBedRest" id="ProlongedBedRest" value="true"/> Major surgery with prolonged bed rest<br/>
+				<input type="checkbox" name="ViralHepatitis" id="ViralHepatitis" value="true"/> Active viral hepatitis<br/>
+				<input type="checkbox" name="LiverEnzymes" id="LiverEnzymes" value="true"/> Drugs which effect liver enzymes i.e. Rifampicin, phenytoin, carbamazepine, barbiturates, primidone, topiramate, oxcarbzepine<br/>
+				<input type="checkbox" name="VaginalBleeding" id="VaginalBleeding" value="true"/> Undiagnosed vaginal bleeding<br/>
+				<input type="checkbox" name="CancerUterus" id="CancerUterus" value="true"/> Cancer of the lining of the uterus, cervix or vagina<br/>
+			</div>			
+		</p>
+		
+		<p>
+			<label for="HistoryPhysicianOther" class="longlabel">Referral to physician/RN (EC) due to other medical conditions<br>&nbsp;</label>
+			<select name="HistoryPhysicianOther" id="HistoryPhysicianOther">
+				<option value=""></option>
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</select>
+			<div id="OtherMedIssues" >
+				<textarea name="OtherMedIssuesReason" id="OtherMedIssuesReason" rows="4" cols="43"></textarea>
+			</div>  		
+		</p>
+    	
+	
+	</div>
+		
+    <div id="post-partum-info">
+		<p>
+			<label for="post-partum" class="longlabel">Post-partum < 6 weeks (breast-feeding or not)</label>
+			<select name="post-partum" id="post-partum">
+				<option value=""></option>        
+				<option value="yes">Yes - refer to clinic MD/RN(EC)</option>
+				<option value="no">No</option>
+			</select>
+		</p>
+		
+		<div id="BPMeasurement">
+		<p>
+		   <label class="longlabel">BP:</label> <input type="text" name="BP1" id="BP1"/> / <input type="text" name="BP2" id="BP2"/>
+		</p>
+		</div>
+		
+		<div id="BPReadingToggle">
+		<p>
+			<label for="BPReading" class="longlabel">BP reading of systolic greater than or equal to 140 and/or diastolic greater than or equal to 90?</label>
+			<select name="BPReading" id="BPReading">
+				<option value=""></option>
+				<option value="yes">Yes - refer to clinic MD/RN(EC)</option>
+				<option value="no">No</option>
+			</select>
+		</p>
+		</div>
+		
+		<div id="HistoryHCToggle">
+		<p>
+			<label for="HistoryHC" class="longlabel">History of Hormonal Contraceptive Use</label>
+			<select name="HistoryHC" id="HistoryHC">
+				<option value=""></option>
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</select>
+		
+			<span id="YesHistoryHC" style="margin-left:20px;">
+				Brand: <input type="text" name="HCBrand" id="HCBrand"/>
+				Duration: <input type="text" name="HCDuration" id="HCDuration"/>
+			</span>
+		</p>
+		</div>
+		
+		<div id="ClientRequestingToggle">
+			<p>
+				<label for="ClientRequesting" class="longlabel">Client is requesting?</label>
+				<select name="ClientRequesting" id="ClientRequesting">
+					<option value=""></option>
+					<option value="NuvaRing">NuvaRing</option>
+					<option value="Evra">Evra</option>
+					<option value="OCP">OCP</option>
+				</select>
+			</p>    
+			
+		
+			
+			<div id="YesNuvaRing" style="margin-left:375px;">
+				<p>Do not give if client has:<br>
+				<ul>
+					<li>vaginal/uterine prolapse - offer either Evra/OCP</li>
+					<li>vaginal stenosis - offer either Evra/OCP</li>
+				</ul>
+				</p>
+			</div>
+			
+			
+			<div id="YesEvra" style="margin-left:375px;">
+				<p>Do not give if client has:<br>
+				<ul>
+					<li>Pre-existing skin condition that would hinder patch adherence - offer either NuvaRing/OCP</li>
+					<li>Client weighs greater than or equal to 90kg (198 lbs) - offer either NuvaRing/OCP</li>
+				</ul>
+				</p>
+			</div>    
+		</div>
+	</div>
+	
+	<div id="HCAction">
+		<p><strong>Action:</strong></p>
+		<p>
+			General Teaching:
+			<p style="margin-bottom:0px;margin-top:0px;margin-left:5px;">
+				<input type="checkbox" name="GT_ACHES" id="GT_ACHES" value="true"/> ACHES<br/>
+				<input type="checkbox" name="GT_MinorSideEffects" id="GT_MinorSideEffects" value="true"/> Minor side effects (bleeding, irregularities, weight gain, nausea, headache, mood swings)<br/>
+				<input type="checkbox" name="GT_DrugInteraction" id="GT_DrugInteraction" value="true"/> Drug interactions, discuss need to inform GP and/or pharmacist if taking other medications while on HC. Counsel client to use condoms until efficacy is established<br/>
+				<input type="checkbox" name="GT_Condoms" id="GT_Condoms" value="true"/> Use of condoms or abstinence during first 7 days of HC<br/>
+				<input type="checkbox" name="GT_ECP" id="GT_ECP" value="true"/> ECP<br/>
+				<input type="checkbox" name="GT_ClientSmokes" id="GT_ClientSmokes" value="true"/> If client smokes health teaching re: possible increased risk of abnormal blood clotting while on HC.<br/>
+				<input type="checkbox" name="GT_PAPTest" id="GT_PAPTest" value="true"/> PAP testing and/or pelvic exam including the need to have a PAP test starting at age 21<br/>
+				<input type="checkbox" name="GT_CondomAgainstSTI" id="GT_CondomAgainstSTI" value="true"/> Use of condoms to protect against STIs<br/>
+				<input type="checkbox" name="GT_STITesting" id="GT_STITesting" value="true"/> Importance of regular STI testing including HIV, POC, anonymous HIV testing<br/>
+				<input type="checkbox" name="GT_Resource" id="GT_Resource" value="true"/> Appropriate resources provided<br/>
+			</p>
+				
+		
+			
+		</p>
+		<p><strong>Contraceptive specific counseling</strong></p>
+		<p><input type="checkbox" name="NuvaRingProvided" id="NuvaRingProvided" value="true"/> NuvaRing - Teaching completed: how HC works, instructions for use including start day, expulsion, late removal and storage <br/>
+		<input type="checkbox" name="EvraProvided" id="EvraProvided" value="true"/> Evra - Teaching completed: how it works, instructions for use including start day, patch detachment and/or late change/start, and storage <br/>
+		<input type="checkbox" name="OralHCProvided" id="OralHCProvided" value="true"/> Oral HC - Teaching completed: how it works, instructions for use including start date, missed and lost pills and storage</p>
+		
+		<BR><BR>
+		<strong><input type="checkbox" name="ReferToPrescription" id="ReferToPrescription" value="true"/> Refer to Prescription Section for Contraception provided</strong>
+	</div>
+        
+    </fieldset>
+    
+
+    <fieldset id="FSSignature">
+		<legend><a name="Signature">Signature</a></legend>
+		<p>
+			<label for="ESignature">Electronic&nbsp;Signature: </label> <input type="text" name="ESignature" id="ESignature"/><br/>
+			<label for="EDate">Electronic&nbsp;Date: </label> <input type="text" name="EDate" id="EDate" oscarDB="today"/>
+		</p>
+		<input type="checkbox" name="PP0405314" id="PP0405314" value="true"/> Completed as per Policy and Procedure 04 05 314 - Pregnancy Assessment <br/>
+		<input type="checkbox" name="PP0405318" id="PP0405318" value="true"/> Completed as per Policy and Procedure 04 05 318 - Emergency Oral Contraception <br/>
+		<input type="checkbox" name="MD0505200" id="MD0505200" value="true"/> Completed as per Medical Directive - 05 05 200 - Provision of Hormonal Contraception
+
+		<table style="margin-top:25px;">
+			<tr>
+				<td class="subjectline">
+				<input type="hidden" name="action" id="action" />
+				<input type="submit" value="Submit" name="B1" />
+				<input type="reset" value="Reset" name="B2" />
+				<input type=button value=Print onClick="javascript:window.print()" />
+				</td>
+			</tr>	
+		</table>		
+	</fieldset>
+    
+    
+
+<input type="hidden" id="PregnancyPrevention" name="PregnancyPrevention"/>
+<input type="hidden" id="PregnancyResult" name="PregnancyResult"/>
+
+
+</form>
+<script language='javascript'>
+	
+	Calendar.setup({inputField:"LMPDATE",ifFormat:"%Y/%m/%d",showsTime:false,button:"LMPDATE",singleClick:true,step:1});
+	Calendar.setup({inputField:"PregnancyRiskSinceLMPYesReason",ifFormat:"%Y/%m/%d %H:%M",showsTime:true,button:"PregnancyRiskSinceLMPYesReason",singleClick:true,step:1});
+	
+</script>
+</body>
+</html>
+
+<!--
+<template>
+	<prevention>
+		<type>$t{PregnancyPrevention}</type>
+		<result>other</result>
+		<reason>$t{PregnancyResult}</reason>
+	</prevention>
+</template> 
+-->

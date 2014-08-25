@@ -1,0 +1,262 @@
+<html>
+<head>
+<title>SH Clinician Index Case Worksheet 05 114</title>
+<style type="text/css" media="print">
+ .DoNotPrint {
+	 display: none;
+ }
+ .noborder {
+	 border : 0px;
+	 background: transparent;
+	 scrollbar-3dlight-color: transparent;
+	 scrollbar-3dlight-color: transparent;
+	 scrollbar-arrow-color: transparent;
+	 scrollbar-base-color: transparent;
+	 scrollbar-darkshadow-color: transparent;
+	 scrollbar-face-color: transparent;
+	 scrollbar-highlight-color: transparent;
+	 scrollbar-shadow-color: transparent;
+	 scrollbar-track-color: transparent;
+	 background: transparent;
+	 overflow: hidden;
+ }
+ </style>
+
+<script type="text/javascript" language="javascript">
+function checkGender(){
+	 if (document.getElementById('PatientGender').value == 'M'){
+	 document.getElementById('Male').checked = true;
+	 }else if (document.getElementById('PatientGender').value == 'F'){
+	 document.getElementById('Female').checked = true;
+	}
+ }
+</script>
+
+<script language="javascript">
+function formPrint(){
+			window.print();
+} 
+</script>
+
+<!-- scripts to confirm closing of window if it hadn't been saved yet -->
+<script language="javascript">
+//keypress events trigger dirty flag
+var needToConfirm = false;
+document.onkeyup=setDirtyFlag;
+function setDirtyFlag(){
+		needToConfirm = true;
+}
+function releaseDirtyFlag(){
+		needToConfirm = false; //Call this function if doesn't requires an alert.
+//this could be called when save button is clicked
+}
+window.onbeforeunload = confirmExit;
+function confirmExit(){
+	 if (needToConfirm){
+		 return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+	 }
+}
+</script>
+
+</head>
+
+<body onload="checkGender();">
+<img id='BGImage' src="${oscar_image_path}05 114 STI Index Case Worksheet May 2013-page-001.jpg" style="position: absolute; left: 0px; top: 0px; width:750px">
+<form method="post" action="" name="FormName" id="FormName" >
+
+<input name="patient_name" id="patient_name" type="text" class="noborder" style="position:absolute; left:81px; top:103px; width:251px; height:22px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=patient_name>
+
+
+<input name="dob" id="dob" type="text" class="noborder" style="position:absolute; left:375px; top:103px; width:129px; height:23px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=dob>
+
+
+<input name="address_street_number_and_name" id="address_street_number_and_name" type="text" class="noborder" style="position:absolute; left:97px; top:134px; width:280px; height:20px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=address_street_number_and_name>
+
+
+<input name="phone" id="phone" type="text" class="noborder" style="position:absolute; left:437px; top:134px; width:170px; height:19px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=phone>
+
+
+<input name="2" id="2" type="text" class="noborder" style="position:absolute; left:103px; top:158px; width:272px; height:21px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="3" id="3" type="text" class="noborder" style="position:absolute; left:501px; top:157px; width:168px; height:21px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="4" id="4" type="checkbox" style="position:absolute; left:253px; top:184px; ">
+
+
+<input name="6" id="6" type="checkbox" style="position:absolute; left:299px; top:184px; ">
+
+
+<input name="7" id="7" type="checkbox" style="position:absolute; left:43px; top:221px; ">
+
+
+<input name="9" id="9" type="text" class="noborder" style="position:absolute; left:216px; top:221px; width:451px; height:22px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="10" id="10" type="checkbox" style="position:absolute; left:43px; top:235px; ">
+
+
+<input name="11" id="11" type="checkbox" style="position:absolute; left:43px; top:248px; ">
+
+
+<input name="12" id="12" type="checkbox" style="position:absolute; left:43px; top:263px; ">
+
+
+<input name="13" id="13" type="checkbox" style="position:absolute; left:43px; top:279px; ">
+
+
+<input name="14" id="14" type="text" class="noborder" style="position:absolute; left:236px; top:277px; width:430px; height:22px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="15" id="15" type="checkbox" style="position:absolute; left:32px; top:340px; ">
+
+
+<input name="16" id="16" type="checkbox" style="position:absolute; left:232px; top:340px; ">
+
+
+<input name="17" id="17" type="checkbox" style="position:absolute; left:32px; top:393px; ">
+
+
+<input name="18" id="18" type="checkbox" style="position:absolute; left:232px; top:393px; ">
+
+
+<input name="19" id="19" type="checkbox" style="position:absolute; left:32px; top:427px; ">
+
+
+<input name="20" id="20" type="checkbox" style="position:absolute; left:232px; top:427px; ">
+
+
+<input name="21" id="21" type="checkbox" style="position:absolute; left:32px; top:455px; ">
+
+
+<input name="22" id="22" type="checkbox" style="position:absolute; left:392px; top:338px; ">
+
+
+<input name="23" id="23" type="checkbox" style="position:absolute; left:392px; top:358px; ">
+
+
+<input name="24" id="24" type="checkbox" style="position:absolute; left:438px; top:378px; ">
+
+
+<input name="25" id="25" type="checkbox" style="position:absolute; left:507px; top:378px; ">
+
+
+<input name="26" id="26" type="checkbox" style="position:absolute; left:582px; top:378px; ">
+
+
+<input name="27" id="27" type="checkbox" style="position:absolute; left:392px; top:419px; ">
+
+
+<input name="28" id="28" type="checkbox" style="position:absolute; left:392px; top:438px; ">
+
+
+<input name="29" id="29" type="checkbox" style="position:absolute; left:392px; top:457px; ">
+
+
+<input name="30" id="30" type="checkbox" style="position:absolute; left:392px; top:476px; ">
+
+
+<input name="31" id="31" type="text" class="noborder" style="position:absolute; left:142px; top:543px; width:392px; height:17px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="32" id="32" type="checkbox" style="position:absolute; left:564px; top:567px; ">
+
+
+<input name="33" id="33" type="checkbox" style="position:absolute; left:610px; top:567px; ">
+
+
+<input name="34" id="34" type="checkbox" style="position:absolute; left:186px; top:587px; ">
+
+
+<input name="35" id="35" type="checkbox" style="position:absolute; left:242px; top:587px; ">
+
+
+<input name="36" id="36" type="checkbox" style="position:absolute; left:302px; top:587px; ">
+
+
+<input name="37" id="37" type="text" class="noborder" style="position:absolute; left:470px; top:587px; width:233px; height:20px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="38" id="38" type="checkbox" style="position:absolute; left:33px; top:639px; ">
+
+
+<input name="39" id="39" type="checkbox" style="position:absolute; left:154px; top:639px; ">
+
+
+<input name="40" id="40" type="text" class="noborder" style="position:absolute; left:442px; top:637px; width:261px; height:20px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="41" id="41" type="checkbox" style="position:absolute; left:462px; top:687px; ">
+
+
+<input name="42" id="42" type="checkbox" style="position:absolute; left:517px; top:687px; ">
+
+
+<input name="43" id="43" type="checkbox" style="position:absolute; left:34px; top:740px; ">
+
+
+<input name="44" id="44" type="checkbox" style="position:absolute; left:110px; top:740px; ">
+
+
+<input name="45" id="45" type="checkbox" style="position:absolute; left:191px; top:740px; ">
+
+
+<input name="46" id="46" type="checkbox" style="position:absolute; left:323px; top:740px; ">
+
+
+<input name="47" id="47" type="text" class="noborder" style="position:absolute; left:520px; top:738px; width:183px; height:25px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="48" id="48" type="checkbox" style="position:absolute; left:460px; top:740px; ">
+
+
+<input name="49" id="49" type="checkbox" style="position:absolute; left:34px; top:758px; ">
+
+
+<input name="50" id="50" type="checkbox" style="position:absolute; left:34px; top:795px; ">
+
+
+<input name="51" id="51" type="checkbox" style="position:absolute; left:350px; top:795px; ">
+
+
+<input name="52" id="52" type="checkbox" style="position:absolute; left:510px; top:795px; ">
+
+
+<input name="53" id="53" type="checkbox" style="position:absolute; left:508px; top:815px; ">
+
+
+<input name="54" id="54" type="checkbox" style="position:absolute; left:557px; top:815px; ">
+
+
+<input name="55" id="55" type="text" class="noborder" style="position:absolute; left:278px; top:831px; width:440px; height:22px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="56" id="56" type="text" class="noborder" style="position:absolute; left:244px; top:859px; width:198px; height:25px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="57" id="57" type="text" class="noborder" style="position:absolute; left:483px; top:861px; width:237px; height:24px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="58" id="58" type="text" class="noborder" style="position:absolute; left:544px; top:901px; width:179px; height:22px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="PatientGender" id="PatientGender" type="hidden" oscarDB=sex>
+<input name="Male" id="Male" type="checkbox" class="noborder" style="position:absolute; left: 644px; top: 105px">
+<input name="Female" id="Female" type="checkbox" class="noborder" style="position:absolute; left: 576px; top: 105px">
+
+
+
+ <div class="DoNotPrint" style="position: absolute; top:971px; left:0px;" id="BottomButtons" >
+	 <table><tr><td>
+		 Subject: <input name="subject" size="40" type="text"> 
+			<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick=" releaseDirtyFlag();"> 
+			<input value="Reset" name="ResetButton" id="ResetButton" type="reset"> 
+			<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="formPrint();"> 
+			<input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="formPrint();releaseDirtyFlag();setTimeout('SubmitButton.click()',1000);"> 
+	 </td></tr></table>
+ </div>
+ </form>
+
+</body>
+</html>

@@ -1,0 +1,1229 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<link type="text/css" rel="stylesheet" href="${oscar_image_path}bootstrap.css"/>
+	<link type="text/css" rel="stylesheet" href="${oscar_image_path}bootstrapValidator.css"/>
+	<script src="${oscar_image_path}bootstrap.js"></script>
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+	
+	
+	<link rel="stylesheet" type="text/css" media="all" href="${oscar_javascript_path}../calendar/calendar.css" title="win2k-cold-1"/> 
+	<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar.js"></script>
+	<script type="text/javascript" src="${oscar_javascript_path}../calendar/lang/calendar-en.js"></script>
+	<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar-setup.js"></script>	
+	<script type="text/javascript" src="${oscar_image_path}bootstrapValidator.js"></script>	
+	
+	
+	<!--
+	<link rel="stylesheet" type="text/css" media="all" href="inc/calendar.css" title="win2k-cold-1"/> 
+	<link type="text/css" rel="stylesheet" href="dist/css/bootstrap.css""/>
+	<script src="dist/js/bootstrap.js"></script>
+	<script type="text/javascript" src="inc/calendar.js"></script>
+	<script type="text/javascript" src="inc/calendar-en.js"></script>
+	<script type="text/javascript" src="inc/calendar-setup.js"></script>	
+	-->
+	
+	<script language="javascript">
+		
+			
+		//keypress events trigger dirty flag
+		var needToConfirm = false;
+		document.onkeyup=setDirtyFlag;
+		function setDirtyFlag(){
+				needToConfirm = true;
+		}
+		function releaseDirtyFlag(){
+				needToConfirm = false; //Call this function if doesn't requires an alert.
+		//this could be called when save button is clicked
+		}
+		window.onbeforeunload = confirmExit;
+		function confirmExit(){
+			 if (needToConfirm){
+				 return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+			 }
+		}
+		
+		
+		function changeForm(){
+			var d = new Date();
+			var month = d.getMonth()+1;
+			var day = d.getDate();
+			var output = d.getFullYear() + "/" + (month<10?"0":"") + month + "/" + (day<10?"0":"")+day;
+			$("#txtDateClosed").val("");
+			
+		
+			$("#categoryinfo").show();
+			$("#topicinfo").show();
+			if($("#cboIncidentType").val() == "Environmental Consultation"){
+				$("#Outcome").hide();
+				$("#ReferredInformation").show();
+				$("#cboAction").val("Consultation");
+				$("#premise").hide();
+				$("#phiinfo").hide();
+				$("#cboDistrictNo").hide();		
+				$("#lblDistrictNo").hide();			
+				$("#txtDateClosed").val(output);
+				
+			}else if ($("#cboIncidentType").val() == "Disease Consultation"){
+				$("#Outcome").show();
+				$("#ReferredInformation").hide();
+				$("#cboAction").val("Consultation");
+				$("#premise").hide();
+				$("#phiinfo").hide();
+				$("#cboDistrictNo").hide();		
+				$("#lblDistrictNo").hide();		
+				$("#txtDateClosed").val(output);
+				
+				
+				$("#categoryinfo").hide();
+				$("#topicinfo").hide();
+			}else if($("#cboIncidentType").val() == "Complaint" || ($("#cboIncidentType").val() == "Council Complaint")){
+				$("#cboPHI").val($("#txtPHI").val());
+				$("#cboDistrictNo").val($("#txtDistrictNo").val());			
+				$("#premise").show();
+				$("#phiinfo").show();
+				$("#cboDistrictNo").show();				
+				$("#lblDistrictNo").show();			
+				$("#Outcome").hide();
+				$("#ReferredInformation").show();
+				
+			}else if($("#cboIncidentType").val() == ""){
+				$("#Outcome").hide();
+				$("#ReferredInformation").hide();
+				$("#premise").hide();
+				$("#phiinfo").hide();
+				$("#cboDistrictNo").hide();		
+				$("#lblDistrictNo").hide();	
+				
+				
+				$("#categoryinfo").hide();
+				$("#topicinfo").hide();				
+			}
+		}
+		
+
+		
+		function Populate(){
+		
+			if($("#cboIncidentType").val() == "Complaint" || ($("#cboIncidentType").val() == "Council Complaint")){
+				if($("#txtPHI").val() == ""){
+					$("#providerNo").val($("#cboPHI").val());
+				}
+			}
+		
+			$("#txtPHI").val($("#cboPHI").val());
+			$("#txtDistrictNo").val($("#cboDistrictNo").val());
+			$("#txtTopicNo").val($("#cboTopic").val());
+			
+			$("#txtDisease1").val($("#cboDisease1").val());
+			$("#txtDisease2").val($("#cboDisease2").val());
+			$("#txtDisease3").val($("#cboDisease3").val());
+			$("#txtDisease4").val($("#cboDisease4").val());
+			$("#txtDisease5").val($("#cboDisease5").val());
+			
+			$("#txtService1").val($("#txtService1").val());
+			$("#txtService2").val($("#txtService2").val());
+			$("#txtService3").val($("#txtService3").val());
+			$("#txtService4").val($("#txtService4").val());
+			$("#txtService5").val($("#txtService5").val());
+
+			$("#txtOutcomeRefer1").val($("#txtOutcomeRefer1").val());
+			$("#txtOutcomeRefer2").val($("#txtOutcomeRefer2").val());
+			$("#txtOutcomeRefer3").val($("#txtOutcomeRefer3").val());
+			$("#txtOutcomeRefer4").val($("#txtOutcomeRefer4").val());
+			$("#txtOutcomeRefer5").val($("#txtOutcomeRefer5").val());			
+			
+			
+			
+		}
+		
+		$.urlParam = function(name){
+			var results = new RegExp('[\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
+			return results[1] || 0;
+		}		
+		
+		function getService(){
+			var ArrayID = ["CallRedirect","CaseFollowUp","ComplaintFollowUp","EducationCounselling","MailedFaxedInfo","Presentation","VaccineOrder","Consultation","InServiceRequest","PlanReview","PolicyReview","InfoRequest","OutbreakNotification","OpeningClosing","WaterSampleRequest","LabSpecimen","InspectionFollowUp"];
+			var ArrayValues = ["Call Redirect","Case Follow Up","Complaint Follow Up","Education/Counselling","Mailed/Faxed Information","Presentation","Vaccine Order","Consultation","In-Service Request","Plan Review","Policy Review","Information Request","Outbreak Notification/Declaration","Opening/Closing Notification","Water Sample Request","Lab Specimen - Pick Up and Delivery","Inspection Follow Up"];
+			var log = "";
+			
+			for(x=0;x<=5;x++){
+				$("#cboService"+x).empty();
+				log += '<option value=\'\'></option>';		
+				for(i=0;i<ArrayID.length; i++){
+					log += '<option value=\'' + ArrayID[i] + '\'>' + ArrayValues[i] + '</option>';
+				}
+				$("#cboService"+x).append(log);
+				log = "";
+			}		
+		}
+		
+		function getOutcomeRefer(){
+			var ArrayID = ["FamilyDoctor","HealthBus","HealthConnections","ImmunizationClinic","TravelClinic","WalkIn","OtherPHU","Other","GovernmentAgency","TBClinic","PublicHealthLab","OtherDeptDivPro","IDProgram","VPDProgram","LicensingDept","CommunityServices","FireDept","Police","AMOH","Website"];
+			var ArrayValues = ["Family Doctor","Health Bus","Health Connections","Immunization Clinic","Travel Clinic","Walk-In","Other PHU","Other","Government Agency","TB Clinic","Public Health Lab","Other Deptartment, Division, Program","ID Program","VPD Program","Licensing Department","Community Services","Fire Department","Police","AMOH/MOH","Website"];
+			var log = "";
+			
+			for(x=0;x<=5;x++){
+				$("#cboOutcomeRefer"+x).empty();
+				log += '<option value=\'\'></option>';		
+				for(i=0;i<ArrayID.length; i++){
+					log += '<option value=\'' + ArrayID[i] + '\'>' + ArrayValues[i] + '</option>';
+				}
+				$("#cboOutcomeRefer"+x).append(log);
+				log = "";
+			}				
+		}
+		
+		function getDisease(){
+			var ArrayID = ["Amebiasis","Anthrax","ARO","AvianFlu","Botulism","Brucellosis","CDiff","Campylobacterosis","Chickenpox","CMV","Cryptosporidiosis","Cyclospora","Encphalitis","FifthDisease","FoodborneIllness","Gastroenteritis","Giardiasis","GroupAStrep","GroupBStrep","HaemorrhagicFevers","HandFoodMouth","HepA","HepB","HepC","HIV","InfectionControl","Influenza","Legionellosis","Listeriosis","Lyme","Malaria","Measles","MedicalSurveillance","Meningitis","Monkeypox","MRSA","Mumps","NeedleStick","NonReportable","Noroviruses","Other","Outbreak","Paratyphoid","Parovirus","Pertussis","Plague","Polio","Psitacosis","PSSComplaint","QFever","Rabies","RespInfection","RespiratoryOther","Rotavirus","Rubella","Salmonellosis","SARS","Scabies","ScarletFever","Shigellosis","Shingles","SmallPox","StrepPneumoniae","Swine","TB","Tetanus","Tics","Trichinosis","Tularemia","TyphoidFever","VRE","VTEC","Waterborne","WestNileVirus","YellowFever"];
+			var ArrayValues = ["Amebiasis","Anthrax","ARO","Avian Flu","Botulism","Brucellosis","C Difficile","Campylobacterosis","Chickenpox","CMV","Cryptosporidiosis","Cyclospora","Encphalitis","Fifth Disease","Foodborne Illness","Gastroenteritis","Giardiasis","Group A Strep","Group B Strep","Haemorrhagic Fevers","Hand, Food and Mouth","Hepatitis A","Hepatitis B","Hepatitis C","HIV","Infection Control General","Influenza","Legionellosis","Listeriosis","Lyme","Malaria","Measles","Medical Surveillance","Meningitis","Monkeypox","MRSA","Mumps","Needle Stick","Non Reportable","Noroviruses","Other","Outbreak","Paratyphoid","Parovirus","Pertussis","Plague","Polio","Psitacosis","PSS Complaint","Q Fever","Rabies","Respiratory Infection Outbreak","Respiratory Other","Rotavirus","Rubella","Salmonellosis","SARS","Scabies","Scarlet Fever","Shigellosis","Shingles","SmallPox","Strep Pneumoniae","Swine Influenza","TB","Tetanus","Tics","Trichinosis","Tularemia","Typhoid Fever","VRE","VTEC","Waterborne","West Nile Virus","Yellow Fever"];
+			var log = "";
+			
+			for(x=0;x<=5;x++){
+				$("#cboDisease"+x).empty();
+				log += '<option value=\'\'></option>';		
+				for(i=0;i<ArrayID.length; i++){
+					log += '<option value=\'' + ArrayID[i] + '\'>' + ArrayValues[i] + '</option>';
+				}
+				$("#cboDisease"+x).append(log);
+				log = "";
+			}
+
+		}
+		
+		
+		function getTopics(){
+			
+		
+			var ArrayID = [];
+			var ArrayValues = [];	
+			switch ($("#cboCategory").val()){
+				case 'EmergencyResponse':
+					ArrayID = ["ProgramReview","TrainingDevelopment"];
+					ArrayValues = ["Program Review/Development","Training/Professional Development"];
+					break;
+				case 'Food':
+					ArrayID = ["Adulteration","Education","Emergencies","FoodSample","Garbage","Inquiry","Other","RequestInspection","Sanitation","SpecialEvent","SuspectIllness"];
+					ArrayValues = ["Adulteration","Education","Emergencies Fire/Flood","Food Sample Testing","Garbage","Inquiry","Other","Request for Inspection","Sanitation","Special Event","Suspect Illness"];
+					break;
+				case 'HealthHazard':
+					ArrayID = ["Asbestos","BedBugs","Cockroaches","Diogenes","Fleas","General","Housing","Insects","MarijuanaGrow","Mice","Mould","Odour","Other","Pesticides","Phyiscal","Rats","RCFs","Sewage","Sharps","UFFI"];
+					ArrayValues = ["Asbestos","Bed Bugs","Cockroaches","Diogenes","Fleas","General","Housing","Insects","Marijuana Grow Operations","Mice","Mould","Odour","Other","Pesticides - General","Phyiscal","Rats","RCFs","Sewage","Sharps","UFFI"];
+					break;					
+				case 'InfectionControl':
+					ArrayID = ["Boarding","DayCare","General","Grave","GroupHomes","Hospitals","MigrantFarms","NursingHome","PSS","RCF","School"];
+					ArrayValues = ["Boarding/Lodging Homes","Day Cares","General","Grave Disinternment","Group Homes/Special Care","Hospitals","Migrant Farms","Nursing Home","PSS","RCF","School"];
+					break;
+				case 'InjuryPrevention':
+					ArrayID = ["HotTub","Other","Pool","WadingPool"];
+					ArrayValues = ["Hot Tub/Spa","Other","Pool","Wading Pool"];
+					break;
+				case 'LandUse':
+					ArrayID = ["Meeting","Report","SiteInspection"];
+					ArrayValues = ["Meeting - Internal","Report Preparation","Site Inspections"];
+					break;
+				case 'Other':
+					ArrayID = ["Funeral","General","Hotel","Laudromats"];
+					ArrayValues = ["Funeral Homes","General","Hotel/Motel (non-food)","Laudromats"];;
+					break;			
+				case 'RabiesControl':
+					ArrayID = ["AnimalExposure","General","VaccineRequest"];
+					ArrayValues = ["Animal Exposure","General","Vaccine Request"];;
+					break;
+				case 'RCF':
+					ArrayID = ["BedBugs","Medication","Nutrition","Other","Sanitation","Staffing"];
+					ArrayValues = ["Bed Bugs","Medication","Nutrition","Other","Sanitation","Staffing"];;
+					break;
+				case 'Lead':
+					ArrayID = ["General"];
+					ArrayValues = ["General"];
+					break;		
+				case 'SafeWater':
+					ArrayID = ["Beaches","Municipal","MunicipalLeadPhone","NonMunicipal","PrivateWell","SampleResult","SpecialProjects","Other"];
+					ArrayValues = ["Beaches","Municpal","Municipal Lead Phone Calls","Non-Municipal Regulated Supply","Private Well","Sample Result Interpretation","Special Projects","Other"];
+					break;
+				case 'SDWS':
+					ArrayID = ["Education","Enforcement","Inspection","Other","Planning","Training"];
+					ArrayValues = ["Education/Outreach","Enforcement","Inspection","Other","Planning","Training"];
+					break;					
+				case 'Ticks':
+					ArrayID = ["General"];
+					ArrayValues = ["General"];
+					break;		
+				case 'Tobacco':
+					ArrayID = ["Bylaw","CitySmoking","Contraband","Display","DistanceRestrictions","MinistryFinance","Other","PackagingRegulations","Police","SalesToMinors","SecondHandSmoke","Signs","SmokePublic","SmokeWorkplace","SmokeArea","Vehicles"];
+					ArrayValues = ["Bylaw","City Smoking Policy","Contraband","Display","Distance Restrictions","Ministry of Finance","Other","Packaging Regulations","Police","Sales to Minors","Second Hand Smoke","Signs","Smoke Enclosed Public Place","Smoke Enclosed Workplace","Smoke Prohibited Place or Area","Vehicles"];
+					break;		
+				case 'WestNile':
+					ArrayID = ["General","PickUp","Sighting","StandingWater"];
+					ArrayValues = ["General","Pick-Up","Sighting","Standing Water"];
+					break;							
+			}
+			
+			
+
+			
+			var log = "";
+			
+			$("#cboTopic").empty();
+			
+			log += '<option value=\'\'></option>';
+			for(i=0;i<ArrayID.length; i++){
+				log += '<option value=\'' + ArrayID[i] + '\'>' + ArrayValues[i] + '</option>';
+			}
+			$("#cboTopic").append(log);
+		
+		
+		}
+		
+		
+		function getPHI(){
+	
+			
+			var option = "";
+			
+			for(i=100;i<=152;i++){
+				option += '<option value="' + i + '">' + i + '</option>';
+		
+			}
+			option += '<option value="900">900</option>';
+			$('#cboDistrictNo').append(option);
+			
+			
+			var result = $("#phiJSON").val();
+			try{
+				json = $.parseJSON(result);	
+			} catch (e) {
+				result = result.replace(/'/g,"\"");
+			}
+			
+			
+			
+			var log = "";
+			$.each($.parseJSON(result), function(item,value){
+				log += '<option value=\'' + this.last_name + ', ' + this.first_name + '\'>' + this.last_name + ', ' + this.first_name + '</option>';
+			});
+			$("#cboPHI").append(log);
+			
+			$("#phiJSON").val($("#phiJSON").val().replace(/"/g,"'"));
+			
+			
+			
+			if($("#txtPHI").val() != ""){
+				$("#txtIncidentNo").html($.urlParam("fdid"));
+				$("#IncidentNumber").show();
+			}else{
+				$("#IncidentNumber").hide();
+			}
+			
+						
+			
+			changeForm();
+			getTopics();
+			getDisease();
+			getOutcomeRefer();
+			getService();
+			
+						
+		
+			
+		
+		}
+		
+		function ClearIncidentChange(){
+			$("#HPComplaints")
+				.bootstrapValidator('removeField','cboCategory')
+				.bootstrapValidator('removeField','cboTopic')
+				.bootstrapValidator('removeField','txtPremiseStNum')
+				.bootstrapValidator('removeField','txtPremiseStName')
+				.bootstrapValidator('removeField','cboPHI')
+				.bootstrapValidator('removeField','cboDisease1')
+				.bootstrapValidator('removeField','cboService1')
+				.bootstrapValidator('removeField','cboOutcomeRefer1');
+			
+			$("#cboCategory").val("");
+			$("#cboTopic").val("");
+			$("#txtPremiseStNum").val("");
+			$("#txtPremiseStName").val("");
+			$("#cboPHI").val("");
+			$("#cboDisease1").val("");
+			$("#cboService1").val("");
+			$("#cboOutcomeRefer1").val("");
+			$("#cboDisease2").val("");
+			$("#cboService2").val("");
+			$("#cboOutcomeRefer2").val("");
+			$("#cboDisease3").val("");
+			$("#cboService3").val("");
+			$("#cboOutcomeRefer3").val("");
+			$("#cboDisease4").val("");
+			$("#cboService4").val("");
+			$("#cboOutcomeRefer4").val("");
+			$("#cboDisease5").val("");
+			$("#cboService5").val("");
+			$("#cboOutcomeRefer5").val("");		
+		}
+		
+		
+		$(document).ready(function() {
+			
+			$('#HPComplaints')
+				.bootstrapValidator({
+					feedbackIcons: {
+						valid: 'glyphicon glyphicon-ok',
+						invalid: 'glyphicon glyphicon-remove',
+						validating: 'glyphicon glyphicon-refresh'
+					},
+					fields: {
+						cboFrom:{
+							group: '.col-md-4',
+							validators:{
+								notEmpty: {
+									message: 'The call from is required.'
+								}
+							}
+						},
+						txtFirstName: {
+							group: '.col-md-2',
+							validators: {
+								notEmpty: {
+									message: 'The first name is required if there is no last name.'
+								}
+							}
+						},
+						txtLastName: {
+							group: '.col-md-2',
+							validators: {
+								notEmpty: {
+									message: 'The last name is required if there is no first name.'
+								}
+							}
+						},
+						txtStreetNum: {
+							group: '.col-md-1',
+							validators: {
+								notEmpty: {
+									message: 'The street number is required.'
+								},
+								numeric: {
+									message: 'The street must be a valid number.'
+								}
+							}
+						},
+						txtStreetName: {
+							group: '.col-md-2',
+							validators: {
+								notEmpty: {
+									message: 'The street name is required.'
+								}
+							}
+						},
+						txtPhone: {
+							group: '.col-md-2',
+							validators: {
+								notEmpty: {
+									message: 'The phone number is required.'
+								},
+								phone: {
+									message: 'The phone number must be a valid phone number.'
+								}
+							}
+						},
+						cboIncidentType: {
+							group: '.col-md-2',
+							validators: {
+								notEmpty: {
+									message: 'Please select incident type.'
+								}	
+							}	
+						},
+						txtDescription: {
+							group: '.col-md-7',
+							validators: {
+								notEmpty: {
+									message: 'Please enter a description.'
+								}
+							}
+						}
+					}
+				})
+				
+				.on('keyup', '[name="txtFirstName"]', function(){
+					if($(this).val().length != 1){
+						$("#HPComplaints")
+							.bootstrapValidator('validateField','txtFirstName')
+							.bootstrapValidator('enableFieldValidators','txtLastName',$("#txtFirstName").val() == '');
+					}
+				})
+				
+				.on('keyup', '[name="txtLastName"]', function(){
+					if($(this).val().length != 1){
+						$("#HPComplaints").bootstrapValidator('validateField','txtLastName');
+						$("#HPComplaints").bootstrapValidator('enableFieldValidators','txtFirstName',$("#txtLastName").val() == '');
+					}
+				})				
+				
+				.on('change', '[name="cboIncidentType"]', function(){			
+					
+					ClearIncidentChange();
+					if($(this).val() == "Complaint" || $(this).val() == "Council Complaint"){
+						
+						$("#HPComplaints")
+								.bootstrapValidator('addField','cboTopic', {
+									group: '.col-md-2',
+									validators: {
+										notEmpty: {
+											message: 'Please select a topic.'
+										}
+									}
+								})
+								.bootstrapValidator('addField','cboCategory', {
+									group: '.col-md-2',
+									validators: {
+										notEmpty: {
+											message: 'Please select a category.'
+										}
+									}
+								})
+								.bootstrapValidator('addField','txtPremiseStNum', {
+									group: '.col-md-2',
+									validators: {
+										notEmpty: {
+											message: 'The premise street number is required.'
+										},
+										numeric: {
+											message: 'The premise street number must be a valid number.'
+										}
+									}
+								})
+								.bootstrapValidator('addField','txtPremiseStName', {
+									group: '.col-md-4',
+									validators: {
+										notEmpty: {
+											message: 'The premise street address is required.'
+										}
+									}
+								})
+								.bootstrapValidator('addField','cboPHI', {
+									group: '.col-md-8',
+									validators: {
+										notEmpty: {
+											message: 'Please assign a PHI.'
+										}
+									}
+								});
+					}
+					else if($(this).val() == 'Environmental Consultation'){
+						$("#HPComplaints")
+								.bootstrapValidator('addField','cboTopic', {
+									group: '.col-md-2',
+									validators: {
+										notEmpty: {
+											message: 'Please select a topic.'
+										}
+									}
+								})
+								.bootstrapValidator('addField','cboCategory', {
+									group: '.col-md-2',
+									validators: {
+										notEmpty: {
+											message: 'Please select a category.'
+										}
+									}
+								});
+					}
+					else if($(this).val() == 'Disease Consultation'){
+						$("#HPComplaints")
+								.bootstrapValidator('addField','cboDisease1', {
+									group: '.col-md-3',
+									validators: {
+										notEmpty: {
+											message: 'Please select a disease.'
+										}
+									}
+								})
+								.bootstrapValidator('addField','cboService1', {
+									group: '.col-md-3',
+									validators: {
+										notEmpty: {
+											message: 'Please select a service.'
+										}
+									}
+								})
+								.bootstrapValidator('addField','cboOutcomeRefer1', {
+									group: '.col-md-3',
+									validators: {
+										notEmpty: {
+											message: 'Please select an outcome.'
+										}
+									}
+								})								
+								
+					}					
+										
+					
+				})
+				
+				
+				
+		});
+		
+		
+	</script>
+</head>
+
+ 
+<body onload='getPHI();'>
+	
+
+
+	<form method="post" action="" name="HPComplaints" id="HPComplaints" onsubmit="Populate()">
+	<input type="hidden" name="phiJSON" id="phiJSON" oscarDB="test"/>
+	<input type="hidden" name="txtTestThis" id="txtTestThis" oscarDB="current_form_data_id"/>
+	<input type="hidden" name="txtPHI" id="txtPHI" />
+	<input type="hidden" name="txtDistrictNo" id="txtDistrictNo"/>
+	<input type="hidden" name="txtTopicNo" id="txtTopicNo"/>
+	<input type="hidden" name="providedrNo" id="providerNo"/>
+	
+	<div id="caller">
+		<fieldset style='margin:10px;'>
+			<legend>Caller Information</legend>	
+			<div class='row'>
+			
+				<div class="form-group">
+					<label for="cboFrom" class="col-md-1 control-label" ><span class="pull-right">Call From:</span></label>
+					<div class="col-md-4">
+					  <select id="cboFrom" name="cboFrom" class="form-control">
+						<option value=""></option>
+						<option value="Day Care">Day Care</option>
+						<option value="Detention Centre">Detention Centre</option>
+						<option value="Doctor Office">Doctor's Office</option>
+						<option value="Ext HealthCare">External Healthcare Agency</option>
+						<option value="Hospital">Hospital</option>
+						<option value="Lab">Lab</option>
+						<option value="LTCF">Long Term Care Facility</option>
+						<option value="Media">Media</option>
+						<option value="Parent">Parent</option>
+						<option value="Personal Service">Personal Service Setting</option>
+						<option value="PH Emergency Service">PH Emergency Services Liason</option>
+						<option value="Police">Police</option>
+						<option value="RCF Operator">RCF Operator</option>
+						<option value="RCF Staff">RCF Staff</option>
+						<option value="RCF Tenant">RCF Tenant</option>
+						<option value="Retirement Home">Retirement Home</option>
+						<option value="SARS/Avian Flu Hotline">SARS/Avian Flu Hotline</option>
+						<option value="Other PHU">Other PHU</option>
+						<option value="Other">Other</option>
+					  </select>
+					</div>		
+
+									
+					<div id="IncidentNumber">
+						<label for="txtIncidentNo" class="col-md-4 control-label"><span class="pull-right">Incident No:</span></label>
+						<div class="col-md-2">
+							<span class="form-control" id="txtIncidentNo" name="txtIncidentNo"</span>
+						</div>								
+					</div>					
+
+					
+				</div>
+
+				
+			</div>
+			
+			<div class="row">&nbsp;</div>
+			<div class='row'>
+			
+				<div class="form-group">
+					<label for="txtFirstName" class="col-md-1 control-label" ><span class="pull-right">Name:</span></label>
+					<div class="col-md-2">
+					  <input type="text" class="form-control" id="txtFirstName" name="txtFirstName" placeholder="First Name"/>
+					</div>				
+					<div class="col-md-2">
+						<input type="text" class="form-control" id="txtLastName" name="txtLastName" placeholder="Last Name"/>
+					</div>
+					
+
+					<label for="cboIncidentType" class="col-md-4 control-label"><span class="pull-right">Incident Type:</span></label>
+					<div class="col-md-2">
+						<select id="cboIncidentType" name="cboIncidentType" class="form-control" onchange="changeForm()">
+							<option></option>
+							<option value="Complaint">Complaint</option>
+							<option value="Council Complaint">Council Complaint</option>
+							<option value="Environmental Consultation">Environmental Consultation</option>
+							<option value="Disease Consultation">Disease Consultation</option>
+						</select>
+					</div>					
+				</div>
+			</div>
+			
+			<div class="row">&nbsp;</div>
+			
+			
+			<div class="row">
+				
+				<div class="form-group">
+					<label for="txtStreetNum" class="col-md-1 control-label" ><span class="pull-right">Address:</span></label>
+					<div class="col-md-1">
+					  <input type="text" class="form-control" id="txtStreetNum" name="txtStreetNum" placeholder="Street #"/>
+					</div>				
+					<div class="col-md-2">
+						<input type="text" class="form-control" id="txtStreetName" name="txtStreetName" placeholder="Street Name"/>
+					</div>
+					<div class="col-md-1">
+					  <input type="text" class="form-control" id="txtAptNum" name="txtAptNum" placeholder="Apt #"/>
+					</div>						
+					
+					<label for="cboClosedDate" class="col-md-4 control-label"><span class="pull-right">Date Closed:</span></label>
+					<div class="col-md-2 control-label">
+						<input type="text" id="txtDateClosed" class="form-control" name="txtDateClosed"/>
+					</div>							
+
+				</div>								
+			</div>
+					
+			<div class="row">&nbsp;</div>	
+			
+			
+			
+			
+			<div class='row'>
+				
+				<div class="form-group">
+
+
+					
+					<label for="cboCity" class="col-md-1 control-label"><span class="pull-right">City:</span></label>
+					<div class="col-md-2 control-label" >
+						<select id="cboCity" name="cboCity" class="form-control">
+							<option value=""></option>
+							<option value="Ancaster">Ancaster</option>
+							<option value="Dundas">Dundas</option>
+							<option value="Flamborough">Flamborough</option>
+							<option value="Glanbrook">Glanbrook</option>
+							<option value="Hamilton">Hamilton</option>
+							<option value="Other">Other</option>
+						</select>
+					</div>
+					
+					<label for="txtPostalCode" class="col-md-2 control-label"><span class="pull-right">Postal Code:</span></label>
+					<div class="col-md-2 control-label">
+						<input type="text" class="form-control" name="txtPostalCode" id="txtPostalCode" placeholder="Postal Code"/>
+					</div>
+					<div id="categoryinfo">
+						<label for="cboCategory" id="lblCategory" class="col-md-2 control-label"><span class="pull-right">Category:</span></label>
+						<div class="col-md-2">
+							<select id="cboCategory" name="cboCategory" class="form-control" onchange="getTopics()">
+								<option></option>
+								<option value="EmergencyResponse">Emergency Response</option>
+								<option value="Food">Food</option>
+								<option value="HealthHazard">Health Hazard Abatement</option>
+								<option value="InfectionControl">Infection Control</option>
+								<option value="InjuryPrevention">Injury Prevention</option>
+								<option value="LandUse">Land Use</option>
+								<option value="Other">Other</option>
+								<option value="RabiesControl">Rabies Control</option>
+								<option value="RCF">RCF</option>
+								<option value="Lead">Reg 243 (Lead)</option>
+								<option value="SafeWater">Safe Water</option>
+								<option value="SDWS">SDWS</option>
+								<option value="Ticks">Ticks</option>
+								<option value="Tobacco">Tobacco Control</option>
+								<option value="WestNile">West Nile Virus</option>
+							</select>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			
+			
+			<div class="row">&nbsp;</div>
+			
+			<div class='row'>
+				
+				<div class="form-group">
+
+
+					
+					<label for="txtPhone" class="col-md-1 control-label"><span class="pull-right">Phone:</span></label>
+					<div class="col-md-2 control-label" >
+						<input type="text" class="form-control" id="txtPhone" name="txtPhone" placeholder="Phone Number"/>
+					</div>
+					<div class="col-md-1 control-label" >
+						<input type="text" class="form-control" id="txtExtension" name="txtExtension" placeholder="Ext"/>
+					</div>
+				
+					
+					<label for="txtBirthYear" class="col-md-1 control-label"><span class="pull-right">Birth Year:</span></label>
+					<div class="col-md-2 control-label">
+						<input type="text" class="form-control" id="txtBirthYear" name="txtBirthYear" placeholder="Birth Year"/>
+					</div>
+					
+					
+					<div id="topicinfo">
+						<label for="lblTopic" id="lblTopic" class="col-md-2 control-label"><span class="pull-right">Topic:</span></label>
+						<div class="col-md-2">
+							<select id="cboTopic" name="cboTopic" class="form-control">
+								<option value=""></option>
+								<option value="EducationOutreach">Education / Outreach</option>
+								<option value="Enforcement">Enforcement</option>
+								<option value="Inspection">Inspection</option>
+								<option value="Planning">Planning</option>
+								<option value="Training">Training</option>
+								<option value="Other">Other</option>
+							</select>
+						</div>
+					</div>
+					
+					
+				</div>
+			</div>		
+			
+			
+		</fieldset>
+	</div>
+
+	<div id="premise">
+		<fieldset style='margin:10px;'>
+		<legend>Premise Information</legend>
+		<div class='row'>&nbsp;</div>
+		
+		<div class="col-md-12 from-group">
+			<div class="row">
+				<div class="form-group">
+					<label for="txtPremiseFirst" class="col-md-1 control-label" ><span class="pull-right">Name:</span></label>
+					<div class="col-md-4">
+					  <input type="text" class="form-control" id="txtPremiseFirst" name="txtPremiseFirst" placeholder="First Name"/>
+					</div>				
+					<div class="col-md-4">
+						<input type="text" class="form-control" id="txtPremiseLast" name="txtPremiseLast" placeholder="Last Name"/>
+					</div>						
+				</div>			
+			</div>
+			
+			<div class="row">&nbsp;</div>
+			
+			<div class="row">
+				<div class="form-group">
+					<label for="txtPremise" class="col-md-1 control-label"><span class="pull-right">Premise:</span></label>
+					<div class="col-md-8">
+						<input type="text" class="form-control" id="txtPremise" name="txtPremise" placeholder="Premise Name"/>
+					</div>
+					
+				
+				</div>
+			</div>
+			
+			<div class="row">&nbsp;</div>
+			
+			<div class="row">
+				
+				<div class="form-group">
+					<label for="txtPremiseStNum" class="col-md-1 control-label" ><span class="pull-right">Address:</span></label>
+					<div class="col-md-2">
+					  <input type="text" class="form-control" id="txtPremiseStNum" name="txtPremiseStNum" placeholder="Street #"/>
+					</div>				
+					<div class="col-md-4">
+						<input type="text" class="form-control" id="txtPremiseStName" name="txtPremiseStName" placeholder="Street Name"/>
+					</div>
+					<div class="col-md-2">
+					  <input type="text" class="form-control" id="txtPremiseAptNum" name="txtPremiseAptNum" placeholder="Apt #"/>
+					</div>						
+					
+					
+				</div>	
+			</div>
+
+			<div class="row">&nbsp;</div>
+			
+			<div class='row'>
+				
+				<div class="form-group">				
+					<label for="cboCity" class="col-md-1 control-label"><span class="pull-right">City:</span></label>
+					<div class="col-md-4 control-label" >
+						<select id="cboCityPremise" class="form-control" name="cboCityPremise">
+							<option value=""></option>
+							<option value="Ancaster">Ancaster</option>
+							<option value="Dundas">Dundas</option>
+							<option value="Flamborough">Flamborough</option>
+							<option value="Glanbrook">Glanbrook</option>
+							<option value="Hamilton">Hamilton</option>
+							<option value="Other">Other</option>
+						</select>
+					</div>
+					
+					<label for="txtPostalCode" class="col-md-1 control-label"><span class="pull-right">Postal Code:</span></label>
+					<div class="col-md-3 control-label">
+						<input type="text" class="form-control" id="txtPostalPremise" name="txtPostalPremise" placeholder="Postal Code"/>
+					</div>
+					
+					
+				</div>
+			</div>	
+
+			<div class="row">&nbsp;</div>
+				
+			
+			<div class='row'>
+				
+				<div class="form-group">				
+					<label for="txtPhone" class="col-md-1 control-label"><span class="pull-right">Phone:</span></label>
+					<div class="col-md-5 control-label" >
+						<input type="text" class="form-control" id="txtPhonePremise" name="txtPhonePremise" placeholder="Phone Number"/>
+					</div>
+					<div class="col-md-3 control-label" >
+						<input type="text" class="form-control" id="txtExtPremise" name="txtExtPremise" placeholder="Ext"/>
+					</div>
+				</div>
+			</div>				
+				
+		</div>
+			
+			
+			
+					
+	</fieldset>
+	</div>
+	
+	
+	<div id="action">
+		<fieldset style="margin:10px;">
+			<legend>Action Information:</legend>
+			
+
+			<div class="col-md-12 form-group">
+				<div class="row">
+					<div class="form-group">
+						<label for="cboAction" class="col-md-1 control-label"><span class="pull-right">Action:</span></label>
+						<div class="col-md-8 control-label" >
+							<select id="cboAction" name="cboAction" class="form-control">
+								<option value=""></option>
+								<option value="Inspection Initiated">Inspection Initiated</option>
+								<option value="Consultation">Consultation</option>
+								<option value="Left Message">Left Message</option>
+								<option value="None">None</option>
+								<option value="Referred">Referred</option>
+							</select>
+						</div>				
+					</div>
+				</div>
+				
+				<div class="row">&nbsp;</div>			
+				<div id="Outcome">
+					<div class="row">
+					
+						<div class="form-group">
+							<label for="cboDisease1" class="col-md-1 control-label"><span class="pull-right">Disease:</span></label>
+							<div class="col-md-3 control-label">
+								<select id="cboDisease1" name="cboDisease1" class="form-control">
+								</select>
+							</div>
+							<label for="cboService1" class="col-md-1 control-label"><span class="pull-right">Service:</span></label>
+							<div class="col-md-3 control-label">
+								<select id="cboService1" name="cboService1" class="form-control">
+								</select>
+							</div>							
+							<label for="cboOutcomeRefer1" class="col-md-1 control-label"><span class="pull-right">Refer:</span></label>
+							<div class="col-md-3 control-label">
+								<select id="cboOutcomeRefer1" name="cboOutcomeRefer1" class="form-control">
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">&nbsp;</div>
+					<div class="row">
+						<div class="form-group">
+							<label for="cboDisease2" class="col-md-1 control-label"><span class="pull-right">Disease:</span></label>
+							<div class="col-md-3 control-label">
+								<select id="cboDisease2" name="cboDisease2" class="form-control">
+								</select>
+							</div>
+							<label for="cboService2" class="col-md-1 control-label"><span class="pull-right">Service:</span></label>
+							<div class="col-md-3 control-label">
+								<select id="cboService2" name="cboService2" class="form-control">
+								</select>
+							</div>							
+							<label for="cboOutcomeRefer2" class="col-md-1 control-label"><span class="pull-right">Refer:</span></label>
+							<div class="col-md-3 control-label">
+								<select id="cboOutcomeRefer2" name="cboOutcomeRefer2" class="form-control">
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">&nbsp;</div>
+					<div class="row">
+						<div class="form-group">
+							<label for="cboDisease3" class="col-md-1 control-label"><span class="pull-right">Disease:</span></label>
+							<div class="col-md-3 control-label">
+								<select id="cboDisease3" name="cboDisease3" class="form-control">
+								</select>
+							</div>
+							<label for="cboService3" class="col-md-1 control-label"><span class="pull-right">Service:</span></label>
+							<div class="col-md-3 control-label">
+								<select id="cboService3" name="cboService3" class="form-control">
+								</select>
+							</div>							
+							<label for="cboOutcomeRefer3" class="col-md-1 control-label"><span class="pull-right">Refer:</span></label>
+							<div class="col-md-3 control-label">
+								<select id="cboOutcomeRefer3" name="cboOutcomeRefer3" class="form-control">
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">&nbsp;</div>
+					<div class="row">
+						<div class="form-group">
+							<label for="cboDisease4" class="col-md-1 control-label"><span class="pull-right">Disease:</span></label>
+							<div class="col-md-3 control-label">
+								<select id="cboDisease4" name="cboDisease4" class="form-control">
+								</select>
+							</div>
+							<label for="cboService4" class="col-md-1 control-label"><span class="pull-right">Service:</span></label>
+							<div class="col-md-3 control-label">
+								<select id="cboService4" name="cboService4" class="form-control">
+								</select>
+							</div>							
+							<label for="cboOutcomeRefer4" class="col-md-1 control-label"><span class="pull-right">Refer:</span></label>
+							<div class="col-md-3 control-label">
+								<select id="cboOutcomeRefer4" name="cboOutcomeRefer4" class="form-control">
+								</select>
+							</div>
+						</div>	
+					</div>
+					<div class="row">&nbsp;</div>
+					<div class="row">
+						<div class="form-group">
+							<label for="cboDisease5" class="col-md-1 control-label"><span class="pull-right">Disease:</span></label>
+							<div class="col-md-3 control-label">
+								<select id="cboDisease5" name="cboDisease5" class="form-control">
+								</select>
+							</div>
+							<label for="cboService5" class="col-md-1 control-label"><span class="pull-right">Service:</span></label>
+							<div class="col-md-3 control-label">
+								<select id="cboService5" name="cboService5" class="form-control">
+								</select>
+							</div>							
+							<label for="cboOutcomeRefer5" class="col-md-1 control-label"><span class="pull-right">Refer:</span></label>
+							<div class="col-md-3 control-label">
+								<select id="cboOutcomeRefer5" name="cboOutcomeRefer5" class="form-control">
+								</select>
+							</div>
+						</div>	
+					</div>
+					<div class="row">&nbsp;</div>	
+				</div>
+			
+					
+				<div class="row">
+					<div class="form-group">
+						<label for="txtDescription" class="col-md-1 control-label"><span class="pull-right">Description:</span></label>
+					</div>
+		
+		
+					<div class="form-group">
+						<div class="col-md-7">
+							<textarea id="txtDescription" class="form-control" name="txtDescription" rows="10"></textarea>
+						</div>						
+					</div>	
+					<div class="form-group col-md-4">
+						<div class="row">
+							<label for="cboDistrictNo" id="lblDistrictNo" class="col-md-3 control-label"><span class="pull-right">District #:</span></label>
+							<div class="col-md-8 control-label" >
+								<select id="cboDistrictNo" name="cboDistrictNo" class="form-control">
+									<option value=""></option> 	
+								</select>
+							</div>				
+						</div>
+						
+						<div class="row">&nbsp;</div>
+			
+						<div id="phiinfo">
+							<div class="row">
+								<label for="cboPHI" class="col-md-3 control-label" id="lblPHI"><span class="pull-right">PHI:</span></label>
+								<div class="col-md-8 control-label" >
+									<select id="cboPHI" name="cboPHI" class="form-control">
+										<option value=""></option> 	
+									</select>
+								</div>				
+							</div>
+						</div>
+					</div>
+					
+				
+			
+				</div>	
+				
+				<div class="row">&nbsp;</div>
+				<div id="ReferredInformation" class="form-group">
+					<div class="row">
+					
+							<label for="cboReferred" class="col-md-1 control-label"><span class="pull-right">Referred To:</span></label>
+							<div class="col-md-8 control-label">
+								<select id="cboReferred" name="cboReferred" class="form-control">
+									<option value=""></option>
+									<option value="Hamilton Housing">Hamilton Housing (523-8496)</option>
+									<option value="Building Dept">Building Dept (2720)</option>
+									<option value="Nursing Intake">Nursing Intake (3550)</option>
+									<option value="Healthy Lifestyles">Healthy Lifestyles (3540)</option>
+									<option value="Infectious Disease">Infectious Disease (2063)</option>
+									<option value="Customer Contact">Customer Contact Centre (546-2489)</option>
+									<option value="Fire Dpt">Fire Dpt. (3333)</option>
+									<option value="FOI">FOI (4350)</option>
+									<option value="Garbage">Garbage Pickup (2489)</option>
+									<option value="Health Connections">Health Connections (1988)</option>
+									<option value="Water/Wastewater">Water/Wastewater Dept. (4426)</option>
+									<option value="Immunization">Immunization (5250)</option>
+									<option value="Licensing">Licensing (2720)</option>
+									<option value="Special Income">Special Income (546-2590)</option>
+									<option value="Municipal Law">Municipal Law Enforcement (1776)</option>
+									<option value="Property Standards">Property Standards (905-546-2782)</option>
+									<option value="By-Law/Parking">By-Law Parking Enforcement (6000)</option>
+									<option value="Animal Control">Animal Control (905-574-3433)</option>
+									<option value="Tobacco">Tobacco (905-540-5566)</option>
+									<option value="Hamilton Police">Hamilton Police (4925)</option>
+								</select>
+							</div>
+							<span class="col-md-2 control-label">(internal)</span>
+						
+					</div>
+					
+					<div class="row">&nbsp;</div>
+					
+					<div class="row">
+						<div class="form-group">
+							<div class="col-md-8 col-md-offset-1 control-label">
+								<select id="cboReferredExt" name="cboReferredExt" class="form-control">
+									<option value=""></option>
+									<option value="CFIA - Food">CFIA - Food (1-800-701-2737)</option>
+									<option value="CFIA - Rabies">CFIA - Rabies (905-572-2201)</option>
+									<option value="CCAC">CCAC (573-8600)</option>
+									<option value="COAST">COAST (905-972-8338)</option>
+									<option value="Ministry - HPB">Ministry - HPB (416-327-7420)</option>
+									<option value="Ministry - Agriculture">Ministry - Agriculture (888-466-2372)</option>
+									<option value="MOHLTC">Ministry of Health and Long Term Care (1-800-268-1153)</option>
+									<option value="Ministry of Labor">Ministry of Labor (905-577-6221)</option>
+									<option value="Ministry - Environment">Ministry - Environment (905-521-7640)</option>
+									<option value="OntarioRentalHousing">Ontario Rental Housing Tribunal (1-888-332-3234)</option>
+									<option value="Public Health Lab - Fennell">Public Health Lab - Fennell (905-385-5379)</option>
+									<option value="HamiltonSchoolBoard">Hamilton School Bd. Judy Goldsworthy x2246 (527-5092)</option>
+									<option value="Health Canada Cosmetics/Drugs">Health Canada (Cosmetics/Drugs) (613-957-4467)</option>
+									<option value="Health Canada Product Safety">Health Canada (Product Safety) (416-973-4705)</option>
+									<option value="Childrens Aid">Children's Aid (522-1121)</option>
+									<option value="Catholic Family Services">Catholic Family Services (905-527-3823)</option>
+								</select>
+							</div>
+							<span class="col-md-2 control-label">(external)</span>
+						</div>
+					</div>
+				</div>
+				
+			
+
+			
+				
+				
+				
+				
+
+
+			<div class="row">&nbsp;</div>
+
+
+		</fieldset>
+	</div>
+	
+	
+	<div id="buttons">
+		<fieldset style="margin:10px;">
+			<legend></legend>
+			<div class="col-md-6 form-group">
+				<div class="row">
+					<div class="form-group">
+						<label for="cboAction" class="col-md-2 control-label"><span class="pull-right">Subject:</span></label>
+						<div class="col-md-8 control-label" >
+							<input type="text" class="form-control" id="subject" name="subject"/>
+						</div>				
+					</div>
+				</div>		
+			</div>
+			
+			<div class="col-md-6 form-group">
+				<div class="row">
+					<div class="form-group">
+						<div class="col-md-12 control-label" >
+							
+							<input value="Reset" name="ResetButton" id="ResetButton" type="reset" class="btn btn-default"> 
+							<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="formPrint();" class="btn btn-default"> 
+							<input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="formPrint();releaseDirtyFlag();setTimeout('SubmitButton.click()',1000);" class="btn btn-default"> 			
+							<input value="Save" name="SubmitButton" id="SubmitButton" class="btn btn-primary" type="submit" onclick="releaseDirtyFlag();"> 
+						</div>
+					</div>
+				</div>
+			</div>			
+				
+				
+				
+			<!--div class="col-md-6 form-group">
+				
+				<div class="row">
+					<div class="form-group">
+						<label for="subject" class="col-md-1 control-label" ><span class="pull-right">Subject:</span></label>
+						<div class="col-md-11">
+							<input type="text" class="form-control" id="subject" name="subject">
+						</div>	 
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-6 form-group">
+				<div class="row">
+					<div class="form-group">
+						<div class="col-md-12">
+							
+						</div>
+					</div>
+				</div>
+			</div-->
+			
+		</fieldset>
+	</div>
+		
+	
+	</form>
+	
+
+	
+	<script type="text/javascript">
+		Calendar.setup({inputField:"txtDateClosed",ifFormat:"%Y/%m/%d",showsTime:false,button:"dob",singleClick:true,step:1});
+		
+	
+		
+	
+		/*
+			$($.parseJSON($("#clientName").val())).map(function () {
+				alert(this.value);
+				return $('<option>').val(this.value).text(this.label);
+			}).appendTo('#cboPHI');	
+		*/
+		
+		/*
+		Calendar.setup({inputField:"visitDate",ifFormat:"%Y/%m/%d",showsTime:false,button:"visitDate",singleClick:true,step:1});
+		Calendar.setup({inputField:"expiryDate",ifFormat:"%Y/%m/%d",showsTime:false,button:"expiryDate",singleClick:true,step:1});
+		Calendar.setup({inputField:"newExpiryDate",ifFormat:"%Y/%m/%d",showsTime:false,button:"newExpiryDate",singleClick:true,step:1});
+		Calendar.setup({inputField:"srlgclScrnWinPeriodDateStart",ifFormat:"%Y/%m/%d",showsTime:false,button:"srlgclScrnWinPeriodDateStart",singleClick:true,step:1});
+		Calendar.setup({inputField:"srlgclScrnWinPeriodDateEnd",ifFormat:"%Y/%m/%d",showsTime:false,button:"srlgclScrnWinPeriodDateEnd",singleClick:true,step:1});
+		*/
+	</script>
+</body>
+
+
+</html>
+<!--
+<tickler>
+	<taskAssignedTo>$t{providerNo}</taskAssignedTo>
+	<tickMsg>
+		Complaint Assigned. 
+	</tickMsg>
+</tickler>
+-->

@@ -1,0 +1,2102 @@
+<html>
+<head>
+
+<title>MD.RN EC form</title>
+
+<!-- Style configuration -->
+<style type="text/css" media="print">
+	.DoNotPrint {
+		display: none;
+	}
+	.noborder {
+		border : 0px;
+		background: transparent;
+		scrollbar-3dlight-color: transparent;
+		scrollbar-3dlight-color: transparent;
+		scrollbar-arrow-color: transparent;
+		scrollbar-base-color: transparent;
+		scrollbar-darkshadow-color: transparent;
+		scrollbar-face-color: transparent;
+		scrollbar-highlight-color: transparent;
+		scrollbar-shadow-color: transparent;
+		scrollbar-track-color: transparent;
+		background: transparent;
+		overflow: hidden;
+	}
+</style>
+<style>
+	table {
+		width: 100%;
+	}
+	td {
+		vertical-align: top;
+	}
+	.centered {
+		text-align: center;
+	}
+	.text_bold {
+		font-weight: bold;
+	}
+	.text_underline {
+		text-decoration: underline;
+	}
+	.bordered {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+	.top_light_bordered {
+		border: 1px #ccc;
+		border-style: solid none none none;
+	}
+	.noborder {
+		border: none;
+	}
+	.small_box {
+		width: 50px;
+		text-align: center;
+	}
+	.small_cell {
+		width: 35px;
+	}
+	.indent {
+		padding-left: 30px;
+	}
+</style>
+
+<!-- stylesheets & libraries for calendar -->
+<link rel="stylesheet" type="text/css" media="all" href="${oscar_javascript_path}../calendar/calendar.css" title="win2k-cold-1"/> 
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar.js"></script>
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar-setup.js"></script>
+
+<!-- libraries for drawing -->
+<script type="text/javascript" src="${oscar_image_path}jsgraphics.js"></script>
+<script type="text/javascript" src="${oscar_image_path}mouse.js"></script>
+
+<script language="javascript" src="${oscar_javascript_path}prototype.js"></script>
+<script language="javascript" src="${oscar_javascript_path}scriptaculous.js"></script>
+<script language="javascript">
+function start() {
+	if ($("dateTime").value=="") setDateTime();
+	setWindowSize();
+	initHideDetails();
+}
+
+function conclude() {
+	setDateTime();
+	writeAdditionalTests();
+	writePreventions();}
+
+function writePreventions() {
+	$("GonorrheaUrine").value = "";
+	$("GonorrheaThroat").value = "";
+	$("GonorrheaAnal").value = "";
+	$("ChlamydiaUrine").value = "";
+	$("ChlamydiaThroat").value = "";
+	$("ChlamydiaAnal").value = "";
+	$("GonorrheaCervical").value = "";
+	$("ChlamydiaCervical").value = "";
+	$("GonorrheaUrethral").value = "";
+	$("ChlamydiaUrethral").value = "";	
+	$("GonorrheaUrethralCulture").value = "";
+	$("GonorrheaCervicalCulture").value = "";	
+	
+	$("HIVOrdered").value = "";
+	
+	$("HSVViralSwab").value = "";
+	$("PreventionPAP").value = "";
+	$("BacterialVaginosis").value = "";
+	$("Trichomaniasis").value = "";
+	$("Yeast").value = "";	
+	
+	$("preventionSyphilisSerology").value = "";
+	$("preventionHepBScreen").value = "";
+	$("preventionHepCScreen").value = "";
+	$("hepBcomment").value = "";
+	
+	if($("labTestGC").checked){
+		
+		if($("NAATUrine").checked){
+			$("GonorrheaUrine").value = "GC NAAT Urine";
+			$("ChlamydiaUrine").value = "CT NAAT Urine";
+		}
+		
+		if($("NAATCervical").checked){
+			$("GonorrheaCervical").value = "GC NAAT Cervical";
+			$("ChlamydiaCervical").value = "CT NAAT Cervical";
+		}
+	
+		if($("NAATUrethral").checked){
+			$("GonorrheaUrethral").value = "GC NAAT  Urethral ";
+			$("ChlamydiaUrethral").value = "CT NAAT Urethral";
+			
+		}
+	}
+	 
+	if($("gCulture").checked){
+		if($("gCulturePharyngeal").checked) $("GonorrheaThroat").value = "GC Culture Throat";
+		if($("gCultureRectal").checked) $("GonorrheaAnal").value = "GC Culture Rectal";
+		if($("gCultureCervical").checked) $("GonorrheaCervicalCulture").value = "GC Culture Cervical";
+		if($("gCultureUrethral").checked)  $("GonorrheaUrethralCulture").value = "GC Culture Urethral";
+	}
+	
+	if($("cCulture").checked){
+		if($("cCulturePharyngeal").checked) $("ChlamydiaThroat").value = "CT Culture Throat";
+		if($("cCultureRectal").checked) $("ChlamydiaAnal").value = "CT Culture Rectal";
+	}	
+	
+	//other comments ordered
+	if($("labTestSerology").checked){ 
+		if($("syphilis").checked){
+			$("preventionSyphilisSerology").value = "Syphilis Serology"; 
+		}
+		
+		if($("hepB").checked){
+			$("preventionHepBScreen").value = "Hep B Screen"; 
+			if ($("hepBScreen").checked && $("hepBImmunity").checked){
+				$("hepBcomment").value = "Screen and Immunity";
+			} else if ($("hepBScreen").checked ){
+				$("hepBcomment").value = "Screen";
+			} else if ($("hepBImmunity").checked ){
+				$("hepBcomment").value = "Immunity";
+			}
+		}
+		
+		if($("hepCScreen").checked){
+			$("preventionHepCScreen").value = "Hep C Screen";
+		}
+		
+		if($("HIV").checked){
+			$("HIVOrdered").value = "HIV";
+		}
+	}
+	
+	if($("HSVswab").checked){
+		$("HSVViralSwab").value = "HSV viral swab";
+	}	
+	
+	if($("PAPTest").checked){
+		$("PreventionPAP").value = "PAP";
+	}
+
+	if($("vaginalSlide").checked){
+		$("BacterialVaginosis").value = "Bacterial Vaginosis";
+		$("Trichomaniasis").value = "Trichomaniasis";
+		$("Yeast").value = "Yeast";			
+	}
+}
+	
+function initHideDetails() {
+	initDrawing();
+	var inputs = document.getElementsByTagName("input");
+	for (var i=0; i<inputs.length; i++) {
+		if ($(inputs[i].id+"Detail")!=undefined && inputs[i].type=="checkbox" && !inputs[i].checked)
+			toggleDetail(inputs[i].id);
+	}
+}
+
+function setWindowSize() {
+	top.window.moveTo(0,0);
+	if (document.all) {
+		top.window.resizeTo(1250,screen.availHeight);
+	}
+	else if (document.layers||document.getElementById) {
+		if (top.window.outerHeight<screen.availHeight||top.window.outerWidth<screen.availWidth){
+			top.window.outerHeight = screen.availHeight;
+			top.window.outerWidth = 1250;
+		}
+	}
+}
+
+function setDateTime() {
+	var now = new Date();
+	var nowMonth = add0(now.getMonth()+1);
+	var nowDay = add0(now.getDate());
+	var nowHour = add0(now.getHours());
+	var nowMin = add0(now.getMinutes());
+	
+	var nowDate = now.getFullYear() + "/" + nowMonth + "/" + nowDay;
+	$("dateTime").value = nowDate + " " + nowHour + ":" + nowMin;
+}
+
+function writeAdditionalTests() {
+	$("additionalTestsWrite").value = "";
+	if ($("additionalTests").checked && $("additionalTestsText").value.trim()!="") {
+		$("additionalTestsWrite").value = "Additional Test(s) - " + $("additionalTestsText").value;
+	}
+}
+
+function add0(number) {
+	if (number<10) number = "0"+number;
+	return number;
+}
+
+function showOptionsAge(age) {
+	$("ageRange0").checked = false;
+	$("ageRange1").checked = false;
+	if (age!="") {
+		if (age>34) $("ageRange1").checked = true;
+		else if (age>19) $("ageRange0").checked = true;
+	}
+	toggleDetail("ageRange0");
+	toggleDetail("ageRange1");
+}
+
+function onOpenInForContraception(chked) {
+	if (chked) showOptionsAge($("clientAge").value);
+}
+
+var toggleDetailLvl = 0;
+function toggleDetail(item) {
+	toggleDetailLvl++;
+	if ($(item+"Detail")!=undefined) {
+		if ($(item).checked) {
+			if (!$(item+"Detail").visible()) {
+				$(item+"Detail").show();
+			}
+		}
+		else if ($(item+"Detail").visible()) {
+			$(item+"Detail").hide();
+			if (children[item]!=undefined) {
+				for (var i=0; i<children[item].length; i++) {
+					$(children[item][i]).checked = false;
+				}
+			}
+		}
+	}
+	if (children[item]!=undefined) {
+		for (var i=0; i<children[item].length; i++) {
+			toggleDetail(children[item][i]);
+		}
+	}
+	if (toggles[item]!=undefined) {
+		if ($(item).checked) {
+			for (var i=0; i<toggles[item].length; i++) {
+				$(toggles[item][i]).checked = false;
+				toggleDetail(toggles[item][i]);
+			}
+		}
+	}
+	
+	toggleDetailLvl--;
+	if (toggleDetailLvl==0) moveDraw();
+}
+
+var toggles = {};
+toggles["contraindicationsYes"] = ["contraindicationsNo"];
+toggles["contraindicationsNo"] = ["contraindicationsYes"];
+toggles["antibioticsInLast2WksNo"] = ["antibioticsInLast2WksYes"];
+toggles["antibioticsInLast2WksYes"] = ["antibioticsInLast2WksNo"];
+toggles["STItreatmentCounselingNo"] = ["STItreatmentCounselingYes"];
+toggles["STItreatmentCounselingYes"] = ["STItreatmentCounselingNo"];
+toggles["clientNoDrugBenefit"] = ["clientNotEligible"];
+toggles["clientNotEmployedRegular"] = ["clientNotEligible"];
+toggles["clientCannotPayFull"] = ["clientNotEligible"];
+toggles["clientNotEligible"] = ["clientNoDrugBenefit","clientNotEmployedRegular","clientCannotPayFull"];
+
+var children = {};
+children["inForContraception"] = ["ageRange0","ageRange1","contraindicationsYes","contraindicationsNo"];
+children["ageRange0"] = ["clientCannotPayFull","clientNotEligible"];
+children["maleGenitalia"] = ["maleDiagram"];
+
+
+function formPrint() {
+	window.print();
+} 
+</script>
+
+<script language="javascript">
+var drawPadTotal = 2; //Total number of drawing pads
+
+function initDrawing() {
+	init();
+	for (var i=0; i<drawPadTotal; i++) {
+		prepareDrawPad(i);
+		ReloadImage(i);
+		SetSwitchOn('Freehand'+i);
+	}
+}
+
+function moveDraw() {
+	var offsetY = window.pageYOffset;
+	if (offsetY==undefined) offsetY = (((t = document.documentElement) || (t = document.body.parentNode)) && typeof t.ScrollTop == 'number' ? t : document.body).ScrollTop;
+	
+	for (var i=0; i<drawPadTotal; i++) {
+		var rect = $("drawPad"+i).getBoundingClientRect();
+		cnvTop[i] = rect.top + offsetY;
+	}
+}
+</script>
+
+<!-- scripts to confirm closing of window if it hadn't been saved yet -->
+<script language="javascript">
+//keypress events trigger dirty flag
+var needToConfirm = false;
+document.onkeyup=setDirtyFlag;
+function setDirtyFlag() {
+	needToConfirm = true;
+}
+function releaseDirtyFlag() {
+	needToConfirm = false;
+}
+window.onbeforeunload = confirmExit;
+function confirmExit() {
+	if (needToConfirm) {
+		return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to leave?";
+	}
+}
+</script>
+</head>
+
+
+<!-- Webpage content -->
+<body onload="start()">
+<form onsubmit="conclude()">
+
+<table style="width:900px">
+<tr>
+	<td>
+		<table style="width:100%">
+		<tr>
+			<td>
+				<h2>Physician/Nurse Practitioner Form</h2>
+			</td>
+			<td class="bordered" style="width:41%">
+				<table>
+				<tr>
+					<td>Client Name:</td>
+					<td><input type="text" id="clientName" name="clientName" oscarDB="patient_name"/></td>
+				</tr>
+				<tr>
+					<td>DOB:</td>
+					<td><input type="text" id="dob" name="dob" oscarDB="dobc2"/></td>
+				</tr>
+				<tr>
+					<td>Date of visit:</td>
+					<td>
+						<input type="text" id="visitDate" name="visitDate"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Clinic Site:</td>
+					<td><input type="text" id="clinicSite" name="clinicSite" oscarDB="clinic_name"/></td>
+				</tr>
+				</table>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td>
+		Presenting Concern:<br/>
+		<textarea id="presentingConcern" name="presentingConcern" cols="120" rows="4"></textarea>
+		<br/><br/>
+	</td>
+</tr>
+<tr>
+	<td class="top_light_bordered">
+		<input type="checkbox" id="inForContraception" name="inForContraception" onclick="toggleDetail(this.id);onOpenInForContraception(this.checked)"/>
+		<label for="inForContraception">Client in for Contraception</label>
+		<br/>
+		<div id="inForContraceptionDetail">
+			Client's Age:
+			<input type="text" id="clientAge" name="clientAge" class="small_box" onkeyup="showOptionsAge(this.value)"/>
+			<input type="checkbox" id="ageRange0" name="ageRange0" hidden="hidden"/>
+			<input type="checkbox" id="ageRange1" name="ageRange1" hidden="hidden"/>
+			<div id="ageRange0Detail" class="indent">
+				<table>
+				<tr>
+					<td><input type="checkbox" id="clientNoDrugBenefit" name="clientNoDrugBenefit" onclick="toggleDetail(this.id)"/></td>
+					<td><label for="clientNoDrugBenefit">Client does not have access to any drug benefits that will cover birth control (i.e. work benefits, student health plan, parent's drug plan, OW)</label></td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" id="clientNotEmployedRegular" name="clientNotEmployedRegular" onclick="toggleDetail(this.id)"/></td>
+					<td><label for="clientNotEmployedRegular">Client is not employed on a regular basis and/or is paid &le; minimum wage</label></td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" id="clientCannotPayFull" name="clientCannotPayFull" onclick="toggleDetail(this.id)"/></td>
+					<td>
+						<label for="clientCannotPayFull">Client has other extenuating circumstances and cannot pay full price for contraception. Please describe:</label>
+						<div id="clientCannotPayFullDetail" class="indent">
+							<textarea id="clientCannotPayFullText" name="clientCannotPayFullText" cols="80" rows="4"></textarea>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" id="clientNotEligible" name="clientNotEligible" onclick="toggleDetail(this.id)"/></td>
+					<td>
+						<label for="clientNotEligible">Client not eligible</label>
+						<span id="clientNotEligibleDetail">
+							&rarr; Recommend outside prescriptions or client follow-up with family physician or walk-in clinic
+						</span>
+					</td>
+				</tr>				
+				</table>
+			</div>
+			<div id="ageRange1Detail" class="indent">
+				Not eligible for low cost contraception
+			</div>
+			<br/><br/>
+			Contraindications to Hormonal contraception?
+			<br/>
+			<input type="checkbox" id="contraindicationsYes" name="contraindicationsYes" onclick="toggleDetail(this.id)"/>
+			<label for="contraindicationsYes">Yes</label>
+			<span id="contraindicationsYesDetail">
+				: <input type="text" id="contraindicationsYesText" name="contraindicationsYesText" size="80"/>
+			</span>
+			<br/>
+			<input type="checkbox" id="contraindicationsNo" name="contraindicationsNo" onclick="toggleDetail(this.id)"/>
+			<label for="contraindicationsNo">No</label>
+			<div id="contraindicationsNoDetail" class="indent">
+				Blood Pressure:
+				<input type="text" id="bpSystolic" name="bpSystolic" class="small_box"/>
+				/
+				<input type="text" id="bpSystolic" name="bpDiastolic" class="small_box"/>
+				<br/>
+				Discussed:
+				<br/>
+				<input type="checkbox" id="ACHES" name="ACHES"/>
+				<label for="ACHES">Increased risk of blood clots ("ACHES")</label>
+				<br/>
+				<input type="checkbox" id="minorSideEffects" name="minorSideEffects"/>
+				<label for="minorSideEffects">Minor side effects (bleeding, irregularities, weight gain, nausea, headache, mood swings)</label>
+				<br/>
+				<input type="checkbox" id="drugInteractions" name="drugInteractions"/>
+				<label for="drugInteractions">Drug interactions</label>
+				<br/>
+				<input type="checkbox" id="howToStartHC" name="howToStartHC"/>
+				<label for="howToStartHC">How to start/take HC</label>
+				<br/>
+				<input type="checkbox" id="ECP" name="ECP"/>
+				<label for="ECP">ECP</label>
+				<br/>
+				<input type="checkbox" id="smokingRiskHCUse" name="smokingRiskHCUse"/>
+				<label for="smokingRiskHCUse">Risks of smoking related to HC use</label>
+				<br/>
+				<input type="checkbox" id="PAPTesting" name="PAPTesting"/>
+				<label for="PAPTesting">PAP testing guidelines</label>
+				<br/>
+				<input type="checkbox" id="STITesting" name="STITesting"/>
+				<label for="STITesting">STI testing and condom use</label>
+				<br/>
+				Notes:<br/>
+				<textarea id="contraindicationsNoNotes" name="contraindicationsNoNotes" cols="110" rows="4"></textarea>
+			</div>
+		</div>
+		<br/><br/>
+	</td>
+</tr>
+<tr>
+	<td class="top_light_bordered">
+	</td>
+</tr>
+<tr>
+	<td class="top_light_bordered">
+		<input type="checkbox" id="physicalExam" name="physicalExam" onclick="toggleDetail(this.id)"/>
+		<label for="physicalExam">Physical exam</label>
+		<br/>
+		<div id="physicalExamDetail" class="indent">
+			<input type="checkbox" id="maleGenitalia" name="maleGenitalia" onclick="toggleDetail(this.id)"/>
+			<label for="maleGenitalia">Male genitalia</label>
+			<br/>
+			<div id="maleGenitaliaDetail" class="indent">
+				<table class="bordered">
+				<tr>
+					<td colspan="6">
+						<span class="text_bold">Clinical Examination</span>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						D = Declined
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						ND = not done
+					</td>
+				</tr>
+				<tr>
+					<th class="bordered" style="width:30%">&nbsp;</th>
+					<th class="bordered small_cell text_bold">Yes</th>
+					<th class="bordered small_cell text_bold">No</th>
+					<th class="bordered small_cell text_bold">D</th>
+					<th class="bordered small_cell text_bold">ND</th>
+					<th class="bordered text_bold">Notes</th>
+				</tr>
+				<tr>
+					<td class="bordered">Urethral discharge</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="urethralDischargeYes" name="urethralDischargeYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="urethralDischargeNo" name="urethralDischargeNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="urethralDischargeD" name="urethralDischargeD"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="urethralDischargeND" name="urethralDischargeND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="urethralDischargeNotes" name="urethralDischargeNotes" size="42"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Meatus abnormal</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="meatusAbnormalYes" name="meatusAbnormalYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="meatusAbnormalNo" name="meatusAbnormalNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="meatusAbnormalD" name="meatusAbnormalD"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="meatusAbnormalND" name="meatusAbnormalND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="meatusAbnormalNotes" name="meatusAbnormalNotes" size="42"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Testes abnormal</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="testesAbnormalYes" name="testesAbnormalYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="testesAbnormalNo" name="testesAbnormalNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="testesAbnormalD" name="testesAbnormalD"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="testesAbnormalND" name="testesAbnormalND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="testesAbnormalNotes" name="testesAbnormalNotes" size="42"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Penile lesion</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="penileLesionYes" name="penileLesionYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="penileLesionNo" name="penileLesionNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="penileLesionD" name="penileLesionD"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="penileLesionND" name="penileLesionND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="penileLesionNotes" name="penileLesionNotes" size="42"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Genital Rash</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="genitalRashYes" name="genitalRashYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="genitalRashNo" name="genitalRashNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="genitalRashD" name="genitalRashD"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="genitalRashND" name="genitalRashND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="genitalRashNotes" name="genitalRashNotes" size="42"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Inguinal lymphadenopathy</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="inguinalLASYes" name="inguinalLASYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="inguinalLASNo" name="inguinalLASNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="inguinalLASD" name="inguinalLASD"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="inguinalLASND" name="inguinalLASND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="inguinalLASNotes" name="inguinalLASNotes" size="42"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Other lymphadenopathy</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="otherLASYes" name="otherLASYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="otherLASNo" name="otherLASNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="otherLASD" name="otherLASD"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="otherLASND" name="otherLASND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="otherLASNotes" name="otherLASNotes" size="42"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Perianal region abnormal</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="perianalAbnormalYes" name="perianalAbnormalYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="perianalAbnormalNo" name="perianalAbnormalNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="perianalAbnormalD" name="perianalAbnormalD"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="perianalAbnormalND" name="perianalAbnormalND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="perianalAbnormalNotes" name="perianalAbnormalNotes" size="42"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Proctoscopic abnormal</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="proctoscopicAbnormalYes" name="proctoscopicAbnormalYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="proctoscopicAbnormalNo" name="proctoscopicAbnormalNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="proctoscopicAbnormalD" name="proctoscopicAbnormalD"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="proctoscopicAbnormalND" name="proctoscopicAbnormalND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="proctoscopicAbnormalNotes" name="proctoscopicAbnormalNotes" size="42"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Other</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="otherExamMaleYes" name="otherExamMaleYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="otherExamMaleNo" name="otherExamMaleNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="otherExamMaleD" name="otherExamMaleD"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="otherExamMaleND" name="otherExamMaleND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="otherExamMaleNotes" name="otherExamMaleNotes" size="42"/>
+					</td>
+				</tr>
+				</table>
+				<br/>
+				<input type="checkbox" id="maleDiagram" name="maleDiagram" onclick="toggleDetail(this.id)"/>
+				<label for="maleDiagram">Diagram</label>
+				<div id="maleDiagramDetail">
+					<input type="hidden" name="TempData0" id="TempData0">
+					<input type="hidden" name="DrawData0" id="DrawData0">
+					<input type="hidden" name="SubmitData0" id="SubmitData0">
+					
+					<!--  Drawing Pad 0: start -->
+					<div id="drawPad0" style="position:relative; left:-75px; top:0px; ">
+						<img id="image0" src="${oscar_image_path}maleGenitalia.png" style="position:absolute; left:75px; top:0px">
+						<div id="preview0" style="position:absolute; left:30px; width:600px; height:500px; top:0px"></div>
+						<div id="myCanvas0"
+							style="position:absolute; left:30px; width:600px; height:500px; top:0px"
+							onmouseover="SetDrawOn(0)"
+							onmouseout="SetDrawOff(0)" 	
+							onmousedown="SetMouseDown(0);SetStart(0)" 
+							onmouseup="SetMouseUp(0); DrawMarker(0)" 
+							onmousemove="DrawPreview(0)"> 
+						</div>
+						<br>
+						<div name="ToolSelectDiv0" style="position:absolute; left:630px; top:0px" class="DoNotPrint">
+						<table>
+						<tr>
+						<td>
+							<u>Drawing Tools:</u><br>
+							<input id="Freehand0" type="radio" name="DrawingTool" onclick="SetSwitchOn(this.id)" checked><b>Freehand:</b>
+							<br>
+							Line Thickness:<select id="Thickness0" name="Thickness0" style="width:50px" onchange="SetThickness(this.value,0)">
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3" selected>3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+								</select>
+							<br>
+							<br>
+							<input id="Text0" type="radio" name="DrawingTool" onclick="SetSwitchOn(this.id)"><b>Text:</b>
+							<br>
+							Size:<select id="FontSize0" name="FontSize0" style="width:50px" onchange="SetFontSize(this.value,0)">
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+									<option value="14">14</option>
+									<option value="15">15</option>
+									<option value="16">16</option>
+									<option value="17">17</option>
+									<option value="18">18</option>
+									<option value="19">19</option>
+									<option value="20">20</option>
+								</select>
+							<br>
+							<input id="TextString0" type="text" onchange="GetTxt(0)" style="width:200px">
+							<br>
+							<br>
+							<input id="SymbolPattern0" type="radio" name="DrawingTool" onclick="SetSwitchOn(this.id)" ><b>Repeating Symbol:</b><br>
+							<input id="Symbol0" type="text" onchange="GetSymbol(0)" maxlength="1" style="width:30px">
+							Size:<select id="SymbolSize0" name="SymbolSize0" style="width:50px" onchange="SetSymbolSize(this.value,0)">
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+									<option value="14">14</option>
+									<option value="15">15</option>
+									<option value="16">16</option>
+									<option value="17">17</option>
+									<option value="18">18</option>
+									<option value="19">19</option>
+									<option value="20">20</option>
+								</select>
+						
+						</td>
+						</tr>
+						<tr>
+						<td>
+							<u>Color:</u><br>
+							<table>
+								<tr>
+									<td>
+										<div  id="black0"  style="width:30px; height:20px;border: 2px solid orange; background-color: black; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[0]+'0')" onclick="RemoveHighlight(StrokeColor[0]+'0');SetStrokeColor(this.id)"></div>
+										<div  id="red0" style="width:30px; height:20px;background-color: red; border:2px; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[0]+'0')" onclick="RemoveHighlight(StrokeColor[0]+'0');SetStrokeColor(this.id)"></div>
+										<div  id="lime0" style="width:30px; height:20px;background-color: lime; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[0]+'0')" onclick="RemoveHighlight(StrokeColor[0]+'0');SetStrokeColor(this.id)"></div>
+										<div  id="blue0"  style="width:30px; height:20px;background-color: blue; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[0]+'0')" onclick="RemoveHighlight(StrokeColor[0]+'0');SetStrokeColor(this.id)"></div>
+									</td>
+									<td>
+										<div  id="grey0"  style="width:30px; height:20px; background-color: grey; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[0]+'0')" onclick="RemoveHighlight(StrokeColor[0]+'0');SetStrokeColor(this.id)"></div>
+										<div  id="magenta0" style="width:30px; height:20px;background-color: magenta; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[0]+'0')" onclick="RemoveHighlight(StrokeColor[0]+'0');SetStrokeColor(this.id)"></div>
+										<div  id="yellow0" style="width:30px; height:20px;background-color: yellow; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[0]+'0')" onclick="RemoveHighlight(StrokeColor[0]+'0');SetStrokeColor(this.id)"></div>
+										<div  id="cyan0" style="width:30px; height:20px;background-color: cyan; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[0]+'0')" onclick="RemoveHighlight(StrokeColor[0]+'0');SetStrokeColor(this.id)"></div>
+						
+									</td>
+								</tr>
+							</table>
+						</td>
+						</tr>
+						<tr>
+						<td>
+							<input id="UndoButton0" type="button" value="Undo" onclick="Undo(0)" style="width:100px"><br>
+							<input id="ClearButton0" type="button"  value="Clear" onclick="Clear(0)" style="width:100px">
+						</td>
+						</tr>
+						</table>
+						</div>
+					</div>
+					<!--  Drawing Pad 0: end -->
+					<img id="spacer0" src="${oscar_image_path}spacer.png" style="height:500px"/>
+				</div>
+			</div>
+			<br/>
+			
+			<input type="checkbox" id="femaleGenitalia" name="femaleGenitalia" onclick="toggleDetail(this.id)"/>
+			<label for="femaleGenitalia">Female genitalia</label>
+			<br/>
+			<div id="femaleGenitaliaDetail" class="indent">
+				<table class="bordered">
+				<tr>
+					<td colspan="6">
+						<span class="text_bold">Clinical Examination</span>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						ND = not done
+					</td>
+				</tr>
+				<tr>
+					<th colspan="2" class="bordered" style="width:30%">&nbsp;</th>
+					<th class="bordered small_cell text_bold">Yes</th>
+					<th class="bordered small_cell text_bold">No</th>
+					<th class="bordered small_cell text_bold">ND</th>
+					<th class="bordered text_bold">Notes</th>
+				</tr>
+				<tr>
+					<td rowspan="3" class="bordered">
+						<div class="text_bold">Abdomen</div>
+						<input type="checkbox" id="abdomenDeclined" name="abdomenDeclined"/>
+						<label for="abdomenDeclined">Client Declined</label>
+					</td>
+					<td class="bordered">Tenderness</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="tendernessYes" name="tendernessYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="tendernessNo" name="tendernessNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="tendernessND" name="tendernessND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="tendernessNotes" name="tendernessNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Guarding/Rigidity</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="guardingRigidityYes" name="guardingRigidityYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="guardingRigidityNo" name="guardingRigidityNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="guardingRigidityND" name="guardingRigidityND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="guardingRigidityNotes" name="guardingRigidityNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Rebound</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="reboundYes" name="reboundYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="reboundNo" name="reboundNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="reboundND" name="reboundND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="reboundNotes" name="reboundNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td rowspan="4" class="bordered">
+						<div class="text_bold">External</div>
+						<input type="checkbox" id="externalDeclined" name="externalDeclined"/>
+						<label for="externalDeclined">Client Declined</label>
+					</td>
+					<td class="bordered">Rash/Lesions</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="rashLesionsYes" name="rashLesionsYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="rashLesionsNo" name="rashLesionsNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="rashLesionsND" name="rashLesionsND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="rashLesionsNotes" name="rashLesionsNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Genital ulcer</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="genitalUlcerYes" name="genitalUlcerYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="genitalUlcerNo" name="genitalUlcerNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="genitalUlcerND" name="genitalUlcerND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="genitalUlcerNotes" name="genitalUlcerNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Enlarged inguinal nodes</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="enlargedInguinalNodesYes" name="enlargedInguinalNodesYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="enlargedInguinalNodesNo" name="enlargedInguinalNodesNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="enlargedInguinalNodesND" name="enlargedInguinalNodesND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="enlargedInguinalNodesNotes" name="enlargedInguinalNodesNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Other</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="externalOtherYes" name="externalOtherYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="externalOtherNo" name="externalOtherNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="externalOtherND" name="externalOtherND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="externalOtherNotes" name="externalOtherNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td rowspan="6" class="bordered">
+						<div class="text_bold">Internal</div>
+						<input type="checkbox" id="internalDeclined" name="internalDeclined"/>
+						<label for="internalDeclined">Client Declined</label>
+					</td>
+					<td class="bordered">Vaginal discharge</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="vaginalDischargeYes" name="vaginalDischargeYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="vaginalDischargeNo" name="vaginalDischargeNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="vaginalDischargeND" name="vaginalDischargeND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="vaginalDischargeNotes" name="vaginalDischargeNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Cervical discharge</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="cervicalDischargeYes" name="cervicalDischargeYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="cervicalDischargeNo" name="cervicalDischargeNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="cervicalDischargeND" name="cervicalDischargeND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="cervicalDischargeNotes" name="cervicalDischargeNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Cervicitis</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="cervicitisYes" name="cervicitisYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="cervicitisNo" name="cervicitisNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="cervicitisND" name="cervicitisND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="cervicitisNotes" name="cervicitisNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Friable cervix</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="friableCervixYes" name="friableCervixYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="friableCervixNo" name="friableCervixNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="friableCervixND" name="friableCervixND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="friableCervixNotes" name="friableCervixNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Lesions</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="lesionsYes" name="lesionsYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="lesionsNo" name="lesionsNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="lesionsND" name="lesionsND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="lesionsNotes" name="lesionsNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Other</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="internalOtherYes" name="internalOtherYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="internalOtherNo" name="internalOtherNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="internalOtherND" name="internalOtherND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="internalOtherNotes" name="internalOtherNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td rowspan="3" class="bordered">
+						<div class="text_bold">Bimanual</div>
+						<input type="checkbox" id="bimanualDeclined" name="bimanualDeclined"/>
+						<label for="bimanualDeclined">Client Declined</label>
+					</td>
+					<td class="bordered">Cervix motion tenderness</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="cervixMotionTendernessYes" name="cervixMotionTendernessYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="cervixMotionTendernessNo" name="cervixMotionTendernessNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="cervixMotionTendernessND" name="cervixMotionTendernessND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="cervixMotionTendernessNotes" name="cervixMotionTendernessNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Adnexal Tenderness (R) (L)</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="adnexalTendernessYes" name="adnexalTendernessYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="adnexalTendernessNo" name="adnexalTendernessNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="adnexalTendernessND" name="adnexalTendernessND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="adnexalTendernessNotes" name="adnexalTendernessNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Adnexal Mass (R) (L)</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="adnexalMassYes" name="adnexalMassYes"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="adnexalMassNo" name="adnexalMassNo"/>
+					</td>
+					<td class="bordered centered">
+						<input type="checkbox" id="adnexalMassND" name="adnexalMassND"/>
+					</td>
+					<td class="bordered">
+						<input type="text" id="adnexalMassNotes" name="adnexalMassNotes" size="45"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="bordered">Other:</td>				
+					<td colspan="5" class="bordered">
+						<input type="text" id="otherExamfemaleNotes" name="otherExamfemaleNotes" size="74"/>
+					</td>
+				</tr>
+				</table>
+				<br/>
+				<input type="checkbox" id="femaleDiagram" name="femaleDiagram" onclick="toggleDetail(this.id)"/>
+				<label for="femaleDiagram">Diagram</label>
+				<div id="femaleDiagramDetail">
+					<input type="hidden" name="TempData1" id="TempData1">
+					<input type="hidden" name="DrawData1" id="DrawData1">
+					<input type="hidden" name="SubmitData1" id="SubmitData1">
+					
+					<!--  Drawing Pad 1: start -->
+					<div id="drawPad1" style="position:relative; left:-75px; top:0px; ">
+						<img id="image1" src="${oscar_image_path}femaleGenitalia.png" style="position:absolute; left:75px; top:0px">
+						<div id="preview1" style="position:absolute; left:30px; width:600px; height:500px; top:0px"></div>
+						<div id="myCanvas1"
+							style="position:absolute; left:30px; width:600px; height:500px; top:0px"
+							onmouseover="SetDrawOn(1)"
+							onmouseout="SetDrawOff(1)" 	
+							onmousedown="SetMouseDown(1);SetStart(1)" 
+							onmouseup="SetMouseUp(1); DrawMarker(1)" 
+							onmousemove="DrawPreview(1)"> 
+						</div>
+						<br>
+						<div name="ToolSelectDiv1" style="position:absolute; left:630px; top:0px" class="DoNotPrint">
+						<table>
+						<tr>
+						<td>
+							<u>Drawing Tools:</u><br>
+							<input id="Freehand1" type="radio" name="DrawingTool" onclick="SetSwitchOn(this.id)" checked><b>Freehand:</b>
+							<br>
+							Line Thickness:<select id="Thickness1" name="Thickness1" style="width:50px" onchange="SetThickness(this.value,1)">
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3" selected>3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+								</select>
+							<br>
+							<br>
+							<input id="Text1" type="radio" name="DrawingTool" onclick="SetSwitchOn(this.id)"><b>Text:</b>
+							<br>
+							Size:<select id="FontSize1" name="FontSize1" style="width:50px" onchange="SetFontSize(this.value,1)">
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+									<option value="14">14</option>
+									<option value="15">15</option>
+									<option value="16">16</option>
+									<option value="17">17</option>
+									<option value="18">18</option>
+									<option value="19">19</option>
+									<option value="20">20</option>
+								</select>
+							<br>
+							<input id="TextString1" type="text" onchange="GetTxt(1)" style="width:200px">
+							<br>
+							<br>
+							<input id="SymbolPattern1" type="radio" name="DrawingTool" onclick="SetSwitchOn(this.id)" ><b>Repeating Symbol:</b><br>
+							<input id="Symbol1" type="text" onchange="GetSymbol(1)" maxlength="1" style="width:30px">
+							Size:<select id="SymbolSize1" name="SymbolSize1" style="width:50px" onchange="SetSymbolSize(this.value,1)">
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+									<option value="14">14</option>
+									<option value="15">15</option>
+									<option value="16">16</option>
+									<option value="17">17</option>
+									<option value="18">18</option>
+									<option value="19">19</option>
+									<option value="20">20</option>
+								</select>
+						
+						</td>
+						</tr>
+						<tr>
+						<td>
+							<u>Color:</u><br>
+							<table>
+								<tr>
+									<td>
+										<div  id="black1"  style="width:30px; height:20px;border: 2px solid orange; background-color: black; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[1]+'1')" onclick="RemoveHighlight(StrokeColor[1]+'1');SetStrokeColor(this.id)"></div>
+										<div  id="red1" style="width:30px; height:20px;background-color: red; border:2px; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[1]+'1')" onclick="RemoveHighlight(StrokeColor[1]+'1');SetStrokeColor(this.id)"></div>
+										<div  id="lime1" style="width:30px; height:20px;background-color: lime; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[1]+'1')" onclick="RemoveHighlight(StrokeColor[1]+'1');SetStrokeColor(this.id)"></div>
+										<div  id="blue1"  style="width:30px; height:20px;background-color: blue; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[1]+'1')" onclick="RemoveHighlight(StrokeColor[1]+'1');SetStrokeColor(this.id)"></div>
+									</td>
+									<td>
+										<div  id="grey1"  style="width:30px; height:20px; background-color: grey; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[1]+'1')" onclick="RemoveHighlight(StrokeColor[1]+'1');SetStrokeColor(this.id)"></div>
+										<div  id="magenta1" style="width:30px; height:20px;background-color: magenta; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[1]+'1')" onclick="RemoveHighlight(StrokeColor[1]+'1');SetStrokeColor(this.id)"></div>
+										<div  id="yellow1" style="width:30px; height:20px;background-color: yellow; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[1]+'1')" onclick="RemoveHighlight(StrokeColor[1]+'1');SetStrokeColor(this.id)"></div>
+										<div  id="cyan1" style="width:30px; height:20px;background-color: cyan; margin: 2px" onmouseover="Highlight(this.id)" onmouseout="RemoveHighlight(this.id);Highlight(StrokeColor[1]+'1')" onclick="RemoveHighlight(StrokeColor[1]+'1');SetStrokeColor(this.id)"></div>
+						
+									</td>
+								</tr>
+							</table>
+						</td>
+						</tr>
+						<tr>
+						<td>
+							<input id="UndoButton1" type="button" value="Undo" onclick="Undo(1)" style="width:100px"><br>
+							<input id="ClearButton1" type="button"  value="Clear" onclick="Clear(1)" style="width:100px">
+						</td>
+						</tr>
+						</table>
+						</div>
+					</div>
+					<!--  Drawing Pad 1: end -->
+					<img id="spacer1" src="${oscar_image_path}spacer.png" style="height:400px"/>
+				</div>
+			</div>
+		</div>
+		<br/><br/>
+	</td>
+</tr>
+<tr>
+	<td class="top_light_bordered">
+		<div class="text_bold">Laboratory Tests</div>
+		<br/>
+		<table class="bordered">
+		<tr>
+			<td>
+				<input type="checkbox" id="labTestGC" name="labTestGC" onclick="toggleDetail(this.id)"/>
+				<label for="labTestGC">Gonorrhea/ Chlamydia</label>
+			</td>
+			<td>
+				<div id="labTestGCDetail">
+				<table class="bordered">
+				<tr>
+					<td>
+						<input type="checkbox" id="NAAT" name="NAAT" onclick="toggleDetail(this.id)"/>
+						<label for="NAAT">NAAT</label>
+						<div id="NAATDetail" class="indent">
+							<input type="checkbox" id="NAATUrine" name="NAATUrine"/>
+							<label for="NAATUrine">Urine</label>
+							<br/>
+							<input type="checkbox" id="NAATCervical" name="NAATCervical"/>
+							<label for="NAATCervical">Cervical</label>
+							<br/>
+							<input type="checkbox" id="NAATUrethral" name="NAATUrethral"/>
+							<label for="NAATUrethral">Urethral</label>
+						</div>
+					</td>
+					<td>
+						<input type="checkbox" id="gCulture" name="gCulture" onclick="toggleDetail(this.id)"/>
+						<label for="gCulture">Gonorrhea Culture</label>
+						<div id="gCultureDetail" class="indent">
+							<input type="checkbox" id="gCulturePharyngeal" name="gCulturePharyngeal"/>
+							<label for="gCulturePharyngeal">Pharyngeal</label>
+							<br/>
+							<input type="checkbox" id="gCultureRectal" name="gCultureRectal"/>
+							<label for="gCultureRectal">Rectal</label>
+							<br/>
+							<input type="checkbox" id="gCultureCervical" name="gCultureCervical"/>
+							<label for="gCultureCervical">Cervical</label>
+							<br/>
+							<input type="checkbox" id="gCultureUrethral" name="gCultureUrethral"/>
+							<label for="gCultureUrethral">Urethral</label>
+						</div>
+					</td>
+					<td>
+						<input type="checkbox" id="cCulture" name="cCulture" onclick="toggleDetail(this.id)"/>
+						<label for="cCulture">Chlamydia Culture</label>
+						<div id="cCultureDetail" class="indent">
+							<input type="checkbox" id="cCulturePharyngeal" name="cCulturePharyngeal"/>
+							<label for="cCulturePharyngeal">Pharyngeal</label>
+							<br/>
+							<input type="checkbox" id="cCultureRectal" name="cCultureRectal"/>
+							<label for="cCultureRectal">Rectal</label>
+					</td>
+				</tr>
+				</table>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="checkbox" id="labTestSerology" name="labTestSerology" onclick="toggleDetail(this.id)"/>
+				<label for="labTestSerology">Serology</label>
+			</td>
+			<td>
+				<div id="labTestSerologyDetail">
+				<table class="bordered">
+				<tr>
+					<td>
+						<input type="checkbox" id="syphilis" name="syphilis"/>
+						<label for="syphilis">Syphilis</label>
+					</td>
+					<td>
+						<input type="checkbox" id="hepB" name="hepB" onclick="toggleDetail(this.id)"/>
+						<label for="hepB">Hepatitis B </label>
+						<div id="hepBDetail" class="indent">
+							<input type="checkbox" id="hepBScreen" name="hepBScreen"/>
+							<label for="hepBScreen">screen</label>
+							<br/>
+							<input type="checkbox" id="hepBImmunity" name="hepBImmunity"/>
+							<label for="hepBImmunity">immunity</label>
+						</div>
+					</td>
+					<td>
+						<input type="checkbox" id="hepCScreen" name="hepCScreen"/>
+						<label for="hepCScreen">Hepatitis C Screen</label>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<table>
+						<tr>
+							<td rowspan="2">
+								<input type="checkbox" id="HIV" name="HIV" onclick="toggleDetail(this.id)"/>
+								<label for="HIV">HIV</label>
+							</td>
+							<td>
+								<div id="HIVDetail">
+								<table class="bordered">
+								<tr>
+									<td style="width:25%">
+										<input type="checkbox" id="windowPeriodDiscussed" name="windowPeriodDiscussed"/>
+										<label for="windowPeriodDiscussed">Window period discussed</label>
+									</td>
+									<td style="width:20%">
+										Last exposure:
+										<input type="text" id="lastExposure" name="lastExposure" style="width:100px"/>
+										<br/>
+										Retest:
+										<input type="text" id="retest" name="retest" style="width:100px"/>
+									</td>
+									<td style="width:38%">
+										<input type="checkbox" id="disclosureHIV" name="disclosureHIV"/>
+										<label for="disclosureHIV">Disclosure of HIV+ve status and use of harm reduction strategies for sex and use of drug equipment discussed</label>
+									</td>
+									<td>
+										<!--input type="checkbox" id="HIVPOC" name="HIVPOC"/>
+										<label for="HIVPOC">POC</label>
+										<br/>
+										<input type="checkbox" id="HIVSerology" name="HIVSerology"/>
+										<label for="HIVSerology">Serology</label-->
+									</td>
+								</tr>
+								<tr>
+									<td>
+									</td>
+								</tr>
+								</table>
+								</div>
+							</td>
+						</tr>
+						</table>
+					</td>
+				</tr>
+				</table>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="bordered">
+				<input type="checkbox" id="HSVswab" name="HSVswab"/>
+				<label for="HSVswab">HSV swab, site:</label>
+				<input type="text" id="HSVswabText" name="HSVswabText" size="70"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="checkbox" id="PAPTest" name="PAPTest"/>
+				<label for="PAPTest">PAP test</label>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+				<input type="checkbox" id="vaginalSlide" name="vaginalSlide"/>
+				<label for="vaginalSlide">Vaginal slide for BV/Trich/Yeast</label>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="bordered">
+				<input type="checkbox" id="additionalTests" name="additionalTests"/>
+				<label for="additionalTests">Additional tests, specify:</label>
+				<input type="text" id="additionalTestsText" name="additionalTestsText" size="65"/>
+				<input type="hidden" id="additionalTestsWrite" name="additionalTestsWrite"/>
+			</td>
+		</tr>
+		</table>
+		<br/>
+	</td>
+</tr>
+<tr>
+	<td class="text_bold">
+		<input type="checkbox" id="clinicalDiagnosis" name="clinicalDiagnosis" onClick="toggleDetail(this.id)"/>
+		<label for="clinicalDiagnosis">Clinical Diagnosis:</label>
+		<div id="clinicalDiagnosisDetail">
+			<textarea id="clinicalDiagnosisText" name="clinicalDiagnosisText" cols="120" rows="4"></textarea>
+		</div>
+		<br/>
+	</td>
+</tr>
+<tr>
+	<td>
+		<div class="text_bold">
+			<input type="checkbox" id="treatment" name="treatment" onclick="toggleDetail(this.id)"/>
+			<label for="treatment">Treatment</label>
+		</div>
+		<div id="treatmentDetail" class="indent">
+		<br/>
+		<table class="bordered">
+		<tr>
+			<td class="bordered">Antibiotics in the last 2 weeks:</td>
+			<td class="bordered">
+				<input type="checkbox" id="antibioticsInLast2WksNo" name="antibioticsInLast2WksNo" onclick="toggleDetail(this.id)"/>
+				<label for="antibioticsInLast2WksNo">No</label>
+			</td>
+			<td class="bordered">
+				<input type="checkbox" id="antibioticsInLast2WksYes" name="antibioticsInLast2WksYes" onclick="toggleDetail(this.id)"/>
+				<label for="antibioticsInLast2WksYes">Yes, specify:</label>
+				<input type="text" id="antibioticsInLast2WksYesText" name="antibioticsInLast2WksYesText"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="bordered">STItreatment counseling: </td>
+			<td class="bordered">
+				<input type="checkbox" id="STItreatmentCounselingNo" name="STItreatmentCounselingNo" onclick="toggleDetail(this.id)"/>
+				<label for="STItreatmentCounselingNo">No</label>
+			</td>
+			<td class="bordered">
+				<input type="checkbox" id="STItreatmentCounselingYes" name="STItreatmentCounselingYes" onclick="toggleDetail(this.id)"/>
+				<label for="STItreatmentCounselingYes">Yes, re:</label>
+				<div id="STItreatmentCounselingYesDetail" class="indent">
+					<input type="checkbox" id="abstinencePostTreatment" name="abstinencePostTreatment"/>
+					<label for="abstinencePostTreatment">abstinence post-treatment</label>
+					<br/>
+					<input type="checkbox" id="partnerNotification" name="partnerNotification" onclick="toggleDetail(this.id)"/>
+					<label for="partnerNotification">partner notification</label>
+					<div id="partnerNotificationDetail" class="indent">
+						<input type="checkbox" id="clientToNotify" name="clientToNotify"/>
+						<label for="clientToNotify">Client to notify partner(s)</label>
+						<br/>
+						<input type="checkbox" id="publicHealthToNotify" name="publicHealthToNotify"/>
+						<label for="publicHealthToNotify">Public Health to notify partner(s)</label>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" class="bordered">
+				<input type="checkbox" id="treatmentProvided" name="treatmentProvided"/>
+				<label for="treatmentProvided">Treatment Provided, see prescription section</label>
+				<br/>
+				<input type="checkbox" id="medicationFactsheetGiven" name="medicationFactsheetGiven"/>
+				<label for="medicationFactsheetGiven">Medication factsheet given</label>
+			</td>
+		</tr>
+		</table>
+		<br/>
+		<table class="bordered">
+		<tr class="text_bold">
+			<td class="bordered">Medication</td>
+			<td class="bordered">Ordered</td>
+		</tr>
+		<tr>
+			<td class="bordered">Hepatitis B Vaccine: 3 doses at 0, 1, &gt;2 mth intervals</td>
+			<td class="bordered">
+				<input type="checkbox" id="hepBVaxAdolescents" name="hepBVaxAdolescents"/>
+				<label for="hepBVaxAdolescents">Adolescents 11-19 yrs (5 &mu;g) 0.5mL IM</label>
+				<br/>
+				<input type="checkbox" id="hepBVaxAdults" name="hepBVaxAdults"/>
+				<label for="hepBVaxAdults">Adults &ge;20 yrs (10 &mu;g) 1.0 mL IM</label>
+			</td>
+		</tr>
+		<tr>
+			<td class="bordered">Hepatitis A Vaccine: 2 doses, at 0, 6-12 mth</td>
+			<td class="bordered">
+				<input type="checkbox" id="hepAVax1dose" name="hepAVax1dose"/>
+				<label for="hepAVax1dose">contact of an acute case (one dose)</label>
+				<br/>
+				<input type="checkbox" id="hepAVax2doses" name="hepAVax2doses"/>
+				<label for="hepAVax2doses">2 doses</label>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="bordered">
+				<input type="checkbox" id="cryotherapy" name="cryotherapy"/>
+				<label for="cryotherapy">Cryotherapy</label>
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+				<input type="checkbox" id="podophyllin" name="podophyllin"/>
+				<label for="podophyllin">Podophyllin</label>
+			</td>
+		</tr>
+		<tr>
+			<td class="bordered">Follow-up Recommendations:</td>
+			<td class="bordered">
+				<textarea id="followUpRecommendations" cols="95" rows="4"></textarea>
+			</td>
+		</tr>
+		</table>
+		</div>
+		<br/>
+	</td>
+</tr>
+
+<tr>
+	<td>
+		<div class="text_bold">Notes</div>
+		<textarea id="notes" name="notes" cols="120" rows="4"></textarea>
+		<br/><br/>
+	
+		<input type="hidden" id="GonorrheaUrine" name="GonorrheaUrine"/>
+		<input type="hidden" id="GonorrheaThroat" name="GonorrheaThroat"/>
+		<input type="hidden" id="GonorrheaAnal" name="GonorrheaAnal"/>
+		<input type="hidden" id="ChlamydiaUrine" name="ChlamydiaUrine"/>
+		<input type="hidden" id="ChlamydiaThroat" name="ChlamydiaThroat"/>
+		<input type="hidden" id="ChlamydiaAnal" name="ChlamydiaAnal"/>
+		<input type="hidden" id="GonorrheaCervical" name="GonorrheaCervical"/>
+		<input type="hidden" id="ChlamydiaCervical" name="ChlamydiaCervical"/>
+		<input type="hidden" id="GonorrheaUrethral" name="GonorrheaUrethral"/>
+		<input type="hidden" id="ChlamydiaUrethral" name="ChlamydiaUrethral"/>
+		<input type="hidden" id="GonorrheaUrethralCulture" name="GonorrheaUrethralCulture"/>
+		<input type="hidden" id="GonorrheaCervicalCulture" name="GonorrheaCervicalCulture"/>
+		<input type="hidden" id="HIVOrdered" name="HIVOrdered"/>
+		<input type="hidden" id="HSVViralSwab" name="HSVViralSwab"/>
+		<input type="hidden" id="PreventionPAP" name="PreventionPAP"/>
+		<input type="hidden" id="BacterialVaginosis" name="BacterialVaginosis"/>
+		<input type="hidden" id="Trichomaniasis" name="Trichomaniasis"/>
+		<input type="hidden" id="Yeast" name="Yeast"/>
+		<input type="hidden" id="preventionSyphilisSerology" name="preventionSyphilisSerology"/>
+		<input type="hidden" id="preventionHepBScreen" name="preventionHepBScreen"/>
+		<input type="hidden" id="preventionHepCScreen" name="preventionHepCScreen"/>
+		<input type="hidden" id="hepBcomment" name="hepBcomment"/>		
+	</td>
+
+	
+</tr>
+
+<tr>
+	<td>
+		Electronic Signature:
+		<input type="text" id="signature" name="signature"/>
+		<br/>
+		Date and Time:
+		<input type="text" id="dateTime" name="dateTime" class="noborder"/>
+	</td>
+</tr>
+<tr>
+	<td class="DoNotPrint">
+		<br/>
+		Subject: <input id="subject" name="subject" size="35" type="text"/> 
+		<input value="Submit" id="SubmitButton" name="SubmitButton" type="submit" onclick="releaseDirtyFlag()"/>
+		<input value="Reset" id="ResetButton" name="ResetButton" type="reset" onclick="releaseDirtyFlag();location.reload()"/> 
+		<input value="Print" id="PrintButton" name="PrintButton" type="button" onclick="formPrint()"/>
+		<input value="Print & Submit" id="PrintSubmitButton" name="PrintSubmitButton" type="button" onclick="formPrint();releaseDirtyFlag();setTimeout('SubmitButton.click()',1000)"/>
+	</td>
+</tr>
+</table>
+</form>
+
+<script language='javascript'>
+	Calendar.setup({inputField:"dob",ifFormat:"%Y/%m/%d",showsTime:false,button:"dob",singleClick:true,step:1});
+	Calendar.setup({inputField:"visitDate",ifFormat:"%Y/%m/%d",showsTime:false,button:"visitDate",singleClick:true,step:1});
+	Calendar.setup({inputField:"lastExposure",ifFormat:"%Y/%m/%d",showsTime:false,button:"lastExposure",singleClick:true,step:1});
+	Calendar.setup({inputField:"retest",ifFormat:"%Y/%m/%d",showsTime:false,button:"retest",singleClick:true,step:1});
+</script>
+
+<!-- Drawing Code : Start -->
+<script language="javascript">
+var cnv = new Array(); 
+var jg = new Array();
+var cnvLeft = new Array(); 
+var cnvTop = new Array();
+
+var pvcnv = new Array();
+var pv = new Array();
+
+var SubmitData = new Array();
+var DrawData  = new Array();
+var TempData = new Array();
+
+var StrokeColor = new Array();
+var StrokeThickness = new Array();
+var x0 = new Array();
+var y0 = new Array();
+var txt = new Array();
+var sym = new Array();
+
+var FontFamily = new Array();
+var FontStyle = new Array();
+var FontSize = new Array();
+var SymbolSize = new Array();
+
+var MouseDown = new Array();
+var DrawSwitch = new Array();
+var TextSwitch = new Array();
+var FreehandSwitch = new Array();
+var SymbolPatternSwitch = new Array();
+var DrawTool = new Array();
+
+var Xposition = new Array();
+var Yposition = new Array();
+
+function prepareDrawPad(ix) {
+	cnv[ix] = document.getElementById("myCanvas"+ix); 
+	jg[ix] = new jsGraphics(cnv[ix]);
+	cnvLeft[ix] = parseInt(cnv[ix].style.left); 
+	cnvTop[ix] = parseInt(cnv[ix].style.top); //fine-tuning with +/-number
+
+	pvcnv[ix] = document.getElementById("preview"+ix);
+	pv[ix] = new jsGraphics(pvcnv[ix]);
+
+	SubmitData[ix] = new Array();
+	DrawData[ix] = new Array();
+	TempData[ix] = new Array();
+	
+	jg[ix].setPrintable(true);
+	StrokeColor[ix] = "black";
+	StrokeThickness[ix] = 3;
+	x0[ix] = 0;
+	y0[ix] = 0;
+	txt[ix] = document.getElementById('TextString'+ix).value;
+	sym[ix] = document.getElementById('Symbol'+ix).value;
+	
+	FontFamily[ix] = "sans-serif";	//sets font
+	FontStyle[ix] = Font.PLAIN;	//Font.PLAIN, Font.BOLD, Font.ITALIC, Font.ITALIC_BOLD
+	FontSize[ix] = 10;
+	SymbolSize[ix] = 10;
+
+	MouseDown[ix] = false;
+	DrawSwitch[ix] = false;
+	TextSwitch[ix] = false;
+	FreehandSwitch[ix] = false;
+	SymbolPatternSwitch[ix] = false;
+	DrawTool[ix] = "Freehand";
+
+	Xposition[ix] = new Array();
+	Yposition[ix] = new Array();
+}
+
+
+function Highlight(id){
+	document.getElementById(id).style.border = "2px solid orange";
+}
+function RemoveHighlight(id){
+	document.getElementById(id).style.borderStyle = "none";
+}
+
+function SetStrokeColor(cid){
+	var ix = cid.substring(cid.length-1);
+	var color = cid.substring(0, cid.length-1);
+	StrokeColor[ix] = color;
+}
+
+function SetFontSize(n,ix){
+	FontSize[ix] = n;
+}
+
+function SetSymbolSize(n,ix){
+	SymbolSize[ix] = n;
+}
+
+function SetMouseDown(ix){
+	MouseDown[ix] = true;
+}
+
+function SetMouseUp(ix){
+	MouseDown[ix] = false;
+}
+
+function SetDrawOn(ix){
+	DrawSwitch[ix] = true;
+}
+
+function SetDrawOff(ix){
+	DrawSwitch[ix] = false;
+}
+
+function SetThickness(x,ix){
+	StrokeThickness[ix] = parseInt(x);
+}
+
+function SetSwitchesOff(ix){
+	TextSwitch[ix] = false;
+	FreehandSwitch[ix] = false;
+	SymbolPatternSwitch[ix] = false;
+}
+
+function SetSwitchOn(nid){
+	var ix = nid.substring(nid.length-1);
+	var n = nid.substring(0, nid.length-1);
+	SetSwitchesOff(ix);
+	DrawTool[ix] = n;
+	if(n=="Text"){
+		TextSwitch[ix] = true;
+	}else if(n=="Freehand"){
+		FreehandSwitch[ix] = true;
+	}else if(n=="SymbolPattern"){
+		SymbolPatternSwitch[ix] = true;
+	}
+}
+
+function SetStart(ix){
+	x0[ix] = mousex - cnvLeft[ix];
+	y0[ix] = mousey - cnvTop[ix];
+	if(FreehandSwitch[ix] || SymbolPatternSwitch[ix]){
+		Xposition[ix].push(x0[ix]);
+		Yposition[ix].push(y0[ix]);
+	}
+}
+
+function GetTxt(ix){
+	txt[ix] = document.getElementById('TextString'+ix).value;
+}
+
+function GetSymbol(ix){
+	sym[ix] = document.getElementById('Symbol'+ix).value;
+}
+
+function DrawText(canvas,x,y,txt,StrokeColor,FontSize,ix){
+	//draws a sting of text
+	canvas.setColor(StrokeColor);
+	var FontSizePx = FontSize + 'px';
+	canvas.setFont(FontFamily[ix], FontSizePx, FontStyle[ix]);
+	var y1 = y - 10;
+
+	if ((txt != null) && (txt != "")){
+		canvas.drawString(txt, x, y1);
+		canvas.paint();
+		//store parameters in an array 
+		if(canvas == jg[ix]){
+			var Parameter = "Text" + "|" +  x + "|" + y + "|" + txt + "|" +  StrokeColor + "|" + FontSize;
+			DrawData[ix].push(Parameter);
+			document.getElementById("DrawData"+ix).value = DrawData[ix];
+		}
+	}
+}
+
+function GetXY(x,y,ix){
+var s = StrokeThickness[ix];
+var l = Xposition[ix].length - 1;	//l = last position
+var x = parseInt(x);
+var y = parseInt(y);
+
+	if ( (Math.abs(Xposition[ix][l] - x) > s) ||  (Math.abs(Yposition[ix][l] - y) > s)){
+		Xposition[ix].push(x);
+		Yposition[ix].push(y);
+	}
+}
+
+function GetXYSym(x,y,ix){
+var s2 = SymbolSize[ix]/2;
+var l = Xposition[ix].length - 1;	//l = last position
+var x = parseInt(x);
+var y = parseInt(y);
+
+	if ( (Math.abs(Xposition[ix][l] - x) > s2) || (Math.abs(Yposition[ix][l] - y) > s2)){
+		Xposition[ix].push(x);
+		Yposition[ix].push(y);
+	}
+}
+
+function ClearXY(ix){
+	Xposition[ix] = [];
+	Yposition[ix] = [];
+}
+
+function ArrToStr(Arr,s){
+	//convert array values to string
+	var Str = "";
+	for (var n = 0; (n < Arr.length); n++)
+	 {
+		if (n > 0) 
+		{
+			Str += s; // each set of data separated by s
+		}
+		Str += Arr[n]; 
+	}
+ 	return Str;
+}
+
+function StrToArr(Str,s){
+	//converts string to an array
+	var Arr = Str.split(s);
+	for (var n = 0; n < Arr.length; n++){
+		Arr[n] = parseInt(Arr[n]);
+	}
+	return Arr;
+}
+
+function DrawFreehand(canvas,X,Y,StrokeColor,StrokeThickness,ix){
+	if (canvas == pv[ix]){
+		jg[ix].setColor(StrokeColor);
+		jg[ix].setStroke(StrokeThickness);
+		if (X.length<2){
+			var x = X[0];
+			var y = Y[0];
+			jg[ix].drawLine(x,y,x,y);	//to draw a dot with single click
+			jg[ix].paint();
+		}
+		else if (X.length>1){
+			var a = X.length - 2;
+			var b = a + 1;
+			var x1 = parseInt(X[a]);
+			var y1 = parseInt(Y[a]);
+			var x2 = parseInt(X[b]);
+			var y2 = parseInt(Y[b]);
+			jg[ix].drawLine(x1,y1,x2,y2);
+			jg[ix].paint();
+		}
+	} else if (canvas == jg[ix]){
+		canvas.setColor(StrokeColor);
+		canvas.setStroke(StrokeThickness);
+		if(X.length > 1){
+			canvas.drawPolyline(X,Y);
+			canvas.paint();
+		}
+
+		//store parameters in an array
+		var StrX = ArrToStr(X,':');
+		var StrY = ArrToStr(Y,':');
+
+		var Parameter = "Freehand" + "|" +  StrX + "|" + StrY + "|" + StrokeColor + "|" + StrokeThickness;
+		DrawData[ix].push(Parameter);
+		document.getElementById("DrawData"+ix).value = DrawData[ix];
+	}
+}
+
+function DrawSymbolPattern(canvas,X,Y,sym,StrokeColor,SymbolSize,ix){
+	if (canvas == pv[ix]){
+		jg[ix].setColor(StrokeColor);
+		var SymbolSizePx = SymbolSize + 'px';
+		jg[ix].setFont(FontFamily[ix], SymbolSizePx, FontStyle[ix]);
+		
+		if ((sym != null) && (sym != "")){
+			var l = X.length - 1;	// l = last position
+			var x = parseInt(X[l]);
+			var y = parseInt(Y[l])-10;
+			jg[ix].drawString(sym, x, y);
+			jg[ix].paint();
+		}
+	}
+	else if (canvas == jg[ix]){
+		jg[ix].setColor(StrokeColor);
+		var SymbolSizePx = SymbolSize + 'px';
+		canvas.setFont(FontFamily[ix], SymbolSizePx, FontStyle[ix]);
+		if ((sym != null) && (sym != "")){
+			for (var j=0; (j<X.length); j++){
+				var x = parseInt(X[j]);
+				var y = parseInt(Y[j])-10;
+				canvas.drawString(sym, x, y);
+			}
+				canvas.paint();
+			
+			//store parameters in an array
+			var StrX = ArrToStr(X,':');
+			var StrY = ArrToStr(Y,':');
+	
+			var Parameter = "SymbolPattern" + "|" +  StrX + "|" + StrY + "|" + sym + "|" + StrokeColor + "|" + SymbolSize;
+			DrawData[ix].push(Parameter);
+			document.getElementById("DrawData"+ix).value = DrawData[ix];
+		}
+	}
+}
+
+function DrawMarker(ix){
+	if(DrawSwitch[ix]){
+		var x = parseInt(mousex - cnvLeft[ix]);	
+		var y = parseInt(mousey - cnvTop[ix]);
+		if(TextSwitch[ix]){
+			DrawText(jg[ix],x,y,txt[ix],StrokeColor[ix],FontSize[ix],ix);
+		}
+		else if(FreehandSwitch[ix]){
+			DrawFreehand(jg[ix],Xposition[ix],Yposition[ix],StrokeColor[ix],StrokeThickness[ix],ix);
+			ClearXY(ix);
+		}
+		else if(SymbolPatternSwitch[ix]){
+			DrawSymbolPattern(jg[ix],Xposition[ix],Yposition[ix],sym[ix],StrokeColor[ix],SymbolSize[ix],ix);
+			ClearXY(ix);
+		}
+	}
+}
+		
+function DrawPreview(ix){
+	pv[ix].clear();
+	var x = parseInt(mousex - cnvLeft[ix]);
+	var y = parseInt(mousey - cnvTop[ix]);
+	if (MouseDown[ix]){
+		if(TextSwitch[ix]){
+			DrawText(pv[ix],x,y,txt[ix],StrokeColor[ix],FontSize[ix],ix);
+		}
+		else if(FreehandSwitch[ix]){
+			GetXY(x,y,ix);
+			DrawFreehand(pv[ix],Xposition[ix],Yposition[ix],StrokeColor[ix],StrokeThickness[ix],ix);
+		}
+		else if(SymbolPatternSwitch[ix]){
+			GetXYSym(x,y,ix);
+			DrawSymbolPattern(pv[ix],Xposition[ix],Yposition[ix],sym[ix],StrokeColor[ix],SymbolSize[ix],ix);
+		}
+	}
+}
+
+
+function RedrawImage(RedrawParameter,ix){
+		var DrawingType = RedrawParameter[0];
+		if(DrawingType == "Text"){
+			var x = parseInt(RedrawParameter[1]);
+			var y = parseInt(RedrawParameter[2]);
+			var txt = RedrawParameter[3];
+			StrokeColor[ix] = RedrawParameter[4];
+			FontSize[ix] = RedrawParameter[5];
+			DrawText(jg[ix],x,y,txt,StrokeColor[ix],FontSize[ix],ix);
+		}
+		else if(DrawingType == "Freehand"){
+			var X = StrToArr(RedrawParameter[1],':');
+			var Y = StrToArr(RedrawParameter[2],':');
+			StrokeColor[ix] = RedrawParameter[3];
+			StrokeThickness[ix] = RedrawParameter[4];
+			DrawFreehand(jg[ix],X,Y,StrokeColor[ix],StrokeThickness[ix],ix);
+		}
+		else if (DrawingType == "SymbolPattern"){
+			var X = StrToArr(RedrawParameter[1],':');
+			var Y = StrToArr(RedrawParameter[2],':');
+			var sym = RedrawParameter[3];
+			StrokeColor[ix] = RedrawParameter[4];
+			SymbolSize[ix] = parseInt(RedrawParameter[5]);
+			DrawSymbolPattern(jg[ix],X,Y,sym,StrokeColor[ix],SymbolSize[ix],ix);
+		}
+}
+
+
+function Undo(ix){
+	jg[ix].clear();
+	TempData[ix] = DrawData[ix];
+	DrawData[ix] = [];
+	document.getElementById("DrawData"+ix).value = "";
+
+	for (var i=0; (i < (TempData[ix].length - 1) ); i++){
+		var Parameters = TempData[ix][i].split("|");
+		RedrawImage(Parameters,ix);
+	}
+}
+
+function RecallImage(ix){
+	for (var i=0; (i < TempData[ix].length);i++){
+		var Parameters = [];
+		Parameters =  TempData[ix][i].split("|");
+		RedrawImage(Parameters,ix);
+	}
+}
+
+function Clear(ix){
+	jg[ix].clear();
+	TempData[ix] = [];
+	DrawData[ix] = [];
+	SubmitData[ix] = [];
+	document.getElementById("TempData"+ix).value = "";
+	document.getElementById("DrawData"+ix).value = "";
+	document.getElementById("SubmitData"+ix).value = "";
+	Xposition[ix] = [];
+	Yposition[ix] = [];
+	txt[ix] = document.getElementById('TextString'+ix).value;
+	sym[ix] = document.getElementById('Symbol'+ix).value;
+}
+
+function SubmitImage(){
+	for (var i=0; i<drawPadTotal; i++) {
+		EncodeData(i);
+	}
+}
+
+function EncodeData(ix){
+	var packed = "";  // Initialize packed or we get the word 'undefined'
+	//Converting image data in array into a string
+	for (var i = 0; (i < DrawData[ix].length); i++)
+	 {
+		if (i > 0) 
+		{
+			packed += ","; // each set of data separated by comma
+		}
+		packed += escape(DrawData[ix][i]); 	//'escape' encodes dataset into unicode
+	}
+	document.getElementById("SubmitData"+ix).value = packed;  //stores image data into hidden form field
+}
+
+function DecodeData(ix){
+	var query = document.getElementById("SubmitData"+ix).value;
+	var data = query.split(',');
+	for (var i = 0; (i < data.length); i++)
+	{
+		data[i] = unescape(data[i]);
+	}
+	TempData[ix] = data;
+	DrawData[ix] = [];
+	document.getElementById("DrawData"+ix).value = document.getElementById("SubmitData"+ix).value;
+	document.getElementById("SubmitData"+ix).value = "";
+}
+
+function ReloadImage(ix){
+	DecodeData(ix);
+	RecallImage(ix);
+}
+
+</script>
+<!-- Drawing Code : End -->
+
+
+</body>
+</html>
+
+
+<!--
+<template>
+	<prevention>
+		<type>$t{BacterialVaginosis}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{Trichomaniasis}</type>
+		<result>pending</result>
+	</prevention>
+		<prevention>
+		<type>$t{Yeast}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{PreventionPAP}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{HSVViralSwab}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{HIVOrdered}</type>
+		<result>other</result>
+		<reason>ordered</reason>
+	</prevention>
+	<prevention>
+		<type>$t{preventionHepBScreen}</type>
+		<comments>$t{hepBcomment}</comments>
+		<result>other</result>
+		<reason>ordered</reason>
+	</prevention>
+	<prevention>
+		<type>$t{preventionHepCScreen}</type>
+		<result>other</result>
+		<reason>ordered</reason>
+	</prevention>
+		<prevention>
+		<type>$t{preventionSyphilisSerology}</type>
+		<result>other</result>
+		<reason>ordered</reason>
+	</prevention>
+	<prevention>
+		<type>$t{GonorrheaUrine}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{GonorrheaThroat}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{GonorrheaAnal}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{ChlamydiaUrine}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{GonorrheaCervical}</type>
+		<result>pending</result>
+	</prevention>	
+	<prevention>
+		<type>$t{ChlamydiaCervical}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{GonorrheaUrethral}</type>
+		<result>pending</result>
+	</prevention>	
+	<prevention>
+		<type>$t{GonorrheaUrethralCulture}</type>
+		<result>pending</result>
+	</prevention>	
+	<prevention>
+		<type>$t{GonorrheaCervicalCulture}</type>
+		<result>pending</result>
+	</prevention>		
+	<prevention>
+		<type>$t{ChlamydiaUrethral}</type>
+		<result>pending</result>
+	</prevention>		
+	<prevention>
+		<type>$t{ChlamydiaThroat}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{ChlamydiaAnal}</type>
+		<result>pending</result>
+	</prevention>
+	<EncounterNote>$t{additionalTestsWrite}</EncounterNote>
+</template> 
+-->

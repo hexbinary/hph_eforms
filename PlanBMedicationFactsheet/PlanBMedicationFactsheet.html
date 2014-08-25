@@ -1,0 +1,188 @@
+<html>
+<head>
+<title>Plan B Medication Factsheet</title>
+<style type="text/css">
+	fieldset{padding:15px;margin-bottom:20px;}
+	table.border, td.border {border:1px solid black;padding:15px;margin-bottom:20px;}
+	BR.page { page-break-after:always}
+	@media print {.noPrint {    display:none;}
+</style>
+<script language="javascript" src="${oscar_javascript_path}prototype.js"></script>
+<script language="javascript" src="${oscar_javascript_path}scriptaculous.js"></script>
+ 
+<script language="JavaScript">
+
+	 top.window.moveTo(0,0);
+	 if (document.all) {
+	 top.window.resizeTo(screen.availWidth,screen.availHeight);
+	 }
+	 else if (document.layers||document.getElementById) {
+		if (top.window.outerHeight<screen.availHeight||top.window.outerWidth<screen.availWidth){
+			top.window.outerHeight = screen.availHeight;
+			top.window.outerWidth = screen.availWidth;
+		}
+	}
+
+
+	function checkPregnancyAssessment() {
+		if ($("valAB").value=="MissedBelow1") {
+			$("chkA").checked = true;
+		}
+		else if ($("valAB").value=="MissedBelow3" || $("valAB").value=="MissedAbove3") {
+			$("chkB").checked = true;
+		}
+		
+		if ($("valCD").value=="Week1Under24") {
+			$("chkC").checked = true;
+		}
+		else if ($("valCD").value=="Week3Under72" || $("valCD").value=="Week3Above72") {
+			$("chkD").checked = true;
+		}
+		
+		if ($("valEF").value=="Week1Under24" || $("valEF").value=="Week1Under3") {
+			$("chkE").checked = true;
+		}
+		else if ($("valEF").value=="Week3Under72" || $("valEF").value=="Week3Above72") {
+			$("chkF").checked = true;
+		}
+		
+		if ($("valG").value=="true") {
+			$("chkG").checked = true;
+		}
+	}
+</script>
+</head>
+
+	<body onload="checkPregnancyAssessment();">
+	<form method="POST" id="consultForm" action="">
+
+		<table width="100%" border="0">
+			<tr>
+				<td><img src="http://www.foodsafetyzone.ca/Images/HamiltonLogo_CMYK.jpg" alt="City of Hamilton Logo" title="City of Hamilton Logo"/></td>
+				<td style="text-align:right;"><h3>Plan B<br/>(Levonorgestrel 0.75 mg)</h3></td>
+			</tr>		
+			<tr>
+				<td colspan="2"><h2 >Clinical & Preventive Services Division</h2></td>
+			</tr>
+		</table>
+		<table width="100%">
+			<tr>
+				<td class="border">			
+					<p style="text-align:center;"><strong>This medication is an emergency or backup contraceptive.</strong></p>
+			
+			
+					<p><strong>How this medication Works:</strong><br>
+					Plan B works by preventing the release of an egg, or preventing sperm and egg from meeting.  It will not end an existing pregnancy. It is most effective if used in the first 72 hours (3 days) following unprotected sex but can be used up to 5 days.  
+					</p>
+					
+					<p><strong>How to use:</strong><br>
+					Take both plan B pills at once. If you vomit within 1 hour of taking the pills, call the <strong>Sexual Health Information Line at 905-528-5894</strong>, Monday-Friday between 8:30am-4:30pm to arrange re-treatment.  If this is not possible, you can buy the medication at the drugstore. You do not need a prescription.
+					</p>
+					
+					<p><strong>Side Effects:</strong><br>
+					You may experience nausea after taking Plan B. Dimenhydrinate or eating may reduce the feeling of nausea. Other side effects may include: fatigue, abdominal cramps, spotting/bleeding or headache. Symptoms may last for 24 hours.
+					</p>
+					
+					<p><strong>Cautions:</strong></p>
+					<ul>
+						<li>If you are not using another type of birth control, use condoms or do not have sex until your next period.  Plan B will not protect you against a pregnancy from future sex, nor does it protect you against sexually transmitted infections (STI's)</li>
+						<li>Your next period should begin sometime within the next 2 or 3 weeks. If your period has not started in 3 weeks, you should have a pregnancy test.</li>
+						<li>If you are currently using the pill, EVRA patch, NUVA Ring, or getting an injection, you may have to adjust your regular schedule. The nurse will discuss this with you before you leave the clinic. (See the instructions on the back  of this paper)</li>
+					</ul>
+					
+					<p>
+					If you are not using birth control regularly you may want to think about starting. You can talk to your family doctor, the nurse at the sexual health clinic, or go to a walk-in clinic.
+					</p>
+
+					<p>
+					Consider getting tested for STI's if you have not been using condoms.
+					</p>
+					
+					<p style="text-align:center;"><strong>Call the Sexual Health Information Line at 905-528-5894 if you have any questions</strong>
+					<br/><a href="http://www.hamilton.ca/sti" target="_blank" title="Hamilton STI Page">www.hamilton.ca/sti</a></p>
+				
+				</td>
+			</tr>	
+		</table>
+		<br class="page"/>
+		<table width="100%" border="0">
+			<tr>
+				<td><img src="http://www.foodsafetyzone.ca/Images/HamiltonLogo_CMYK.jpg" alt="City of Hamilton Logo" title="City of Hamilton Logo"/></td>
+				<td style="text-align:right;"><h3>Plan B<br/>(Levonorgestrel 0.75 mg)</h3></td>
+			</tr>		
+			<tr>
+				<td colspan="2"><h2>Clinical & Preventive Services Division</h2></td>
+			</tr>
+		</table>		
+		<table width="100%">
+			<tr>
+				<td class="border">
+					<p style="text-align:center;"><strong>How to Restart your Birth Control</strong></p>
+					
+					<!-- Ronnie: values from Pregnancy Assessment eform -->
+					<input type="hidden" id="valAB" oscarDB="e$last#ECP_OCP" eform$name="Pregnancy Assessment"/>
+					<input type="hidden" id="valCD" oscarDB="e$last#ECP_Evra" eform$name="Pregnancy Assessment"/>
+					<input type="hidden" id="valEF" oscarDB="e$last#ECP_NevaRing" eform$name="Pregnancy Assessment"/>
+					<input type="hidden" id="valG" oscarDB="e$last#MisUseDepoProvera" eform$name="Pregnancy Assessment"/>
+					<!-- Ronnie: values end -->
+					
+					<fieldset>
+						<legend>The Pill</legend>
+						<input type="checkbox" name="chkA" id="chkA" value="true"/> Start taking your pills again tomorrow and finish the pack <br/>
+						<input type="checkbox" name="chkB" id="chkB" value="true"/> Start taking your pills tomorrow and throw out pills 22-28 (reminder pills) and start new pack right away <br/>
+						<input type="checkbox" name="chkPIllPregTest" id="chkPIllPregTest" value="true"/>Have a pregnancy test if your period has not started in 3 weeks: <input type="text" name="txtPillPregTest" id="txtPillPregTest"/> <br/>
+						<input type="checkbox" name="chkPillCondoms" id="chkPillCondoms" value="true"/> <strong>Use condoms for 7 days</strong>					
+					</fieldset>
+					
+					<fieldset>
+						<legend>EVRA</legend>
+						<input type="checkbox" name="chkC" id="chkC" value="true"/>Apply a new patch today, change the patch on the day you would have normally changed it. FInish the box of patches. <br/>
+						<input type="checkbox" name="chkD" id="chkD" value="true"/>Apply a new patch today, change the patch on the day you would have normally changed it. Finish the box of patches and start a new box right away. <br/>
+						<input type="checkbox" name="chkEVRAPregTest" id="chkEVRAPregTest" value="true"/>Have a pregnancy test if your period has not started in 3 weeks: <input type="text" name="txtEVRAPregTest" id="txtEVRAPregTest"/> <br/>
+						<input type="checkbox" name="chkEVRACondoms" id="chkEVRACondoms" value="true"/> <strong>Use condoms for 7 days</strong>					
+					</fieldset>
+					
+					<fieldset>
+						<legend>NuvaRing</legend>
+						<input type="checkbox" name="chkE" id="chkE" value="true"/>Put the ring back in today and change it on the day you would normally changed it <br/>
+						<input type="checkbox" name="chkF" id="chkF" value="true"/>Put the ring back in today and on the day you would have taken it out, remove it, and put a new ring in right away<br/>
+						<input type="checkbox" name="chkNUVAPregTest" id="chkNUVAPregTest" value="true"/>Have a pregnancy test if your period has not started in 3 weeks: <input type="text" name="txtNUVAPregTest" id="txtNUVAPregTest"/> <br/>
+						<input type="checkbox" name="chkNUVACondoms" id="chkNUVACondoms" value="true"/> <strong>Use condoms for 7 days</strong>					
+					</fieldset>		
+
+					<fieldset>
+						<legend>DEOP</legend>
+						<input type="checkbox" name="chkG" id="chkG" value="true"/>Get your next injection as soon as possible, <strong>use condoms until you do and for 7 days after</strong> <br/>
+						<input type="checkbox" name="chkDEPOPregTest" id="chkDEPOPregTest" value="true"/>Have a pregnancy test if your period has not started in 3 weeks: <input type="text" name="txtDEPOPregTest" id="txtDEPOPregTest"/> <br/>
+					</fieldset>	
+				
+					<fieldset>
+						<legend>Additional Instructions</legend>
+						<textarea name="txtAdditionalInstructions" id="txtAdditionalInstructions" rows="15" style="width:100%;"></textarea>
+					</fieldset>
+				
+				</td>
+			</tr>
+		</table>
+		
+					
+					
+				
+
+    <div class="noPrint">
+		<hr />
+
+		<table >
+			<tr>
+				<td class="subjectline">
+				Subject: <input type="text" name=subject size="40" />&nbsp;
+				<input type="submit" value="Submit" name="B1" />
+				<input type="reset" value="Reset" name="B2" />
+				<input type=button value=Print onClick="javascript:window.print()" />
+				</td>
+			</tr>	
+		</table>
+	</div>
+    </form>
+</body>
+</html>

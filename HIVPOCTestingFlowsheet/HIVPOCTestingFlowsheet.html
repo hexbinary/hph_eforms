@@ -1,0 +1,596 @@
+<html>
+<head>
+
+<title>HIV POC Testing Flowsheet</title>
+
+<style type="text/css" media="print">
+	.DoNotPrint {
+		display: none;
+	}
+	.noborder {
+		border : 0px;
+		background: transparent;
+		scrollbar-3dlight-color: transparent;
+		scrollbar-3dlight-color: transparent;
+		scrollbar-arrow-color: transparent;
+		scrollbar-base-color: transparent;
+		scrollbar-darkshadow-color: transparent;
+		scrollbar-face-color: transparent;
+		scrollbar-highlight-color: transparent;
+		scrollbar-shadow-color: transparent;
+		scrollbar-track-color: transparent;
+		background: transparent;
+		overflow: hidden;
+	}
+</style>
+<style>
+	td {
+		vertical-align: top;
+	}
+	.centered {
+		text-align: center;
+	}
+	.text_bold {
+		font-weight: bold;
+	}
+	.bordered {
+		border: 1px solid black;
+	}
+	.noborder {
+		border: none;
+	}
+	.indent {
+		padding-left: 30px;
+	}
+</style>
+
+<link rel="stylesheet" type="text/css" media="all" href="${oscar_javascript_path}../calendar/calendar.css" title="win2k-cold-1"/> 
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar.js"></script>
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar-setup.js"></script>
+
+<script language="javascript" src="${oscar_javascript_path}prototype.js"></script>
+<script language="javascript" src="${oscar_javascript_path}scriptaculous.js"></script>
+<script language="javascript">
+function start() {
+	slideTime = 0;
+	showInvalidDetail();
+	showNewKitDetail();
+	showTestResultDetail();
+	showClientHighRiskYesNoDetail();
+	showConfirmTestNRDetail();
+	showConfirmTestRDetail();
+	
+	slideTime = 0.5;
+
+	if ($("dateTime").value=="") setDateTime();
+}
+
+var slideTime = null;
+
+function conclude() {
+	setDateTime();
+	writePreventions();
+}
+
+function setDateTime() {
+	var now = new Date();
+	var nowMonth = pad0(now.getMonth()+1);
+	var nowDay = pad0(now.getDate());
+	var nowHour = pad0(now.getHours());
+	var nowMin = pad0(now.getMinutes());
+	
+	var nowDate = now.getFullYear() + "/" + nowMonth + "/" + nowDay;
+	$("dateTime").value = nowDate + " " + nowHour + ":" + nowMin;
+}
+
+function pad0(number) {
+	if (number<10) number = "0"+number;
+	return number;
+}
+
+function showInvalidDetail() {
+	showHideDetail("invalid");
+}
+
+function showNewKitDetail() {
+	showHideDetail("newKit");
+}
+
+function showTestResultDetail() {
+	showHideDetail("reactive");
+	showHideDetail("nonReactive");
+}
+
+function showClientHighRiskYesNoDetail() {
+	showHideDetail("clientHighRiskYes");
+	showHideDetail("clientHighRiskNo");
+}
+
+function showConfirmTestNRDetail() {
+	showHideDetail("confirmTestDoneNR");
+	showHideDetail("confirmTestDeclinedNR");
+}
+ 
+function showConfirmTestRDetail() {
+	showHideDetail("confirmTestDoneR");
+	showHideDetail("confirmTestDeclinedR");
+}
+
+function showHideDetail(part) {
+	if ($(part).checked) Effect.SlideDown(part+"Detail",{duration:slideTime});
+	else if ($(part+"Detail").visible()) Effect.SlideUp(part+"Detail",{duration:slideTime});
+}
+
+function writePreventions() {
+	$("preventionHIVPOCInvalid").value = "";
+	$("preventionHIVPOCRepeatInvalid").value = "";
+	$("preventionHIVSerologyBloodSample").value = "";
+	$("preventionNonReactiveNo").value = "";
+	$("preventionNonReactiveYes").value = "";
+	$("preventionHIVReactive").value = "";
+	$("preventionHIVConfirmNominal").value = "";
+
+	if($("invalid").checked){
+		$("preventionHIVPOCInvalid").value = "HIV POC Nominal";
+	
+
+		if($("newKit").checked){
+			if($("repeatPOCTestInvalid").checked){
+				$("preventionHIVPOCRepeatInvalid").value = "HIV POC Nominal";
+			}
+		}
+
+		if($("bloodSample").checked){
+			$("preventionHIVSerologyBloodSample").value = "HIV Serology Nominal";
+		}	
+	}
+	
+	if($("nonReactive").checked) {
+		$("preventionNonReactiveNo").value = "HIV POC Nominal"; //normal
+	
+
+		if($("nonReactive").checked && $("clientHighRiskYes").checked){
+			if($("confirmTestDoneNR").checked){
+				$("preventionNonReactiveYes").value = "HIV Serology Nominal"; //pending
+			}
+		}
+	}
+	
+	if($("reactive").checked){
+		$("preventionHIVReactive").value = "HIV POC Nominal"; //abnormal
+	}
+	
+	if($("reactive").checked && $("confirmTestDoneR").checked){
+		$("preventionHIVConfirmNominal").value = "HIV Confirm Nominal"; //pending
+	}
+			
+	
+	/*
+	if ($("invalid").checked && $("recommendRepeatTest").checked && $("bloodSample").checked) {
+		$("preventionTypeInvalid").value = "HIV";
+	}
+	if ($("nonReactive").checked) {
+		$("preventionTypeNonReactive").value = "HIV POC Nominal";
+		if ($("clientHighRiskYes").checked && $("confirmTestDoneNR").checked) {
+			$("preventionTypeConfirmNR").value = "HIV";
+		}
+	}
+	if ($("reactive").checked) {
+		$("preventionTypeReactive").value = "HIV POC Nominal";
+		if ($("confirmTestDoneR")) {
+			$("preventionTypeConfirmR").value = "HIV Serology Nominal";
+		}
+	}
+	
+	*/
+}
+
+function pickOne(me, otherId) {
+	if (me.checked) $(otherId).checked = false;
+}
+
+function pickOne3(me, otherId1, otherId2) {
+	if (me.checked) {
+		$(otherId1).checked = false;
+		$(otherId2).checked = false;
+	}
+}
+
+function formPrint() {
+	window.print();
+} 
+</script>
+
+<!-- scripts to confirm closing of window if it hadn't been saved yet -->
+<script language="javascript">
+//keypress events trigger dirty flag
+var needToConfirm = false;
+document.onkeyup=setDirtyFlag;
+function setDirtyFlag() {
+	needToConfirm = true;
+}
+function releaseDirtyFlag() {
+	needToConfirm = false;
+}
+window.onbeforeunload = confirmExit;
+function confirmExit() {
+	if (needToConfirm) {
+		return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to leave?";
+	}
+}
+</script>
+
+</head>
+
+<body onload="start();">
+<form onsubmit="conclude();">
+
+<table width="900"><tr><td>
+
+<table width="100%">
+<tr>
+	<td>&nbsp;</td>
+	<td width="41%" class="bordered">
+		<table>
+		<tr>
+			<td>Client Name:</td>
+			<td><input type="text" name="clientName" id="clientName" oscarDB="patient_name"/></td>
+		</tr>
+		<tr>
+			<td>DOB:</td>
+			<td><input type="text" name="dob" id="dob" oscarDB="dobc2"/></td>
+		</tr>
+		<tr>
+			<td>Date of visit:</td>
+			<td>
+				<input type="text" name="visitDate" id="visitDate" />
+			</td>
+		</tr>
+		<tr>
+			<td>Clinic Site:</td>
+			<td><input type="text" name="clinicSite" id="clinicSite" oscarDB="clinic_name"/></td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+
+<div class="centered">
+	<h2>HIV Point of Care (POC) Testing</h2>
+</div>
+
+<table width="100%">
+<tr>
+	<td class="bordered">
+		<table>
+		<tr>
+			<td>
+				<input type="checkbox" name="pretestCounselling" id="pretestCounselling"/>
+			</td>
+			<td>
+				<label for="pretestCounselling">
+					HIV pre-test counseling completed (if anonymous, Anonymous Intake form completed)
+				</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="checkbox" name="explainPOC" id="explainPOC"/>
+			</td>
+			<td>
+				<label for="explainPOC">
+					Explain POC is a screening test, venipuncture required in order to confirm reactive or invalid results
+				</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="checkbox" name="verbalConsentBloodCollect" id="verbalConsentBloodCollect"/>
+			</td>
+			<td>
+				<label for="verbalConsentBloodCollect">
+					Verbal consent obtained for fingerstick blood collection
+				</label>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="checkbox" name="kitLotExpiryDate" id="kitLotExpiryDate"/>
+			</td>
+			<td>
+				<label for="kitLotExpiryDate">Kit</label>
+				lot # <input type="text" name="kitLot" id="kitLot"/>
+				&nbsp; &nbsp; &nbsp;
+				expiry date: <input type="text" name="expiryDate" id="expiryDate"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="checkbox" name="POCTestCompleted" id="POCTestCompleted"/>
+			</td>
+			<td>
+				<label for="POCTestCompleted">
+					POC test completed according to P&P                                             
+				</label>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+</tr>
+<tr>
+	<td class="bordered">
+		<input type="checkbox" name="invalid" id="invalid" onclick="showInvalidDetail();"/>
+		<label for="invalid" class="text_bold">Invalid</label>
+		<div id="invalidDetail" class="indent">
+			<input type="checkbox" name="recommendRepeatTest" id="recommendRepeatTest"/>
+			<label for="recommendRepeatTest">Recommend repeat test:</label>
+			<div class="indent">
+				<input type="checkbox" name="newKit" id="newKit" onclick="showNewKitDetail();"/>
+				<label for="newKit">new Kit</label>
+				&rarr; lot # <input type="text" name="newKitLot" id="newKitLot"/>
+				&nbsp; &nbsp;
+				expiry date: <input type="text" name="newExpiryDate" id="newExpiryDate"/>
+				<br/>
+				<div id="newKitDetail" class="indent">
+					<input type="checkbox" name="repeatPOCTestInvalid" id="repeatPOCTestInvalid" onclick="pickOne(this,'repeatPOCTestValid');"/>
+					<label for="repeatPOCTestInvalid">Repeat POC test invalid, recommend standard HIV venipuncture test</label>
+					<br/>
+					<input type="checkbox" name="repeatPOCTestValid" id="repeatPOCTestValid" onclick="pickOne(this,'repeatPOCTestInvalid');"/>
+					<label for="repeatPOCTestValid">Repeat POC test valid (see below for result)</label>
+				</div>
+				<input type="checkbox" name="bloodSample" id="bloodSample"/>
+				<label for="bloodSample">blood sample</label>
+				<br/>
+				<input type="checkbox" name="declinedRepeatTest" id="declinedRepeatTest"/>
+				<label for="declinedRepeatTest">
+					declined repeat test:
+					<input type="text" name="declinedRepeatTestTxt" id="declinedRepeatTestTxt"/>
+				</label>
+			</div>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td class="bordered">
+		<input type="checkbox" name="nonReactive" id="nonReactive" onclick="pickOne(this,'reactive');showTestResultDetail();"/>
+		<label for="nonReactive" class="text_bold">Non-Reactive</label>
+		
+		<div id="nonReactiveDetail">
+			<table>
+			<tr>
+				<td colspan="2">
+					Client in the window period with a high risk exposure?
+				</td>
+			</tr>
+			<tr>
+				<td class="indent">
+					<input type="checkbox" name="clientHighRiskNo" id="clientHighRiskNo" onclick="pickOne(this,'clientHighRiskYes');showClientHighRiskYesNoDetail();"/>
+					<label for="clientHighRiskNo" class="text_bold">No</label>
+				</td>
+				<td>
+				<div id="clientHighRiskNoDetail">
+					<input type="checkbox" name="postTestCounselingCompleted" id="postTestCounselingCompleted"/>
+					<label for="postTestCounsellingCompleted">Post-test counseling completed - risk reduction, window period</label>
+					<br/>
+					<input type="checkbox" name="applyEpiInfoOnlySticker" id="applyEpiInfoOnlySticker"/>
+					<label for="applyEpiInfoOnlySticker">Apply ""Epi info only"" sticker & forward req. to PHL</label>
+					<br/><br/>
+					<div class="text_bold">End of POC screen</div>
+				</div>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="indent">
+					<input type="checkbox" name="clientHighRiskYes" id="clientHighRiskYes" onclick="pickOne(this,'clientHighRiskNo');showClientHighRiskYesNoDetail();"/>
+					<label for="clientHighRiskYes" class="text_bold">Yes</label>
+				</td>
+				<td>
+				<div id="clientHighRiskYesDetail">
+					<input type="checkbox" name="adviseConfirmTest" id="adviseConfirmTest"/>
+					<label for="adviseConfirmTest">advise confirmatory HIV test & P24:</label>
+					<div class="indent">
+						<input type="checkbox" name="confirmTestDeclinedNR" id="confirmTestDeclinedNR" onclick="pickOne3(this,'confirmTestDoneNR','confirmTestNotDoneNR');showConfirmTestNRDetail();"/>
+						<label for="confirmTestDeclinedNR" class="text_bold">Serology Test Declined</label>
+						<div id="confirmTestDeclinedNRDetail" class="indent">
+							<input type="checkbox" name="completeLabReqDeclinedNR" id="completeLabReqDeclinedNR"/>
+							<label for="completeLabReqDeclinedNR">Complete lab requisition</label>
+							<ul>
+								<li>Apply "Window Period" sticker</li>
+								<li>Indicate "declined blood draw"</li>
+							</ul>
+						</div>
+					</div>
+					<div class="indent">
+						<input type="checkbox" name="confirmTestDoneNR" id="confirmTestDoneNR" onclick="pickOne3(this,'confirmTestDeclinedNR','confirmTestNotDoneNR');showConfirmTestNRDetail();"/>
+						<label for="confirmTestDoneNR" class="text_bold">Serology Test Done</label>
+						<div id="confirmTestDoneNRDetail" class="indent">
+							<input type="checkbox" name="completeLabReqDoneNR" id="completeLabReqDoneNR"/>
+							<label for="completeLabReqDoneNR">Complete lab requisition</label>
+							<ul>
+								<li>Apply "Window Period" sticker</li>
+								<li>If STAT result is required:
+									<ul>
+										<li>Indicate "STAT" on lab req.</li>
+										<li>Provide # for verbal result (905-528-5894)</li>
+										<li>Place in paper bag label "HIV STAT"</li>
+										<li>Call PH lab (905-385-5379) to notify "STAT" HIV test to be done</li>
+									</ul>
+								</li>
+							</ul>
+							<input type="checkbox" name="negotiateContactNR" id="negotiateContactNR"/>
+							<label for="negotiateContactNR">Negotiate contact with client for results</label>
+							<br/>
+							<input type="checkbox" name="assessImmediateRiskNR" id="assessImmediateRiskNR"/>
+							<label for="assessImmediateRiskNR">Assess for immediate risk to self and ensure appropriate support plan in place</label>
+							<br/>
+							<input type="checkbox" name="provideSupportiveCounsellingNR" id="provideSupportiveCounsellingNR"/>
+							<label for="provideSupportiveCounsellingNR">Provide supportive counselling and community resources while waiting for results</label>
+						</div>
+					</div>
+					<div class="indent">
+						<input type="checkbox" name="confirmTestNotDoneNR" id="confirmTestNotDoneNR" onclick="pickOne3(this,'confirmTestDoneNR','confirmTestDeclinedNR');showConfirmTestNRDetail();"/>
+						<label for="confirmTestNotDoneNR" class="text_bold">Serology Test Not Done:</label>
+						<input type="text" name="confirmTestNotDoneNRText" id="confirmTestNotDoneNRText" size="40"/>
+					</div>
+				</div>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</td>
+</tr>
+
+<tr>
+	<td class="bordered">
+		<input type="checkbox" name="reactive" id="reactive" onclick="pickOne(this,'nonReactive');showTestResultDetail();"/>
+		<label for="reactive" class="text_bold">Reactive</label>
+		
+		<div id="reactiveDetail">
+			<div class="indent">
+				<input type="checkbox" name="phnGivesResult" id="phnGivesResult"/>
+				<label for="phnGivesResult">PHN gives result to client</label>
+				<br/>
+				<input type="checkbox" name="reemphasizePocScreening" id="reemphasizePocScreening"/>
+				<label for="reemphasizePocScreening">Reemphasize that POC is a screening test and discuss need for a confirmatory blood test</label>
+				<br/>
+				<input type="checkbox" name="verbalConsentBloodDraw" id="verbalConsentBloodDraw"/>
+				<label for="verbalConsentBloodDraw">Obtain verbal consent for confirmatory blood draw</label>
+				<br/><br/>
+				<input type="checkbox" name="confirmTestDoneR" id="confirmTestDoneR" onclick="pickOne3(this,'confirmTestDeclinedR','confirmTestNotDoneR');showConfirmTestRDetail();"/>
+				<label for="confirmTestDoneR" class="text_bold">Confirmatory Test Done</label>
+				<br/>
+				<div id="confirmTestDoneRDetail" class="indent">
+					<input type="checkbox" name="completeLabReqDoneR" id="completeLabReqDoneR"/>
+					<label for="completeLabReqDoneR">Requisition completed:</label>
+					<br/>
+					<ul>
+						<li>Apply "Confirmatory" sticker</li>
+						<li>Label as "STAT"</li>
+						<li>Provide # for verbal results (905-528-5894)</li>
+						<li>Place in paper bag labelled "HIV STAT"</li>
+						<li>Call PH lab (905-385-5379) to notify STAT HIV test to be done</li>
+					</ul>
+					<input type="checkbox" name="negotiateContactR" id="negotiateContactR"/>
+					<label for="negotiateContactR">Negotiate contact with client for results</label>
+					<br/>
+					<input type="checkbox" name="arrangeFollowupPhoneCall" id="arrangeFollowupPhoneCall"/>
+					<label for="arrangeFollowupPhoneCall">Arrange a follow-up phone call to assess coping & supports while waiting for results</label>
+				</div>
+				<input type="checkbox" name="confirmTestDeclinedR" id="confirmTestDeclinedR" onclick="pickOne3(this,'confirmTestDoneR','confirmTestNotDoneR');showConfirmTestRDetail();"/>
+				<label for="confirmTestDeclinedR" class="text_bold">Confirmatory Test Declined</label>
+				<br/>
+				<div id="confirmTestDeclinedRDetail" class="indent">
+					<input type="checkbox" name="completeLabReqDeclinedR" id="completeLabReqDeclinedR"/>
+					<label for="completeLabReqDeclinedR">Requisition completed:</label>
+					<ul>
+						<li>Apply "Confirmatory" sticker</li>
+						<li>Indicate "declined blood draw"</li>
+					</ul> 
+					<input type="checkbox" name="consultProgramManager" id="consultProgramManager"/>
+					<label for="consultProgramManager">Consult with Program Manager re: plan of care</label>
+				</div>
+				<input type="checkbox" name="confirmTestNotDoneR" id="confirmTestNotDoneR" onclick="pickOne3(this,'confirmTestDoneR','confirmTestDeclinedR');showConfirmTestRDetail();"/>
+				<label for="confirmTestNotDoneR" class="text_bold">Confirmatory Test Not Done:</label>
+				<input type="text" name="confirmTestNotDoneRText" id="confirmTestNotDoneRText" size="50"/>
+				<br/>
+			</div>
+			<br/>	
+
+         	<div class="text_bold">Post Test Counselling (for all reactive results)</div>
+         	<div class="indent">
+				<input type="checkbox" name="assessImmediateRiskR" id="assessImmediateRiskR"/>
+				<label for="assessImmediateRiskR">Assess for any immediate risk to self and ensure appropriate plan is in place</label>
+				<br/>
+				<input type="checkbox" name="provideSupportiveCounsellingR" id="provideSupportiveCounsellingR"/>
+				<label for="provideSupportiveCounsellingR">Provide supportive counselling and community resources while waiting for results</label>
+				<br/>
+				<input type="checkbox" name="healthTeaching" id="healthTeaching"/>
+				<label for="healthTeaching">Health teaching re: harm reduction i.e. Public health expectation regarding disclosure of status and use of condoms for all sexual partners</label>		
+         	</div>
+		</div>
+
+	
+		<input type="hidden" name="preventionHIVPOCInvalid" id="preventionHIVPOCInvalid"/>
+		<input type="hidden" name="preventionHIVPOCRepeatInvalid" id="preventionHIVPOCRepeatInvalid"/>
+		<input type="hidden" name="preventionHIVSerologyBloodSample" id="preventionHIVSerologyBloodSample"/>
+		<input type="hidden" name="preventionNonReactiveNo" id="preventionNonReactiveNo"/>
+		<input type="hidden" name="preventionNonReactiveYes" id="preventionNonReactiveYes"/>
+		<input type="hidden" name="preventionHIVReactive" id="preventionHIVReactive"/>
+		<input type="hidden" name="preventionHIVConfirmNominal" id="preventionHIVConfirmNominal"/>
+	</td>
+</tr>
+<tr>
+	<td>
+		Electronic Signature:
+		<input type="text" name="signature" id="signature"/>
+		<br/>
+		Date and Time:
+		<input type="text" name="dateTime" id="dateTime" class="noborder"/>
+	</td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+</tr>
+<tr>
+	<td class="DoNotPrint">
+		Subject: <input name="subject" size="35" type="text"/> 
+		<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick="releaseDirtyFlag();"/>
+		<input value="Reset" name="ResetButton" id="ResetButton" type="reset" onclick="releaseDirtyFlag();location.reload();"/> 
+		<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="formPrint();"/> 
+		<input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="formPrint();releaseDirtyFlag();setTimeout('SubmitButton.click()',1000);"/> 
+	</td>
+</tr>
+</table>
+
+</td></tr></table>
+</form>
+
+<script language='javascript'>
+	Calendar.setup({inputField:"dob",ifFormat:"%Y/%m/%d",showsTime:false,button:"dob",singleClick:true,step:1});
+	Calendar.setup({inputField:"visitDate",ifFormat:"%Y/%m/%d",showsTime:false,button:"visitDate",singleClick:true,step:1});
+	Calendar.setup({inputField:"expiryDate",ifFormat:"%Y/%m/%d",showsTime:false,button:"expiryDate",singleClick:true,step:1});
+	Calendar.setup({inputField:"newExpiryDate",ifFormat:"%Y/%m/%d",showsTime:false,button:"newExpiryDate",singleClick:true,step:1});
+</script>
+
+</body>
+</html>
+
+<!--
+<template>
+	<prevention>
+		<type>$t{preventionHIVSerologyBloodSample}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{preventionHIVPOCRepeatInvalid}</type>
+		<result>other</result>
+		<reason>invalid</reason>
+	</prevention>
+	<prevention>
+		<type>$t{preventionHIVPOCInvalid}</type>
+		<result>other</result>
+		<reason>invalid</reason>
+	</prevention>
+	<prevention>
+		<type>$t{preventionHIVReactive}</type>
+		<result>abnormal</result>
+	</prevention>
+	<prevention>
+		<type>$t{preventionHIVConfirmNominal}</type>
+		<result>pending</result>
+	</prevention>
+	<prevention>
+		<type>$t{preventionNonReactiveNo}</type>
+		<result>normal</result>
+	</prevention>		
+	<prevention>
+		<type>$t{preventionNonReactiveYes}</type>
+		<result>pending</result>
+	</prevention>
+</template>
+-->
