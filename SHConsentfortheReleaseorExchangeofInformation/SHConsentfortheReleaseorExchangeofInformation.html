@@ -1,0 +1,122 @@
+<html>
+<head>
+<title>SH Consent for the Release or Exchange of Information</title>
+<style type="text/css" media="print">
+ .DoNotPrint {
+	 display: none;
+ }
+ .noborder {
+	 border : 0px;
+	 background: transparent;
+	 scrollbar-3dlight-color: transparent;
+	 scrollbar-3dlight-color: transparent;
+	 scrollbar-arrow-color: transparent;
+	 scrollbar-base-color: transparent;
+	 scrollbar-darkshadow-color: transparent;
+	 scrollbar-face-color: transparent;
+	 scrollbar-highlight-color: transparent;
+	 scrollbar-shadow-color: transparent;
+	 scrollbar-track-color: transparent;
+	 background: transparent;
+	 overflow: hidden;
+ }
+ </style>
+
+<script language="javascript">
+function formPrint(){
+			window.print();
+} 
+</script>
+
+<!-- scripts to confirm closing of window if it hadn't been saved yet -->
+<script language="javascript">
+//keypress events trigger dirty flag
+var needToConfirm = false;
+document.onkeyup=setDirtyFlag;
+function setDirtyFlag(){
+		needToConfirm = true;
+}
+function releaseDirtyFlag(){
+		needToConfirm = false; //Call this function if doesn't requires an alert.
+//this could be called when save button is clicked
+}
+window.onbeforeunload = confirmExit;
+function confirmExit(){
+	 if (needToConfirm){
+		 return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+	 }
+}
+</script>
+
+</head>
+
+<body onload="">
+<img id='BGImage' src="${oscar_image_path}Consent for the Release or Exchange of Information 14.04.09-page-0.jpg" style="position: absolute; left: 0px; top: 0px; width:750px">
+<form method="post" action="" name="FormName" id="FormName" >
+
+<input name="patient_name" id="patient_name" type="text" class="noborder" style="position:absolute; left:154px; top:213px; width:327px; height:23px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=patient_name>
+
+
+<input name="dob1" id="dob1" type="text" class="noborder" style="position:absolute; left:120px; top:237px; width:166px; height:19px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;"  oscarDB=dob>
+
+
+<textarea name="AutoName0" id="AutoName0" class="noborder" style="position:absolute; left:334px; top:285px; width:349px; height:41px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" ></textarea>
+
+
+<textarea name="AutoName2" id="AutoName2" class="noborder" style="position:absolute; left:334px; top:330px; width:355px; height:39px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" ></textarea>
+
+
+<input name="AutoName4" id="AutoName4" type="text" class="noborder" style="position:absolute; left:142px; top:370px; width:580px; height:27px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="AutoName5" id="AutoName5" type="text" class="noborder" style="position:absolute; left:142px; top:399px; width:564px; height:21px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="AutoName6" id="AutoName6" type="text" class="noborder" style="position:absolute; left:142px; top:422px; width:541px; height:20px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="AutoName7" id="AutoName7" type="text" class="noborder" style="position:absolute; left:142px; top:444px; width:553px; height:24px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="AutoName8" id="AutoName8" type="text" class="noborder" style="position:absolute; left:142px; top:467px; width:572px; height:27px; font-family:sans-serif; font-style:normal; font-weight:normal; font-size:12px; text-align:left; background-color:transparent;" value="">
+
+
+<input name="AutoName9" id="AutoName9" type="checkbox" style="position:absolute; left:99px; top:293px; ">
+
+
+<input name="AutoName10" id="AutoName10" type="checkbox" style="position:absolute; left:99px; top:327px; ">
+
+
+<input name="AutoName11" id="AutoName11" type="checkbox" style="position:absolute; left:84px; top:633px; ">
+
+
+<input name="AutoName12" id="AutoName12" type="checkbox" style="position:absolute; left:84px; top:683px; ">
+
+
+<input name="AutoName13" id="AutoName13" type="checkbox" style="position:absolute; left:84px; top:734px; ">
+
+
+<input name="AutoName14" id="AutoName14" type="checkbox" style="position:absolute; left:395px; top:632px; ">
+
+
+<input name="AutoName15" id="AutoName15" type="checkbox" style="position:absolute; left:395px; top:683px; ">
+
+
+<input name="AutoName16" id="AutoName16" type="checkbox" style="position:absolute; left:395px; top:735px; ">
+
+
+
+
+ <div class="DoNotPrint" style="position: absolute; top:971px; left:0px;" id="BottomButtons" >
+	 <table><tr><td>
+		 Subject: <input name="subject" size="40" type="text"> 
+			<input value="Submit" name="SubmitButton" id="SubmitButton" type="submit" onclick=" releaseDirtyFlag();"> 
+			<input value="Reset" name="ResetButton" id="ResetButton" type="reset"> 
+			<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="formPrint();"> 
+			<input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="formPrint();releaseDirtyFlag();setTimeout('SubmitButton.click()',1000);"> 
+	 </td></tr></table>
+ </div>
+ </form>
+
+</body>
+</html>
