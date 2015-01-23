@@ -1,0 +1,292 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<link type="text/css" rel="stylesheet" href="${oscar_image_path}bootstrap.css"/>
+	<link type="text/css" rel="stylesheet" href="${oscar_image_path}bootstrapValidator.css"/>
+	<script src="${oscar_image_path}bootstrap.js"></script>
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+	
+	
+	<link rel="stylesheet" type="text/css" media="all" href="${oscar_javascript_path}../calendar/calendar.css" title="win2k-cold-1"/> 
+	<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar.js"></script>
+	<script type="text/javascript" src="${oscar_javascript_path}../calendar/lang/calendar-en.js"></script>
+	<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar-setup.js"></script>	
+	<script type="text/javascript" src="${oscar_image_path}bootstrapValidator.js"></script>	
+	
+	
+	<!--
+	<link rel="stylesheet" type="text/css" media="all" href="inc/calendar.css" title="win2k-cold-1"/> 
+	<link type="text/css" rel="stylesheet" href="dist/css/bootstrap.css""/>
+	<script src="dist/js/bootstrap.js"></script>
+	<script type="text/javascript" src="inc/calendar.js"></script>
+	<script type="text/javascript" src="inc/calendar-en.js"></script>
+	<script type="text/javascript" src="inc/calendar-setup.js"></script>	
+	-->
+	
+	<script language="javascript">
+		
+			
+		//keypress events trigger dirty flag
+		var needToConfirm = false;
+		document.onkeyup=setDirtyFlag;
+		function setDirtyFlag(){
+				needToConfirm = true;
+		}
+		function releaseDirtyFlag(){
+				needToConfirm = false; //Call this function if doesn't requires an alert.
+		//this could be called when save button is clicked
+		}
+		window.onbeforeunload = confirmExit;
+		function confirmExit(){
+			 if (needToConfirm){
+				 return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+			 }
+		}
+		
+	</script>
+</head>
+
+ 
+<body onload=''>
+	
+
+
+	<form method="post" action="" name="SmokerFaxReferral" id="SmokerFaxReferral" onsubmit="" >
+
+	
+	<div style="margin-left:15px;">
+		<div class='row' style="margin-left:10px;margin-right:10px;">
+		
+			<div class="form-group">
+			
+				<div class="col-md-4"><img src="${oscar_image_path}smokershelpline.jpg"/></div>
+				<div class="col-md-4"><p class="text-center"><strong>Smokers' Helpline<br/>Fax: 1 877 513-5334<br/>Confidential<br/>Fax Referral Form</strong></p></div>
+				<div class="col-md-4"><img src="http://old.hamilton.ca/phcs/Teachers/Images/PHSLogo.jpg" title="City of Hamilton - Public Health Services logo"/></div>
+
+
+			</div>
+
+			
+		</div>
+		
+		<div class="row">&nbsp;</div>
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;">
+			<div class="col-md-12" style="background-color:black;color:white;"><strong>Health Professional Referral Source - Required</strong></div>
+		</div>
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:5px;">
+			<div class="col-md-2"><span class="pull-right">Health Professional:</span></div>
+			<div class="col-md-6">
+				<select name="cboHealthProfessional" id="cboHealthProfessional" class="form-control">
+					<option value=""></option>
+					<option value="Health Promotion Specialist">Health Promotion Specialist</option>
+					<option value="PH Nurse">Public Health Nurse</option>
+					<option value="PH Dietitian">Public Health Dietitian/Nutritionist</option>
+					<option value="Dental Hygienist">Dental Hygienist</option>
+					<option value="Dentist">Dentist</option>
+					<option value="Other">Other (Please Specifiy)</option>
+				</select>
+			</div>
+			<div class="col-md-2"><span class="pull-right">If Other:</span></div>
+			<div class="col-md-2"><input type="text" name="txtOther" id="txtOther" class="form-control"/></div>
+			
+			
+		</div>
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;">
+			<div class="col-md-12"><strong>Contact Information of Referring Clinician</strong></div>
+		</div>
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;">
+			<div class="col-md-2"><span class="pull-right">First Name:</span></div>
+			<div class="col-md-2"><input type="text" name="ClinicianFirstName" id="ClinicianFirstName" class="form-control" /></div>
+			<div class="col-md-2"><span class="pull-right">Last Name:</span></div>
+			<div class="col-md-2"><input type="text" name="ClinicianLastName" id="ClinicianLastName" class="form-control" /></div>
+			<div class="col-md-2"><span class="pull-right">Ext:</span></div>
+			<div class="col-md-2"><input type="text" name="ClinicianEXT" id="ClinicianEXT" class="form-control"/></div>
+		</div>
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-2"><span class="pull-right">Division:</span></div>
+			<div class="col-md-6">
+				<select name="cboDivision" id="cboDivision" class="form-control">
+					<option value=""></option>
+					<option value="Family Health">Family Health</option>
+					<option value="Health Protection">Health Protection</option>
+					<option value="Healthy Living">Healthy Living</option>
+					<option value="Clinical and Preventative Services">Clinical and Preventative Services</option>
+					<option value="Other">Other (Please Specifiy)</option>
+				</select>
+			</div>
+			<div class="col-md-2"><span class="pull-right">If Other:</span></div>
+			<div class="col-md-2"><input type="text" name="txtOtherDivision" id="txtOtherDivision" class="form-control"/></div>
+			
+			
+		</div>		
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-12"><strong>Patient/Client-Contact Information</strong></div>
+		</div>
+			
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-2"><span class="pull-right">First Name:</span></div>
+			<div class="col-md-2"><input type="text" name="ClientFirstName" id="ClientFirstName" class="form-control" oscardb="patient_nameF"/></div>
+			<div class="col-md-2"><span class="pull-right">Last Name:</span></div>
+			<div class="col-md-2"><input type="text" name="ClientLastName" id="ClientLastName" class="form-control" oscardb="patient_nameL"/></div>
+			<div class="col-md-2"><span class="pull-right">Gender:</span></div>
+			<div class="col-md-2"><input type="text" name="ClientGender" id="ClientGender" class="form-control" oscardb="sex"/></div>			
+		</div>
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-2"><span class="pull-right">Street Address:</span></div>
+			<div class="col-md-2"><input type="text" name="ClientStreetAddress" id="ClientStreetAddress" class="form-control" oscardb="address"/></div>
+			<div class="col-md-2"><span class="pull-right">City:</span></div>
+			<div class="col-md-2"><input type="text" name="ClientCity" id="ClientCity" class="form-control" oscardb="city"/></div>
+			<div class="col-md-2"><span class="pull-right">Province:</span></div>
+			<div class="col-md-2"><input type="text" name="ClientProvince" id="ClientProvince" class="form-control" oscardb="province"/></div>			
+		</div>		
+
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-2"><span class="pull-right">Postal Code:</span></div>
+			<div class="col-md-2"><input type="text" name="ClientPostalCode" id="ClientPostalCode" class="form-control" oscardb="postal"/></div>
+			<div class="col-md-2"><span class="pull-right">BirthDate:</span></div>
+			<div class="col-md-2"><input type="text" name="ClientBirthDate" id="ClientBirthDate" class="form-control" oscardb="dob"/></div>
+			<div class="col-md-2"><span class="pull-right">Language Pref:</span></div>
+			<div class="col-md-2">
+				<select name="cboLangPref" id="cboLangPref" class="form-control">
+					<option value=""></option>
+					<option value="English">English</option>
+					<option value="French">French</option>
+				</select>
+			</div>			
+		</div>		
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-2"><span class="pull-right">Telephone:</span></div>
+			<div class="col-md-2"><input type="text" name="ClientTelephone" id="ClientTelephone" class="form-control"/></div>
+			<div class="col-md-2"><span class="pull-right">Type:</span></div>
+			<div class="col-md-2">
+				<select name="cboTeleType" id="cboTeleType" class="form-control">
+					<option value=""></option>
+					<option value="Home">Home</option>
+					<option value="Cell">Cell</option>
+					<option value="Work">Work</option>
+				</select>			
+			</div>
+			<div class="col-md-4">&nbsp;</div>
+		</div>				
+	
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-2"><span class="pull-right">Alt Telephone:</span></div>
+			<div class="col-md-2"><input type="text" name="AltClientTelephone" id="AltClientTelephone" class="form-control"/></div>
+			<div class="col-md-2"><span class="pull-right">Type:</span></div>
+			<div class="col-md-2">
+				<select name="cboAltTeleType" id="cboAltTeleType" class="form-control">
+					<option value=""></option>
+					<option value="Home">Home</option>
+					<option value="Cell">Cell</option>
+					<option value="Work">Work</option>
+				</select>			
+			</div>
+			<div class="col-md-4">&nbsp;</div>
+		</div>		
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-2"><span class="pull-right">Email:</span></div>
+			<div class="col-md-6"><input type="text" name="ClientEmail" id="ClientEmail" class="form-control"/></div>
+		</div>
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-6"><span class="pull-right">Have you given birth within the past 6 months?:</span></div>
+			<div class="col-md-2">
+				<select name="cboGivenBirth6Months" id="cboGivenBirth6Months" class="form-control">
+					<option value=""></option>
+					<option value="Yes">Yes</option>
+					<option value="No">No</option>					
+				</select>	
+			</div>
+			<div class="col-md-2"><span class="pull-right">Are you pregnant?:</span></div>
+			<div class="col-md-2">
+				<select name="cboPregnant" id="cboPregnant" class="form-control">
+					<option value=""></option>
+					<option value="Yes">Yes</option>
+					<option value="No">No</option>					
+				</select>				
+			</div>			
+		</div>			
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-12" style="background-color:black;color:white;"><strong>The Smokers' Helpline usually calls the client within 3 business days of receiving a referral. When should we call?</strong></div>
+		</div>
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-6"><span class="pull-right">May we leave a message identifying ourselves as Smokers' Helpline?:</span></div>
+			<div class="col-md-2">
+				<select name="cboMessage" id="cboMessage" class="form-control">
+					<option value=""></option>
+					<option value="Yes">Yes</option>
+					<option value="No">No</option>					
+				</select>	
+			</div>
+			<div class="col-md-2"><span class="pull-right">Please call me in the:</span></div>
+			<div class="col-md-2">
+				<select name="cboCallMe" id="cboCallMe" class="form-control">
+					<option value=""></option>
+					<option value="Morning">Morning</option>
+					<option value="Afternoon">Afternoon</option>					
+					<option value="Evening">Evening</option>					
+					<option value="Anytime">Anytime</option>					
+				</select>				
+			</div>			
+		</div>			
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-12" style="background-color:black;color:white;"><strong>Patient/Client-Informed Consent</strong></div>
+		</div>		
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-12">
+				<p>It is understood by the above noted client that this form will be faxed to Smokers’ Helpline (SHL), to facilitate direct contact on this referral so that SHL can contact the referred individual regarding his or her attempt to quit smoking, and also for SHL to communicate with the referring healthcare provider. SHL will keep all information confidential and will only use it for the purposes of administrating the fax referral program.</p>			
+			</div>			
+		</div>		
+
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:20px;">
+			
+			<div class="col-md-2"><span class="pull-right">Electronic Signature:</span></div>
+			<div class="col-md-5"><input type="text" name="subject" id="subject" class="form-control" oscardb=provider_sig/></div>
+		</div>		
+		<div class="row">&nbsp;</div>
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-2"><span class="pull-right">Date:</span></div>	
+			<div class="col-md-2"><input type="text" name="txtDateSigned" id="txtDateSigned" class="form-control"/></div>
+		</div>	
+		
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="form-group">
+				<div class="col-md-12 control-label" >
+					
+					<input value="Reset" name="ResetButton" id="ResetButton" type="reset" class="btn btn-default"> 
+					<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="formPrint();" class="btn btn-default"> 
+					<input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="formPrint();releaseDirtyFlag();setTimeout('SubmitButton.click()',1000);" class="btn btn-default"> 			
+					<input value="Save" name="SubmitButton" id="SubmitButton" class="btn btn-primary" type="submit" onclick="releaseDirtyFlag();"> 
+				</div>
+			</div>
+		</div>
+	
+		
+		
+	</div>
+	</form>
+	
+
+	
+	<script type="text/javascript">
+		Calendar.setup({inputField:"txtDateSigned",ifFormat:"%Y/%m/%d",showsTime:false,button:"txtDateSigned",singleClick:true,step:1});
+		
+	
+		
+	</script>
+</body>
+
+
+</html>

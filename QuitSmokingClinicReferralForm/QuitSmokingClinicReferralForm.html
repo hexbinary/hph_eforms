@@ -1,0 +1,195 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<link type="text/css" rel="stylesheet" href="${oscar_image_path}bootstrap.css"/>
+	<link type="text/css" rel="stylesheet" href="${oscar_image_path}bootstrapValidator.css"/>
+	<script src="${oscar_image_path}bootstrap.js"></script>
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+	
+	
+	<link rel="stylesheet" type="text/css" media="all" href="${oscar_javascript_path}../calendar/calendar.css" title="win2k-cold-1"/> 
+	<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar.js"></script>
+	<script type="text/javascript" src="${oscar_javascript_path}../calendar/lang/calendar-en.js"></script>
+	<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar-setup.js"></script>	
+	<script type="text/javascript" src="${oscar_image_path}bootstrapValidator.js"></script>	
+	
+	
+	<!--
+	<link rel="stylesheet" type="text/css" media="all" href="inc/calendar.css" title="win2k-cold-1"/> 
+	<link type="text/css" rel="stylesheet" href="dist/css/bootstrap.css""/>
+	<script src="dist/js/bootstrap.js"></script>
+	<script type="text/javascript" src="inc/calendar.js"></script>
+	<script type="text/javascript" src="inc/calendar-en.js"></script>
+	<script type="text/javascript" src="inc/calendar-setup.js"></script>	
+	-->
+	
+	<script language="javascript">
+		
+			
+		//keypress events trigger dirty flag
+		var needToConfirm = false;
+		document.onkeyup=setDirtyFlag;
+		function setDirtyFlag(){
+				needToConfirm = true;
+		}
+		function releaseDirtyFlag(){
+				needToConfirm = false; //Call this function if doesn't requires an alert.
+		//this could be called when save button is clicked
+		}
+		window.onbeforeunload = confirmExit;
+		function confirmExit(){
+			 if (needToConfirm){
+				 return "You have attempted to leave this page. If you have made any changes to the fields without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?";
+			 }
+		}
+		
+	</script>
+</head>
+
+ 
+<body onload=''>
+	
+
+
+	<form method="post" action="" name="SmokerFaxReferral" id="SmokerFaxReferral" onsubmit="" >
+
+	
+	<div style="margin-left:15px;">
+		<div class='row' style="margin-left:100px;margin-right:10px;">
+		
+			<div class="form-group">
+			
+				<div class="col-md-3"><img src="http://old.hamilton.ca/phcs/Teachers/Images/PHSLogo.jpg" title="City of Hamilton - Public Health Services logo"/></div>
+				<div class="col-md-3">
+					<p>Tobacco Control Program<br/>
+					Public Health Services<br/>
+					1447 Upper Ottawa<br/>
+					Hamilton, Ontario L8P 4Y5<br/>
+					P: 905.540.5566 F: 905.546-4194
+				</div>
+				
+				<div class="col-md-6"><img src="${oscar_image_path}smokefree.jpg"/></div>
+			</div>
+
+
+			</div>
+
+			
+		</div>
+		
+		<div class="row">&nbsp;</div>
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;margin-bottom:10px;">
+			<div class="col-md-9 col-md-offset-2"><h3>Please complete this form and fax to the Quit Smoking Clinic: <strong>905-546-4194</strong></h3></div>
+		</div>
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:5px;">
+			<div class="col-md-2"><span class="pull-right">Client Information:</span></div>
+			<div class="col-md-1"><span class="pull-right">Name:</span></div>
+			<div class="col-md-2"><input type="text" name="txtClientName" id="txtClientName" class="form-control" oscardb="patient_name"/></div>
+			<div class="col-md-1"><span class="pull-right">DOB:</span></div>
+			<div class="col-md-2"><input type="text" name="txtDOB" id="txtDOB" class="form-control" oscardb="dob"/></div>
+		</div>
+		<div class="row">&nbsp;</div>
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:5px;">
+			<div class="col-md-3"><span class="pull-right">Tel:</span></div>
+			<div class="col-md-5"><input type="text" name="txtClientTel" id="txtClientTel" class="form-control"/></div>
+		</div>		
+		<div class="row">&nbsp;</div>
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:5px;">
+			<div class="col-md-3"><span class="pull-right">E-Mail:</span></div>
+			<div class="col-md-5"><input type="text" name="txtClientEmail" id="txtClientEmail" class="form-control"/></div>
+		</div>				
+		<div class="row">&nbsp;</div>
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-6"><span class="pull-right">Can Quit Smoking Clinic staff contact client at above phone number:</span></div>
+			<div class="col-md-2">
+				<select name="cboContactClient" id="cboContactClient" class="form-control">
+					<option value=""></option>
+					<option value="Yes">Yes</option>
+					<option value="No">No</option>					
+				</select>	
+			</div>
+		</div>
+		<div class="row">&nbsp;</div>
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-6"><span class="pull-right">If no, how can clinic staff contact client?</span></div>
+			<div class="col-md-2"><input type="text" name="txtContactClient" id="txtContactClient" class="form-control"/></div>
+		</div>		
+		<div class="row">&nbsp;</div>
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-3 col-md-offset-3 control-label">
+				<div class="checkbox"><label><input type="checkbox" name="chkPublicHealthClient" id="chkPublicHealthClient" value="true" /> Client is a Public Health Clinic client</label></div>
+				<div class="checkbox"><label><input type="checkbox" name="chkUseTobacco" id="chkUseTobacco" value="true" /> Client currently uses tobacco</label></div>
+				<div class="checkbox"><label><input type="checkbox" name="chk5ACompleted" id="chk5ACompleted" value="true" /> 5A Minimal Contact Tobacco Intervention completed with client</label></div>
+				<div class="checkbox"><label><input type="checkbox" name="chkClientConsent" id="chkClientConsent" value="true" /> Verbal consent obtained</label></div>
+			</div>
+		</div>
+
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:20px;">
+			<div class="col-md-2"><span class="pull-right">Referral Source:</span></div>
+			<div class="col-md-1"><span class="pull-right">PHN Name:</span></div>
+			<div class="col-md-5"><input type="text" name="txtPHNname" id="txtPHNname" class="form-control"/></div>
+		</div>		
+		<div class="row">&nbsp;</div>
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-3"><span class="pull-right">Tel:</span></div>	
+			<div class="col-md-5"><input type="text" name="txtPHNtel" id="txtPHNtel" class="form-control"/></div>
+		</div>				
+		<div class="row">&nbsp;</div>
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-3"><span class="pull-right">Email:</span></div>	
+			<div class="col-md-5"><input type="text" name="txtPHNemail" id="txtPHNemail" class="form-control"/></div>
+		</div>						
+		<div class="row">&nbsp;</div>
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:20px;">
+			
+			<div class="col-md-3"><span class="pull-right">Electronic Signature:</span></div>
+			<div class="col-md-5"><input type="text" name="txtSignature" id="txtSignature" class="form-control" oscardb=provider_sig/></div>
+		</div>		
+		<div class="row">&nbsp;</div>
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-3"><span class="pull-right">Date:</span></div>	
+			<div class="col-md-2"><input type="text" name="txtDateSigned" id="txtDateSigned" class="form-control"/></div>
+		</div>				
+	
+		
+
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="col-md-12">
+				<p>The contents of this fax transmission are privileged and confidential, intended only for the recipient (s) named above. Access to this fax by anyone else is unauthorized. If you are not the intended recipient, 
+				you must not read, use or disseminate the information contained in this fax. If you have received this fax and are not the intended recipient, destroy it immediately and call 905-540-5566 x1, collect if long distance, 
+				to advise me of the transmission error. </p>
+			</div>
+		</div>
+		
+		<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;">
+			<div class="form-group">
+				<div class="col-md-12 control-label" >
+					
+					<input value="Reset" name="ResetButton" id="ResetButton" type="reset" class="btn btn-default"> 
+					<input value="Print" name="PrintButton" id="PrintButton" type="button" onclick="formPrint();" class="btn btn-default"> 
+					<input value="Print & Submit" name="PrintSubmitButton" id="PrintSubmitButton" type="button" onclick="formPrint();releaseDirtyFlag();setTimeout('SubmitButton.click()',1000);" class="btn btn-default"> 			
+					<input value="Save" name="SubmitButton" id="SubmitButton" class="btn btn-primary" type="submit" onclick="releaseDirtyFlag();"> 
+				</div>
+			</div>
+		</div>
+	</div>
+	</form>
+	
+
+	
+	<script type="text/javascript">
+		Calendar.setup({inputField:"txtDateSigned",ifFormat:"%Y/%m/%d",showsTime:false,button:"txtDateSigned",singleClick:true,step:1});
+		Calendar.setup({inputField:"txtDOB",ifFormat:"%Y/%m/%d",showsTime:false,button:"txtDOB",singleClick:true,step:1});
+		
+	
+		
+	</script>
+</body>
+
+
+</html>

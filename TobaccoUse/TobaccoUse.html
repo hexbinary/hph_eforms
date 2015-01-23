@@ -1,0 +1,249 @@
+<html>
+<head>
+<style type="text/css">
+
+p { 
+      font-size: 12;
+      font-family: Arial;      
+      text-align: left;
+}
+input,textarea {
+	background-color: lightyellow;
+}
+tr.even {
+	background-color: #dddddd;
+}
+td { 
+      font-size: 12;
+      font-family: Arial;      
+      text-align: left;
+}
+td.hdr {
+	  font-size: 12;
+      font-family: Arial;
+      font-weight: bold;
+	  padding-left: 10px;
+	  vertical-align: top;
+}
+td.fhead {
+      background-color: #dddddd;
+      text-align: center;
+}
+td.flist {
+	  padding-left: 15px;
+}
+div.scalelabel {
+      text-align: left;
+      vertical-align: top;
+      font-size: 8;
+      font-family: Arial;      
+	  float: left;
+}
+span.cdescr {      
+      font-size: 10;
+      font-family: Arial;
+}
+input.ftext {
+      width: 85%;
+      height: 100%;
+      font-size: 12;
+      font-family: Arial;     
+      margin-right: 5px;
+      float: right;	  
+}
+input.ftextshort {
+      width: 75%;
+      height: 100%;
+      font-size: 12;
+      font-family: Arial;     
+      margin-right: 5px;
+      float: right;
+}
+input.ftext2 {	 
+	  width: 90%;
+      height: 100%;
+      font-size: 12;
+      font-family: Arial;
+	  margin-right: 5px;
+	  margin-left: 5px;	
+}
+input.scale {
+	  margin-left: 30px;	
+}
+input.cushion {
+	  margin-left: 50px;
+}
+</style>
+<!-- CSS Script that removes textarea and textbox borders when printing ---(put this inbetween <header></header>)----------------->
+<style type="text/css" media="print">
+div.DoNotPrint {
+	display: none;
+}
+ 
+
+td textarea {
+	border : 0px;
+	background: transparent;
+}
+
+input { 
+
+	border-bottom: 1px solid black;
+    border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	scrollbar-3dlight-color: transparent;
+	scrollbar-3dlight-color: transparent;
+	scrollbar-arrow-color: transparent;
+	scrollbar-base-color: transparent;
+	scrollbar-darkshadow-color: transparent;
+	scrollbar-face-color: transparent;
+	scrollbar-highlight-color: transparent;
+	scrollbar-shadow-color: transparent;
+	scrollbar-track-color: transparent;
+	background: transparent;
+	overflow: hidden;
+	//scrollbar : none;
+	
+}
+
+</style>
+<!-- ----------------------------------------------------------------------------------------- -->
+
+
+<title>Tobacco Use History Form</title>
+<link rel="stylesheet" type="text/css" media="all" href="${oscar_javascript_path}../calendar/calendar.css" title="win2k-cold-1"/> 
+
+<script src="${oscar_image_path}jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar.js"></script>
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="${oscar_javascript_path}../calendar/calendar-setup.js"></script>
+<!-- scripts to confirm closing of window if it hadn't been saved yet -->
+<script language="JavaScript">
+	 top.window.moveTo(0,0);
+	 if (document.all) {
+	 top.window.resizeTo(screen.availWidth,screen.availHeight);
+	 }
+	 else if (document.layers||document.getElementById) {
+	 if (top.window.outerHeight<screen.availHeight||top.window.outerWidth<screen.availWidth){
+		 top.window.outerHeight = screen.availHeight;
+		 top.window.outerWidth = screen.availWidth;
+	}
+}
+ </script>
+</head>
+
+<body>
+	<form method="POST" action="">
+   	<table border="0" width="95%" style="margin-top:25px; margin-left:25px;">
+    	<tr><td width="80px;"><img src="http://old.hamilton.ca/phcs/Teachers/Images/PHSLogo.jpg" title="City of Hamilton - Public Health Services logo"/></td>
+        <!-- "/OscarDocument/oscar_mcmaster/eform/images/HPHS.jpg" --> 
+        <!-- "file:///C:/Andrea/Oscar/Development/Images/HPHS.jpg" -->       
+        <!-- "http://foodsafetyzone.ca/Images/HamiltonLogo_CMYK.jpg" -->
+        <td class="hdr" style="font-size: 20;" width="50%"><br/>Tobacco Use<br/>History Form</td>
+        <td>
+        
+        <table width="48%" style="border: 1px solid black; background-color: #dddddd;">
+        <!--AM130807 add oscarDB=today into a textarea and see what happens. (replace the below hardcoded stuff)-->
+        <tr><td>Client Information:<br/>
+        <textarea name="txtClientLabel" id="txtClientLabel" cols="30" rows="4" oscarDB=NameAddress></textarea></td></tr>
+        <!--tr><td>Client Information:</td></tr>
+        <tr><td>name here</td></tr>
+        <tr><td>address here</td></tr>
+        <tr><td>phone, bod, etc...</td></tr-->
+        </table>
+        
+        </td>
+        </tr>   	
+    </table>
+    
+    <p style="margin-top:5px; margin-left:25px;">Date and Time of Contact: <input type="text" size="40" name="txtDateContact" id="txtDateContact" oscarDB=today></p>
+        
+    <table border="1" width=95% style="margin-top:25px; margin-left:25px; border-color:1px solid black; border-collapse:collapse;">
+	<tr>
+		<td class="hdr" width="15%">ASK</td>
+        <td colspan="2">Have you used any form of tobacco in the past six months?<br/>
+		<input type="radio" name="radUse" id="radUse" value="yes"/>Yes
+		<input type="radio" name="radUse" id="radUse" value="no"/>No <span style="font-style: italic; padding-right: 50px;">(Do not complete the rest of this form)</span>
+		<br/>
+		<input type="checkbox" name="5ANotImplemented" id="5ANotImplemented" value="true"/> 5A Not Implemented
+    </tr>
+    <tr>
+		<td class="hdr" width="15%">ADVISE</td>
+        <td colspan="2"><span style="padding-right: 50px;">Client given personalized advice to quit smoking.</span><input type="radio" name="radAdvice" id="radAdvice" value="yes"/>Yes
+	<input type="radio" name="radAdvice" id="radAdvice" value="no"/>No</td>
+    </tr>
+    <tr>
+		<td class="hdr" width="15%">ASSESS</td>
+	   <td colspan="2">
+        Are you ready to quit smoking in the next 30 days?<br>
+		<input type="radio" class="cushion" name="radQuit30" id="radQuit30" value="yes"/>Yes (Complete referral as appropriate)
+		<input type="radio" class="cushion" name="radQuit30" id="radQuit30" value="no"/>No 		
+		<br/><br/>
+		Are you pregnant or breastfeeding?<br/>
+        <input type="radio" class="cushion" name="radPregnantBF" id="radPregnantBF" value="yes"/>Yes
+		<input type="radio" class="cushion" name="radPregnantBF" id="radPregnantBF" value="no"/>No 
+        <input type="radio" class="cushion" name="radPregnantBF" id="radPregnantBF" value="na"/>N/A		
+        
+		
+        </td>
+    </tr>
+    <tr>
+		<td class="hdr" width="15%">ASSIST</td>
+        <td width="36%"><span style="font-style: italic;">Counselling- discuss any of the following:</span><br/>
+	<!--input type="checkbox" name="chkCounselling" id="chkCounselling" value="smoking"/-->Pros and cons of smoking<br/> 
+    <!--input type="checkbox" name="chkCounselling" id="chkCounselling" value="quitsmoking"/-->Pros and cons of quitting smoking<br/>
+    <!--input type="checkbox" name="chkCounselling" id="chkCounselling" value="triggers"/-->Assist patient/client to identify triggers &amp; strategies inc. alcohol &amp; drug use in relation to smoking<br/>
+    <!--input type="checkbox" name="chkCounselling" id="chkCounselling" value="past"/-->Review past quit experiences<br/>
+    <!--input type="checkbox" name="chkCounselling" id="chkCounselling" value="supports"/-->Assist patient/client to identify social supports<br/>
+    	</td>
+        
+        <td><span style="font-style: italic;">Self-Help Materials Given:</span><br/>
+	<input type="checkbox" name="chkSelfHelp" id="chkSelfHelp" value="timetoquit"/>It's Time to Quit blue tear-off<br/> 
+    <input type="checkbox" name="chkSelfHelp" id="chkSelfHelp" value="helpline"/>Smokers' Helpline business card<br/>
+    <input type="checkbox" name="chkSelfHelp" id="chkSelfHelp" value="hphs"/>HPHS Quit Smoking Clinic card<br/>
+       	</td>
+    </tr>
+    <tr>
+		<td class="hdr" width="15%">ARRANGE</td>
+        <td colspan="2">
+        <input type="checkbox" name="chkArrange" id="chkArrange" value="helpline"/>Smokers' Helpline Fax Referral: <span style="font-weight: bold;">1-877-513-5334</span><br/>
+        <input type="checkbox" name="chkArrange" id="chkArrange" value="hphs"/>Hamilton Public Health Services Quit Smoking Clinic Fax Referral: 
+        <span style="font-weight: bold;">905-546-4194</span>
+        </td>
+    </tr>
+    </table>
+    
+       
+    <table border="0" width="95%" style="margin-top:25px; margin-left:25px;">
+    <tr>
+    <td><input type="text" size="60" name="subject" id="subject" oscardb=provider_sig><br/>Clinician Signature and Designation</td>
+    <td><input type="text" size="40" name="txtDateTime" id="txtDateTime" oscarDB=now><br/>Date and Time of Recording</td>
+    </tr>
+    </table>
+    
+    
+       
+ 
+<!-- Required for online form -->
+<div class="DoNotPrint">
+    <table style="margin-top: 50px;">
+    	<tr>
+        	<td class="subjectline">
+            
+            <input type="submit" value="Save" name="B1" />
+            <!--input type="reset" value="Reset" name="B2" /-->
+            <input type="button" value="Print" onClick="javascript:window.print()" />            
+            </td>
+        </tr>	
+    </table>
+</div>
+    </form>
+<script language='javascript'>
+	
+	Calendar.setup({inputField:"txtDateContact",ifFormat:"%Y/%m/%d %H:%M",showsTime:true,button:"txtDateContact",singleClick:true,step:1});
+	Calendar.setup({inputField:"txtDateTime",ifFormat:"%Y/%m/%d %H:%M",showsTime:true,button:"txtDateTime",singleClick:true,step:1});	
+	
+</script>
+</body>
+</html>
